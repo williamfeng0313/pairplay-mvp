@@ -4,9 +4,9 @@ export default function Header() {
   return (
     <header className="site-header">
       <div className="container nav">
-        <Link href="/" className="brand" aria-label="PairPlay home">
+        <Link href="/" className="brand" aria-label="TwoLumi home">
           <span className="brand-mark">♥</span>
-          <span>PairPlay</span>
+          <span>TwoLumi</span>
         </Link>
 
         <nav className="nav-links" aria-label="Primary navigation">

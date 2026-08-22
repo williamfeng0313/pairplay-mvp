@@ -60,7 +60,7 @@ export default function HomePage() {
       <section className="section">
         <div className="container content-grid">
           <div className="content-card">
-            <h2>Why couples love PairPlay</h2>
+            <h2>Why couples love TwoLumi</h2>
             <ul className="check-list">
               <li>Free games and quizzes</li>
               <li>Zero account friction</li>

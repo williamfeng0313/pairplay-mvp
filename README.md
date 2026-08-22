@@ -1,4 +1,4 @@
-# PairPlay MVP
+# TwoLumi MVP
 
 A local-first Next.js MVP for an SEO-led couple-games site.
 

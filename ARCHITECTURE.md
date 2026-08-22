@@ -1,4 +1,4 @@
-# PairPlay MVP Architecture
+# TwoLumi MVP Architecture
 
 ## 1. Business objective
 Phase 1 has one job: prove SEO traffic + ad monetization can work.

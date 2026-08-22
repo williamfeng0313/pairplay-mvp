@@ -27,7 +27,7 @@ export default function GamePageLayout({
           <div className="content-card" style={{ marginTop: 22 }}>
             <h2>Play it your way</h2>
             <p className="game-sub">
-              PairPlay is designed for fast, low-friction play: no account, no download, no setup.
+              TwoLumi is designed for fast, low-friction play: no account, no download, no setup.
               Use the game on one device now; invite-link multiplayer is the next product layer.
             </p>
           </div>
