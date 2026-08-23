@@ -723,3 +723,217 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==============================
+   Play Together CTA
+============================== */
+
+.play-together-cta {
+  margin: 28px 0;
+
+  padding: 28px;
+
+  border: 1px solid #ffd2df;
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff8fa 0%,
+      #ffffff 100%
+    );
+
+  text-align: center;
+}
+
+.play-together-badge {
+  margin-bottom: 10px;
+
+  color: #ff4778;
+
+  font-size: 0.9rem;
+  font-weight: 800;
+
+  letter-spacing: 0.02em;
+}
+
+.play-together-cta h2 {
+  margin: 0 auto 12px;
+
+  max-width: 680px;
+
+  font-size: clamp(
+    1.6rem,
+    3vw,
+    2.25rem
+  );
+
+  line-height: 1.15;
+}
+
+.play-together-cta p {
+  margin: 0 auto;
+
+  max-width: 680px;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+.play-together-features {
+  margin: 20px auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap: 10px;
+}
+
+.play-together-features span {
+  padding: 8px 12px;
+
+  border: 1px solid #f1e4e8;
+  border-radius: 999px;
+
+  background: white;
+
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.play-together-button {
+  min-width: 220px;
+}
+
+.play-together-note {
+  margin-top: 12px;
+
+  color: var(--muted);
+
+  font-size: 0.82rem;
+}
+
+@media (max-width: 620px) {
+  .play-together-cta {
+    padding: 22px 18px;
+  }
+
+  .play-together-features {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .play-together-features span {
+    width: 100%;
+  }
+
+  .play-together-button {
+    width: 100%;
+  }
+}
+
+/* ==============================
+   Game Page Layout
+============================== */
+
+.game-page {
+  padding: 56px 0 72px;
+}
+
+.game-page-header {
+  margin-bottom: 30px;
+}
+
+.game-page-header h1 {
+  margin: 10px 0 18px;
+
+  max-width: 1200px;
+
+  font-size: clamp(
+    2.5rem,
+    5vw,
+    4.5rem
+  );
+
+  line-height: 1.06;
+
+  letter-spacing: -0.04em;
+}
+
+.game-page-description {
+  margin: 0;
+
+  max-width: 920px;
+
+  color: var(--muted);
+
+  font-size: clamp(
+    1.05rem,
+    2vw,
+    1.35rem
+  );
+
+  line-height: 1.65;
+}
+
+.game-page-content {
+  display: grid;
+
+  gap: 24px;
+}
+
+.game-info-strip {
+  margin-top: 24px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 14px;
+}
+
+.game-info-strip > div {
+  padding: 20px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  background: white;
+}
+
+.game-info-strip strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 0.95rem;
+}
+
+.game-info-strip p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.88rem;
+
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .game-page-header h1 {
+    font-size: clamp(
+      2.2rem,
+      10vw,
+      3.4rem
+    );
+
+    line-height: 1.08;
+  }
+}
+
+  .game-info-strip {
+    grid-template-columns: 1fr;
+  }
