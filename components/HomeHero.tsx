@@ -2,32 +2,72 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
-function makeRoomCode() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
-}
+import { useRouter } from "next/navigation";
 
 export default function HomeHero() {
-  const [code, setCode] = useState("R7K9L2");
+  const router = useRouter();
   const [joinCode, setJoinCode] = useState("");
   const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState<"create" | "join" | null>(null);
 
   const createRoom = async () => {
-    const next = makeRoomCode();
-    setCode(next);
-    setMessage("Demo room created locally. Phase 2 will persist rooms with Supabase.");
+    setBusy("create");
+    setMessage("");
+
     try {
-      await navigator.clipboard.writeText(next);
-    } catch {}
+      const response = await fetch("/api/rooms/create", {
+        method: "POST",
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not create room.");
+      }
+
+      router.push(
+        `/room/${encodeURIComponent(data.code)}?token=${encodeURIComponent(data.token)}`
+      );
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not create room.");
+      setBusy(null);
+    }
   };
 
-  const joinRoom = () => {
-    if (joinCode.trim().length < 4) {
-      setMessage("Enter a valid room code.");
+  const joinRoom = async () => {
+    const normalized = joinCode
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "")
+      .slice(0, 6);
+
+    if (normalized.length !== 6) {
+      setMessage("Enter the 6-character room code.");
       return;
     }
-    setMessage(`Local preview: joining ${joinCode.toUpperCase()}. Real-time rooms are Phase 2.`);
+
+    setBusy("join");
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/rooms/join", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: normalized }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not join room.");
+      }
+
+      router.push(
+        `/room/${encodeURIComponent(data.code)}?token=${encodeURIComponent(data.token)}`
+      );
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not join room.");
+      setBusy(null);
+    }
   };
 
   return (
@@ -56,31 +96,58 @@ export default function HomeHero() {
 
         <div className="room-card">
           <div className="room-title"><span>👥</span> Play Together</div>
-          <p className="small-muted">Create a room and invite your partner.</p>
+          <p className="small-muted">
+            Create a private room, then send the 6-character code to your partner.
+          </p>
 
-          <div className="room-code-box">
-            <div className="room-label">Your room code</div>
-            <div className="room-code">{code}</div>
-          </div>
-
-          <button className="btn-primary" onClick={createRoom}>Create Room</button>
+          <button
+            className="btn-primary"
+            onClick={createRoom}
+            disabled={busy !== null}
+          >
+            {busy === "create" ? "Creating…" : "Create Room"}
+          </button>
 
           <div className="divider">or</div>
 
           <div className="join-row">
             <input
-              className="input"
+              className="input room-code-input"
               placeholder="Enter room code"
               value={joinCode}
-              onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-              maxLength={8}
+              onChange={(e) =>
+                setJoinCode(
+                  e.target.value
+                    .toUpperCase()
+                    .replace(/[^A-Z0-9]/g, "")
+                    .slice(0, 6)
+                )
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter") joinRoom();
+              }}
+              maxLength={6}
+              autoCapitalize="characters"
+              autoComplete="off"
+              aria-label="Room code"
             />
-            <button className="btn-secondary" onClick={joinRoom}>Join Room</button>
+            <button
+              className="btn-secondary"
+              onClick={joinRoom}
+              disabled={busy !== null}
+            >
+              {busy === "join" ? "Checking…" : "Join Room"}
+            </button>
           </div>
 
           <div className="micro-copy">
-            🟢 Play together in real time — on any device.
-            {message ? <><br /><strong>{message}</strong></> : null}
+            🔒 No account needed. Rooms expire automatically.
+            {message ? (
+              <>
+                <br />
+                <strong className="room-error">{message}</strong>
+              </>
+            ) : null}
           </div>
         </div>
       </div>

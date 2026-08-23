@@ -39,3 +39,8 @@ The homepage room card is a UI/product preview. It generates a local room code o
 
 See `ARCHITECTURE.md` for the full build strategy.
 See `supabase/schema.sql` for the Phase 2 room data model.
+
+
+## Room-code pairing
+
+See `ROOM-SETUP.md` for the real two-player room-code setup.
