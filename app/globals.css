@@ -1563,3 +1563,615 @@ button:disabled {
     padding: 30px 20px;
   }
 }
+/* ==============================
+   Would You Rather SEO Page
+============================== */
+
+/* Intro */
+
+.wyr-intro {
+  max-width: 860px;
+
+  display: grid;
+
+  gap: 10px;
+}
+
+.wyr-intro p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 1rem;
+
+  line-height: 1.75;
+}
+
+/* ==============================
+   Play Modes
+============================== */
+
+.wyr-mode-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 16px;
+}
+
+.wyr-mode-card {
+  padding: 24px;
+
+  display: flex;
+
+  gap: 18px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 18px;
+
+  background: white;
+}
+
+.wyr-mode-icon {
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  border-radius: 14px;
+
+  background: #fff2f6;
+
+  font-size: 1.4rem;
+}
+
+.wyr-mode-card h2 {
+  margin: 6px 0 8px;
+
+  font-size: 1.25rem;
+}
+
+.wyr-mode-card p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+
+  line-height: 1.65;
+}
+
+/* ==============================
+   Random Solo Game
+============================== */
+
+.solo-wyr-section {
+  scroll-margin-top: 30px;
+
+  display: grid;
+
+  gap: 20px;
+}
+
+.solo-wyr-heading {
+  max-width: 780px;
+}
+
+.solo-wyr-heading h2 {
+  margin: 8px 0 10px;
+
+  font-size: clamp(
+    1.8rem,
+    3vw,
+    2.6rem
+  );
+
+  line-height: 1.1;
+
+  letter-spacing: -0.03em;
+}
+
+.solo-wyr-heading p {
+  margin: 0;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+.solo-game-toolbar {
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 16px;
+
+  background: white;
+}
+
+.solo-game-toolbar > div {
+  display: grid;
+
+  gap: 4px;
+}
+
+.solo-game-toolbar strong {
+  font-size: 0.95rem;
+}
+
+.solo-game-toolbar span {
+  color: var(--muted);
+
+  font-size: 0.82rem;
+}
+
+/* ==============================
+   Section Heading
+============================== */
+
+.wyr-section-heading {
+  max-width: 840px;
+
+  margin-bottom: 24px;
+}
+
+.wyr-section-heading h2 {
+  margin: 8px 0 12px;
+
+  font-size: clamp(
+    2rem,
+    4vw,
+    3.1rem
+  );
+
+  line-height: 1.08;
+
+  letter-spacing: -0.035em;
+}
+
+.wyr-section-heading p {
+  margin: 0;
+
+  color: var(--muted);
+
+  line-height: 1.75;
+}
+
+/* ==============================
+   Full 60 Question Bank
+============================== */
+
+.wyr-question-bank {
+  padding: 48px 0;
+}
+
+.wyr-question-list {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.wyr-question-item {
+  padding: 18px;
+
+  display: flex;
+
+  gap: 14px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 16px;
+
+  background: white;
+}
+
+.wyr-question-number {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: #fff0f5;
+
+  color: #ff4778;
+
+  font-size: 0.78rem;
+
+  font-weight: 900;
+}
+
+.wyr-question-copy {
+  min-width: 0;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: baseline;
+
+  gap: 5px;
+
+  line-height: 1.55;
+}
+
+.wyr-question-copy span {
+  color: var(--muted);
+
+  font-size: 0.85rem;
+}
+
+.wyr-question-copy strong {
+  color: var(--text);
+
+  font-size: 0.92rem;
+}
+
+.wyr-question-copy em {
+  color: #ff4778;
+
+  font-size: 0.82rem;
+
+  font-style: normal;
+
+  font-weight: 800;
+}
+
+/* ==============================
+   Content Sections
+============================== */
+
+.wyr-content-section {
+  padding: 48px 0;
+}
+
+.wyr-soft-section {
+  padding-left: 32px;
+  padding-right: 32px;
+
+  border: 1px solid #f3e3e8;
+
+  border-radius: 24px;
+
+  background: #fffafb;
+}
+
+/* ==============================
+   How To Play
+============================== */
+
+.wyr-how-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 14px;
+}
+
+.wyr-how-grid article {
+  padding: 22px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 17px;
+
+  background: white;
+}
+
+.wyr-how-grid span {
+  display: block;
+
+  margin-bottom: 22px;
+
+  color: #ff4778;
+
+  font-size: 0.78rem;
+
+  font-weight: 900;
+
+  letter-spacing: 0.08em;
+}
+
+.wyr-how-grid h3 {
+  margin: 0 0 9px;
+
+  font-size: 1rem;
+}
+
+.wyr-how-grid p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.88rem;
+
+  line-height: 1.65;
+}
+
+/* ==============================
+   Benefits
+============================== */
+
+.wyr-benefit-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 14px;
+}
+
+.wyr-benefit-grid article {
+  padding: 22px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 16px;
+
+  background: white;
+}
+
+.wyr-benefit-grid h3 {
+  margin: 0 0 8px;
+
+  font-size: 1rem;
+}
+
+.wyr-benefit-grid p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+
+  line-height: 1.65;
+}
+
+/* ==============================
+   Related Games
+============================== */
+
+.wyr-related-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 14px;
+}
+
+.wyr-related-card {
+  padding: 20px;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 16px;
+
+  background: white;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.wyr-related-card:hover {
+  transform:
+    translateY(-2px);
+
+  border-color:
+    #ffc8d7;
+
+  box-shadow:
+    0 12px 30px
+    rgba(40, 20, 30, 0.06);
+}
+
+.wyr-related-card > span {
+  font-size: 1.45rem;
+}
+
+.wyr-related-card h3 {
+  margin: 0 0 6px;
+
+  font-size: 1rem;
+}
+
+.wyr-related-card p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.85rem;
+
+  line-height: 1.55;
+}
+
+/* ==============================
+   FAQ
+============================== */
+
+.wyr-faq {
+  display: grid;
+
+  gap: 12px;
+}
+
+.wyr-faq-item {
+  padding: 22px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 16px;
+
+  background: white;
+}
+
+.wyr-faq-item h3 {
+  margin: 0 0 8px;
+
+  font-size: 1rem;
+}
+
+.wyr-faq-item p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.92rem;
+
+  line-height: 1.7;
+}
+
+/* ==============================
+   Final CTA
+============================== */
+
+.wyr-final-cta {
+  margin-top: 30px;
+
+  padding: 40px;
+
+  border: 1px solid #ffd0dc;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff5f8,
+      #ffffff
+    );
+
+  text-align: center;
+}
+
+.wyr-final-cta h2 {
+  margin: 8px auto 12px;
+
+  max-width: 760px;
+
+  font-size: clamp(
+    1.9rem,
+    4vw,
+    3rem
+  );
+
+  line-height: 1.08;
+
+  letter-spacing: -0.035em;
+}
+
+.wyr-final-cta p {
+  margin: 0 auto 20px;
+
+  max-width: 600px;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+.wyr-final-cta .hero-actions {
+  justify-content: center;
+}
+
+/* ==============================
+   Tablet
+============================== */
+
+@media (max-width: 900px) {
+  .wyr-how-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .wyr-benefit-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==============================
+   Mobile
+============================== */
+
+@media (max-width: 640px) {
+  .wyr-mode-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wyr-mode-card {
+    padding: 19px;
+  }
+
+  .solo-game-toolbar {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .solo-game-toolbar button {
+    width: 100%;
+  }
+
+  .wyr-question-bank {
+    padding: 34px 0;
+  }
+
+  .wyr-question-list {
+    grid-template-columns: 1fr;
+  }
+
+  .wyr-content-section {
+    padding: 34px 0;
+  }
+
+  .wyr-soft-section {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .wyr-how-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wyr-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wyr-final-cta {
+    padding: 30px 20px;
+  }
+}
