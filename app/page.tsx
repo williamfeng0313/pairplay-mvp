@@ -3,11 +3,14 @@ import GameCard from "@/components/GameCard";
 import AdSlot from "@/components/AdSlot";
 import { games } from "@/data/games";
 import Link from "next/link";
+import HomeGamesSection from "@/components/HomeGamesSection";
 
 export default function HomePage() {
   return (
     <main>
       <HomeHero />
+
+      <HomeGamesSection />
 
       <section className="section" id="popular">
         <div className="container">
