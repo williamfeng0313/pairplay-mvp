@@ -1,29 +1,47 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabaseRest } from "@/lib/supabaseAdmin";
-import { wouldYouRather } from "@/data/questions";
+import {
+  NextRequest,
+  NextResponse,
+} from "next/server";
 
-export const dynamic = "force-dynamic";
+import {
+  supabaseRest,
+} from "@/lib/supabaseAdmin";
 
-export async function GET(request: NextRequest) {
+import {
+  getWouldYouRatherQuestionsForRoom,
+  WOULD_YOU_RATHER_ROUND_LIMIT,
+} from "@/lib/wouldYouRatherGame";
+
+export const dynamic =
+  "force-dynamic";
+
+export async function GET(
+  request: NextRequest
+) {
   try {
     // ==============================
-    // 1. 获取房间参数
+    // 1. 获取Room参数
     // ==============================
 
     const code = (
-      request.nextUrl.searchParams.get("code") || ""
+      request.nextUrl.searchParams.get(
+        "code"
+      ) || ""
     )
       .trim()
       .toUpperCase();
 
     const token =
-      request.nextUrl.searchParams.get("token") || "";
+      request.nextUrl.searchParams.get(
+        "token"
+      ) || "";
 
     if (!code || !token) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Missing room credentials.",
+          error:
+            "Missing room credentials.",
         },
         {
           status: 400,
@@ -32,19 +50,22 @@ export async function GET(request: NextRequest) {
     }
 
     // ==============================
-    // 2. 从 Supabase 查询房间
+    // 2. 查询Room
     // ==============================
 
-    const response = await supabaseRest(
-      `rooms?code=eq.${encodeURIComponent(
-        code
-      )}&select=id,code,status,expires_at,host_token,guest_token,current_question,host_answer,guest_answer`
-    );
+    const response =
+      await supabaseRest(
+        `rooms?code=eq.${encodeURIComponent(
+          code
+        )}&select=id,code,status,expires_at,host_token,guest_token,current_question,host_answer,guest_answer`
+      );
 
-    const rows = await response.json();
+    const rows =
+      await response.json();
 
     const room =
-      Array.isArray(rows) && rows.length > 0
+      Array.isArray(rows) &&
+      rows.length > 0
         ? rows[0]
         : null;
 
@@ -52,7 +73,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Room not found.",
+          error:
+            "Room not found.",
         },
         {
           status: 404,
@@ -61,17 +83,20 @@ export async function GET(request: NextRequest) {
     }
 
     // ==============================
-    // 3. 检查房间是否过期
+    // 3. Room Expired
     // ==============================
 
     if (
-      new Date(room.expires_at).getTime() <=
+      new Date(
+        room.expires_at
+      ).getTime() <=
       Date.now()
     ) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Room expired.",
+          error:
+            "Room expired.",
         },
         {
           status: 410,
@@ -80,16 +105,25 @@ export async function GET(request: NextRequest) {
     }
 
     // ==============================
-    // 4. 判断当前玩家身份
+    // 4. 判断Role
     // ==============================
 
-    let role: "host" | "guest" | null = null;
+    let role:
+      | "host"
+      | "guest"
+      | null = null;
 
-    if (token === room.host_token) {
+    if (
+      token ===
+      room.host_token
+    ) {
       role = "host";
     }
 
-    if (token === room.guest_token) {
+    if (
+      token ===
+      room.guest_token
+    ) {
       role = "guest";
     }
 
@@ -97,7 +131,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Invalid room token.",
+          error:
+            "Invalid room token.",
         },
         {
           status: 403,
@@ -106,98 +141,178 @@ export async function GET(request: NextRequest) {
     }
 
     // ==============================
-    // 5. Partner 还没加入
+    // 5. Guest还没加入
     // ==============================
 
-    if (room.status !== "ready") {
+    if (
+      room.status !==
+      "ready"
+    ) {
       return NextResponse.json({
         ok: true,
-        status: room.status,
+
+        status:
+          room.status,
+
         role,
-        partnerConnected: false,
+
+        partnerConnected:
+          false,
+
+        completed:
+          false,
       });
     }
 
     // ==============================
-    // 6. 获取当前题目
+    // 6. 当前Round
     // ==============================
 
-    const rawQuestionIndex = Number(
-      room.current_question || 0
-    );
+    const questionIndex =
+      Number(
+        room.current_question ||
+          0
+      );
 
-    const questionIndex = Number.isFinite(
-      rawQuestionIndex
-    )
-      ? rawQuestionIndex
-      : 0;
+    // ==============================
+    // 7. Game Complete
+    // ==============================
+
+    if (
+      questionIndex >=
+      WOULD_YOU_RATHER_ROUND_LIMIT
+    ) {
+      return NextResponse.json({
+        ok: true,
+
+        status:
+          "ready",
+
+        role,
+
+        partnerConnected:
+          true,
+
+        completed:
+          true,
+
+        roundLimit:
+          WOULD_YOU_RATHER_ROUND_LIMIT,
+      });
+    }
+
+    // ==============================
+    // 8. 根据Room Code生成随机12题
+    // ==============================
+
+    const questions =
+      getWouldYouRatherQuestionsForRoom(
+        code
+      );
 
     const question =
-      wouldYouRather[
-        questionIndex % wouldYouRather.length
+      questions[
+        questionIndex
       ];
 
+    if (!question) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Question not found.",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
     // ==============================
-    // 7. 判断双方答案
+    // 9. Answer State
     // ==============================
 
-    const hostAnswer = room.host_answer as
-      | "a"
-      | "b"
-      | null;
+    const hostAnswer =
+      room.host_answer as
+        | "a"
+        | "b"
+        | null;
 
-    const guestAnswer = room.guest_answer as
-      | "a"
-      | "b"
-      | null;
+    const guestAnswer =
+      room.guest_answer as
+        | "a"
+        | "b"
+        | null;
 
-    const bothAnswered = Boolean(
-      hostAnswer && guestAnswer
-    );
+    const bothAnswered =
+      Boolean(
+        hostAnswer &&
+          guestAnswer
+      );
 
-    // 当前用户自己的答案
     const selfAnswer =
       role === "host"
         ? hostAnswer
         : guestAnswer;
 
-    // 对方答案
     const partnerAnswer =
       role === "host"
         ? guestAnswer
         : hostAnswer;
 
     // ==============================
-    // 8. 返回游戏状态
+    // 10. Return State
     // ==============================
 
     return NextResponse.json({
       ok: true,
 
-      status: "ready",
+      status:
+        "ready",
 
       role,
 
-      partnerConnected: true,
+      partnerConnected:
+        true,
+
+      completed:
+        false,
 
       questionIndex,
 
-      question,
+      roundLimit:
+        WOULD_YOU_RATHER_ROUND_LIMIT,
 
-      selfAnswered: Boolean(selfAnswer),
+      question: {
+        id: question.id,
+        a: question.a,
+        b: question.b,
+      },
 
-      partnerAnswered: Boolean(partnerAnswer),
+      selfAnswered:
+        Boolean(
+          selfAnswer
+        ),
 
-      // 只有双方都回答之后才把答案返回
-      reveal: bothAnswered
-        ? {
-            you: selfAnswer,
-            partner: partnerAnswer,
+      partnerAnswered:
+        Boolean(
+          partnerAnswer
+        ),
 
-            sameChoice:
-              selfAnswer === partnerAnswer,
-          }
-        : null,
+      reveal:
+        bothAnswered
+          ? {
+              you:
+                selfAnswer,
+
+              partner:
+                partnerAnswer,
+
+              sameChoice:
+                selfAnswer ===
+                partnerAnswer,
+            }
+          : null,
     });
   } catch (error) {
     console.error(

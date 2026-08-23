@@ -1,34 +1,65 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { trackEvent } from "@/lib/analytics";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-type Choice = "a" | "b";
+import Link from "next/link";
+
+import {
+  trackEvent,
+} from "@/lib/analytics";
+
+type Choice =
+  | "a"
+  | "b";
 
 type GameState = {
   ok: boolean;
 
-  status?: "waiting" | "ready";
+  status?:
+    | "waiting"
+    | "ready";
 
-  role?: "host" | "guest";
+  role?:
+    | "host"
+    | "guest";
 
-  partnerConnected?: boolean;
+  partnerConnected?:
+    boolean;
 
-  questionIndex?: number;
+  completed?:
+    boolean;
+
+  roundLimit?:
+    number;
+
+  questionIndex?:
+    number;
 
   question?: {
+    id?: number;
     a: string;
     b: string;
   };
 
-  selfAnswered?: boolean;
+  selfAnswered?:
+    boolean;
 
-  partnerAnswered?: boolean;
+  partnerAnswered?:
+    boolean;
 
   reveal?: {
-    you: Choice;
-    partner: Choice;
-    sameChoice: boolean;
+    you:
+      Choice;
+
+    partner:
+      Choice;
+
+    sameChoice:
+      boolean;
   } | null;
 
   error?: string;
@@ -41,55 +72,76 @@ export default function MultiplayerWouldYouRather({
 }: {
   code: string;
   token: string;
-  role: "host" | "guest";
+  role:
+    | "host"
+    | "guest";
 }) {
-  // ==============================
-  // State
-  // ==============================
-
-  const [state, setState] =
+  const [
+    state,
+    setState,
+  ] =
     useState<GameState>({
       ok: true,
-      status: "ready",
+      status:
+        "ready",
       role,
+      completed:
+        false,
     });
 
-  const [busy, setBusy] =
+  const [
+    busy,
+    setBusy,
+  ] =
     useState(false);
 
-  const [message, setMessage] =
+  const [
+    message,
+    setMessage,
+  ] =
     useState("");
 
-  // 防止 Analytics 重复记录
   const startedTracked =
     useRef(false);
 
   const roundTracked =
-    useRef<number | null>(null);
+    useRef<
+      number | null
+    >(null);
 
   const fiveTracked =
     useRef(false);
 
+  const completeTracked =
+    useRef(false);
+
   // ==============================
-  // Analytics - Game Start
+  // Start Analytics
   // ==============================
 
   useEffect(() => {
-    if (!startedTracked.current) {
-      trackEvent("wyr_start", {
-        role,
-      });
+    if (
+      !startedTracked.current
+    ) {
+      trackEvent(
+        "wyr_start",
+        {
+          role,
+        }
+      );
 
-      startedTracked.current = true;
+      startedTracked.current =
+        true;
     }
   }, [role]);
 
   // ==============================
-  // Polling Game State
+  // Poll Game State
   // ==============================
 
   useEffect(() => {
-    let cancelled = false;
+    let cancelled =
+      false;
 
     const loadGameState =
       async () => {
@@ -102,21 +154,52 @@ export default function MultiplayerWouldYouRather({
                 token
               )}`,
               {
-                cache: "no-store",
+                cache:
+                  "no-store",
               }
             );
 
           const data =
             await response.json();
 
-          if (cancelled) {
+          if (
+            cancelled
+          ) {
             return;
           }
 
-          setState(data);
+          setState(
+            data
+          );
 
           // ==============================
-          // Analytics - Round Complete
+          // Game Complete Analytics
+          // ==============================
+
+          if (
+            data.ok &&
+            data.completed &&
+            !completeTracked.current
+          ) {
+            trackEvent(
+              "wyr_game_complete",
+              {
+                role,
+
+                rounds:
+                  data.roundLimit ||
+                  12,
+              }
+            );
+
+            completeTracked.current =
+              true;
+
+            return;
+          }
+
+          // ==============================
+          // Round Complete Analytics
           // ==============================
 
           if (
@@ -147,10 +230,6 @@ export default function MultiplayerWouldYouRather({
             roundTracked.current =
               data.questionIndex;
 
-            // ==============================
-            // Analytics - 5 rounds
-            // ==============================
-
             if (
               data.questionIndex >=
                 4 &&
@@ -168,7 +247,9 @@ export default function MultiplayerWouldYouRather({
             }
           }
         } catch {
-          if (!cancelled) {
+          if (
+            !cancelled
+          ) {
             setMessage(
               "Connection interrupted. Retrying…"
             );
@@ -176,10 +257,8 @@ export default function MultiplayerWouldYouRather({
         }
       };
 
-    // 第一次立即读取
     loadGameState();
 
-    // 每1.2秒同步一次
     const timer =
       window.setInterval(
         loadGameState,
@@ -187,25 +266,32 @@ export default function MultiplayerWouldYouRather({
       );
 
     return () => {
-      cancelled = true;
+      cancelled =
+        true;
 
       window.clearInterval(
         timer
       );
     };
-  }, [code, token, role]);
+  }, [
+    code,
+    token,
+    role,
+  ]);
 
   // ==============================
   // Submit Answer
   // ==============================
 
   const submitAnswer =
-    async (answer: Choice) => {
-      // 防止重复点击
+    async (
+      answer: Choice
+    ) => {
       if (
         busy ||
         state.selfAnswered ||
-        state.reveal
+        state.reveal ||
+        state.completed
       ) {
         return;
       }
@@ -218,6 +304,7 @@ export default function MultiplayerWouldYouRather({
       }
 
       setBusy(true);
+
       setMessage("");
 
       try {
@@ -225,22 +312,25 @@ export default function MultiplayerWouldYouRather({
           await fetch(
             "/api/rooms/answer",
             {
-              method: "POST",
+              method:
+                "POST",
 
               headers: {
                 "Content-Type":
                   "application/json",
               },
 
-              body: JSON.stringify({
-                code,
-                token,
+              body:
+                JSON.stringify({
+                  code,
 
-                questionIndex:
-                  state.questionIndex,
+                  token,
 
-                answer,
-              }),
+                  questionIndex:
+                    state.questionIndex,
+
+                  answer,
+                }),
             }
           );
 
@@ -257,16 +347,15 @@ export default function MultiplayerWouldYouRather({
           );
         }
 
-        // 立即让当前页面进入 waiting
-        // 不必等 polling
         setState(
           (previous) => ({
             ...previous,
-            selfAnswered: true,
+
+            selfAnswered:
+              true,
           })
         );
 
-        // Analytics
         trackEvent(
           "wyr_answer",
           {
@@ -279,7 +368,8 @@ export default function MultiplayerWouldYouRather({
         );
       } catch (error) {
         setMessage(
-          error instanceof Error
+          error instanceof
+          Error
             ? error.message
             : "Could not save your answer."
         );
@@ -294,10 +384,11 @@ export default function MultiplayerWouldYouRather({
 
   const nextQuestion =
     async () => {
-      // 只有Host能Next
       if (
-        role !== "host" ||
-        !state.reveal
+        role !==
+          "host" ||
+        !state.reveal ||
+        state.completed
       ) {
         return;
       }
@@ -310,6 +401,7 @@ export default function MultiplayerWouldYouRather({
       }
 
       setBusy(true);
+
       setMessage("");
 
       try {
@@ -317,20 +409,23 @@ export default function MultiplayerWouldYouRather({
           await fetch(
             "/api/rooms/next",
             {
-              method: "POST",
+              method:
+                "POST",
 
               headers: {
                 "Content-Type":
                   "application/json",
               },
 
-              body: JSON.stringify({
-                code,
-                token,
+              body:
+                JSON.stringify({
+                  code,
 
-                questionIndex:
-                  state.questionIndex,
-              }),
+                  token,
+
+                  questionIndex:
+                    state.questionIndex,
+                }),
             }
           );
 
@@ -343,7 +438,7 @@ export default function MultiplayerWouldYouRather({
         ) {
           throw new Error(
             data.error ||
-              "Could not start the next question."
+              "Could not continue the game."
           );
         }
 
@@ -357,19 +452,12 @@ export default function MultiplayerWouldYouRather({
               2,
           }
         );
-
-        /*
-         * 不需要自己手动改题。
-         *
-         * Host更新Supabase以后，
-         * 两边的 polling 会自动读取
-         * 新 current_question。
-         */
       } catch (error) {
         setMessage(
-          error instanceof Error
+          error instanceof
+          Error
             ? error.message
-            : "Could not start the next question."
+            : "Could not continue the game."
         );
       } finally {
         setBusy(false);
@@ -398,6 +486,56 @@ export default function MultiplayerWouldYouRather({
   }
 
   // ==============================
+  // Game Completed
+  // ==============================
+
+  if (
+    state.completed
+  ) {
+    return (
+      <div className="play-card">
+
+        <div className="game-kicker">
+          Game Complete
+        </div>
+
+        <div className="question">
+          You finished all{" "}
+          {state.roundLimit ||
+            12}{" "}
+          questions! 🎉
+        </div>
+
+        <p className="game-sub">
+          Want another random set?
+          Create a new room and
+          TwoLumi will generate a
+          different mix of questions.
+        </p>
+
+        <div className="hero-actions">
+
+          <Link
+            href="/"
+            className="btn-primary"
+          >
+            Create New Room →
+          </Link>
+
+          <Link
+            href="/games"
+            className="btn-secondary"
+          >
+            Explore More Games
+          </Link>
+
+        </div>
+
+      </div>
+    );
+  }
+
+  // ==============================
   // Loading
   // ==============================
 
@@ -417,10 +555,6 @@ export default function MultiplayerWouldYouRather({
     );
   }
 
-  // ==============================
-  // Convert a/b → actual answer text
-  // ==============================
-
   const choiceText = (
     choice:
       | Choice
@@ -431,10 +565,19 @@ export default function MultiplayerWouldYouRather({
       return "—";
     }
 
-    return choice === "a"
+    return choice ===
+      "a"
       ? state.question!.a
       : state.question!.b;
   };
+
+  const roundLimit =
+    state.roundLimit ||
+    12;
+
+  const isLastRound =
+    state.questionIndex ===
+    roundLimit - 1;
 
   // ==============================
   // UI
@@ -443,28 +586,22 @@ export default function MultiplayerWouldYouRather({
   return (
     <div className="play-card">
 
-      {/* Round */}
-
       <div className="game-kicker">
-        Would You Rather · Round{" "}
-        {state.questionIndex + 1}
-      </div>
 
-      {/* Question */}
+        Would You Rather · Round{" "}
+        {state.questionIndex +
+          1}{" "}
+        of {roundLimit}
+
+      </div>
 
       <div className="question">
         Would you rather…
       </div>
 
-      {/* ==============================
-          Before Reveal
-      ============================== */}
-
       {!state.reveal ? (
         <>
           <div className="choice-grid">
-
-            {/* Choice A */}
 
             <button
               className={`choice ${
@@ -477,14 +614,14 @@ export default function MultiplayerWouldYouRather({
                 state.selfAnswered
               }
               onClick={() =>
-                submitAnswer("a")
+                submitAnswer(
+                  "a"
+                )
               }
             >
               {state.question.a}
             </button>
 
-            {/* Choice B */}
-
             <button
               className={`choice ${
                 state.selfAnswered
@@ -496,15 +633,15 @@ export default function MultiplayerWouldYouRather({
                 state.selfAnswered
               }
               onClick={() =>
-                submitAnswer("b")
+                submitAnswer(
+                  "b"
+                )
               }
             >
               {state.question.b}
             </button>
 
           </div>
-
-          {/* Waiting State */}
 
           <div className="answer-waiting">
 
@@ -517,14 +654,7 @@ export default function MultiplayerWouldYouRather({
           </div>
         </>
       ) : (
-
-        /* ==============================
-           Reveal
-        ============================== */
-
         <div className="reveal-panel">
-
-          {/* Result */}
 
           <div className="reveal-result">
 
@@ -533,8 +663,6 @@ export default function MultiplayerWouldYouRather({
               : "Different this time 😂"}
 
           </div>
-
-          {/* Compare answers */}
 
           <div className="reveal-grid">
 
@@ -569,38 +697,35 @@ export default function MultiplayerWouldYouRather({
 
           </div>
 
-          {/* Host controls next */}
-
-          {role === "host" ? (
-
+          {role ===
+          "host" ? (
             <button
               className="btn-primary"
-              disabled={busy}
+              disabled={
+                busy
+              }
               onClick={
                 nextQuestion
               }
             >
               {busy
                 ? "Loading…"
+                : isLastRound
+                ? "Finish Game →"
                 : "Next Question →"}
             </button>
-
           ) : (
-
             <div className="answer-waiting">
 
-              Waiting for the room
-              creator to start the
-              next question…
+              {isLastRound
+                ? "Waiting for the room creator to finish the game…"
+                : "Waiting for the room creator to start the next question…"}
 
             </div>
-
           )}
 
         </div>
       )}
-
-      {/* Error */}
 
       {message ? (
         <div className="room-error">
