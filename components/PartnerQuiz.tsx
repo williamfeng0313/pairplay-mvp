@@ -18,6 +18,10 @@ import {
 
 import PartnerQuizResults from "@/components/PartnerQuizResults";
 
+import {
+  trackEvent,
+} from "@/lib/analytics";
+
 /* ==============================
    Stages
 ============================== */
@@ -35,6 +39,28 @@ type QuizStage =
 
 const QUESTION_COUNT =
   partnerQuizQuestions.length;
+
+/* ==============================
+   Analytics Score Bucket
+============================== */
+
+function getScoreBucket(
+  score: number
+) {
+  if (score >= 16) {
+    return "16_20";
+  }
+
+  if (score >= 11) {
+    return "11_15";
+  }
+
+  if (score >= 6) {
+    return "6_10";
+  }
+
+  return "0_5";
+}
 
 /* ==============================
    Empty Answers
@@ -160,8 +186,7 @@ export default function PartnerQuiz() {
   const categoryLabel =
     question
       ? partnerQuizCategoryLabels[
-          question
-            .category
+          question.category
         ]
       : "";
 
@@ -190,9 +215,15 @@ export default function PartnerQuiz() {
 
   /* ==============================
      Start Quiz
+     Analytics:
+     partner_quiz_start
   ============================== */
 
   function startQuiz() {
+    trackEvent(
+      "partner_quiz_start"
+    );
+
     setCurrentIndex(
       0
     );
@@ -264,7 +295,15 @@ export default function PartnerQuiz() {
 
       /*
        * Prediction round complete.
+       *
+       * Analytics:
+       * partner_quiz_prediction_complete
        */
+
+      trackEvent(
+        "partner_quiz_prediction_complete"
+      );
+
       setCurrentIndex(
         0
       );
@@ -334,6 +373,35 @@ export default function PartnerQuiz() {
           PartnerQuizAnswers
       );
 
+    /*
+     * Analytics:
+     * Partner completed all 20
+     * real answers.
+     */
+
+    trackEvent(
+      "partner_quiz_complete"
+    );
+
+    /*
+     * Analytics:
+     * Result generated and shown.
+     *
+     * Privacy:
+     * Only send score bucket.
+     * Never send individual answers.
+     */
+
+    trackEvent(
+      "partner_quiz_result_view",
+      {
+        score_bucket:
+          getScoreBucket(
+            finalResult.score
+          ),
+      }
+    );
+
     setResult(
       finalResult
     );
@@ -368,9 +436,15 @@ export default function PartnerQuiz() {
 
   /* ==============================
      Start Partner Round
+     Analytics:
+     partner_quiz_partner_start
   ============================== */
 
   function startPartnerRound() {
+    trackEvent(
+      "partner_quiz_partner_start"
+    );
+
     setCurrentIndex(
       0
     );
@@ -384,9 +458,15 @@ export default function PartnerQuiz() {
 
   /* ==============================
      Restart
+     Analytics:
+     partner_quiz_restart
   ============================== */
 
   function restartQuiz() {
+    trackEvent(
+      "partner_quiz_restart"
+    );
+
     setStage(
       "intro"
     );
