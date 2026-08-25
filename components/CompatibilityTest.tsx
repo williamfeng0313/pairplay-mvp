@@ -416,72 +416,77 @@ export default function CompatibilityTest() {
         id="compatibility-test"
         className="compat-test"
       >
+       <div className="compat-intro-card compat-intro-card-compact">
 
-        <div className="compat-intro-card">
+{/* Left side */}
 
-          <div className="compat-heart">
-            💕
-          </div>
+<div className="compat-intro-main">
 
-          <div className="game-kicker">
-            Couple Compatibility Test
-          </div>
+  <div className="game-kicker">
+    Ready to Compare?
+  </div>
 
-          <h2>
-            Are We Compatible?
-          </h2>
+  <h2>
+    Are We Compatible?
+  </h2>
 
-          <p>
-            Answer 20 questions
-            separately, then compare
-            how similar your
-            preferences are across
-            lifestyle, future plans,
-            everyday habits, and
-            connection.
-          </p>
+  <p>
+    Answer the same 20 questions separately,
+    then compare how closely your preferences
+    match across everyday life, future plans,
+    habits, and connection.
+  </p>
 
-          <div className="compat-intro-features">
+</div>
 
-            <span>
-              ✓ 20 questions
-            </span>
+{/* Right side */}
 
-            <span>
-              ✓ 4 categories
-            </span>
+<div className="compat-intro-action">
 
-            <span>
-              ✓ About 5 minutes
-            </span>
+  <div className="compat-intro-stats">
 
-            <span>
-              ✓ No signup
-            </span>
+    <span>
+      <strong>20</strong>
+      Questions
+    </span>
 
-          </div>
+    <span>
+      <strong>4</strong>
+      Categories
+    </span>
 
-          <button
-            type="button"
-            className="btn-primary compat-start-button"
-            onClick={
-              startTest
-            }
-          >
-            Start Compatibility Test →
-          </button>
+    <span>
+      <strong>≈5 min</strong>
+      To finish
+    </span>
 
-          <div className="compat-privacy-note">
-            Partner A answers first.
-            Their choices stay hidden
-            before Partner B starts.
-          </div>
+    <span>
+      <strong>Free</strong>
+      No signup
+    </span>
 
-        </div>
+  </div>
 
-      </section>
-    );
-  }
+  <button
+    type="button"
+    className="btn-primary compat-start-button"
+    onClick={startTest}
+  >
+    Start Compatibility Test →
+  </button>
+
+  <p className="compat-intro-privacy">
+    Partner A answers first.
+    Answers stay hidden until Partner B finishes.
+  </p>
+
+</div>
+
+</div>
+</section>
+);
+}
+ 
 
   // ==============================
   // Handoff
