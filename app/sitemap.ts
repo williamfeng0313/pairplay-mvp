@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://twolumi.com";
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://twolumi.com";
+
   const routes = [
     "",
     "/games",
@@ -11,16 +14,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/couple-quiz",
     "/couple-compatibility-test",
     "/long-distance-couple-games",
+    "/questions-for-long-distance-couples",
     "/date-night-games",
     "/about",
     "/privacy",
-    "/terms"
+    "/terms",
   ];
 
   return routes.map((route) => ({
     url: `${base}${route}`,
     lastModified: new Date(),
-    changeFrequency: route === "" ? "weekly" : "monthly",
-    priority: route === "" ? 1 : 0.8
+    changeFrequency:
+      route === ""
+        ? "weekly"
+        : "monthly",
+    priority:
+      route === ""
+        ? 1
+        : 0.8,
   }));
 }
