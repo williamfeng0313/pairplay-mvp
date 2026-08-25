@@ -1,21 +1,35 @@
-import type { Metadata } from "next";
-import GamePageLayout from "@/components/GamePageLayout";
-import CompatibilityGame from "@/components/CompatibilityGame";
-import { compatibilityQuestions } from "@/data/questions";
+import type {
+  Metadata,
+} from "next";
 
-export const metadata: Metadata = {
-  title: "Free Couple Compatibility Test",
-  description: "Take a fun couple compatibility test together and compare your answers. No signup required."
+import GamePageLayout from "@/components/GamePageLayout";
+
+import CompatibilityTest from "@/components/CompatibilityTest";
+
+export const metadata:
+  Metadata = {
+  title:
+    "Couple Compatibility Test: Are You Compatible? | TwoLumi",
+
+  description:
+    "Take a free couple compatibility test with your partner and compare your answers across lifestyle, future plans, everyday habits, and connection.",
+
+  alternates: {
+    canonical:
+      "https://twolumi.com/couple-compatibility-test",
+  },
 };
 
 export default function Page() {
   return (
     <GamePageLayout
-      kicker="Compatibility Game"
+      kicker="Couple Quiz"
       title="Couple Compatibility Test"
-      description="Answer the same questions separately, then compare your match score. For fun and conversation — not relationship advice."
+      description="Answer separately, compare your preferences, and see where you and your partner match."
     >
-      <CompatibilityGame questions={compatibilityQuestions} />
+
+      <CompatibilityTest />
+
     </GamePageLayout>
   );
 }
