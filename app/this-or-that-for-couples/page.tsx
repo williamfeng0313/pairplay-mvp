@@ -806,4 +806,4 @@ export default function Page() {
 
     </GamePageLayout>
   );
-}
+} 
