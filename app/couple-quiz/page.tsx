@@ -10,7 +10,7 @@ import PartnerQuiz from "@/components/PartnerQuiz";
 
 export const metadata: Metadata = {
   title:
-    "How Well Do You Know Your Partner? Quiz | TwoLumi",
+    "How Well Do You Know Your Partner? Quiz",
 
   description:
     "Take this free 20-question couple quiz and see how well you really know your partner. Predict their answers, compare results, and get your score.",
