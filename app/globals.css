@@ -4374,3 +4374,1113 @@ button:disabled {
     font-size: 2.15rem;
   }
 }
+
+/* ==============================
+   This or That Page
+============================== */
+
+/* Intro */
+
+.tot-intro {
+  max-width: 900px;
+
+  display: grid;
+
+  gap: 10px;
+
+  margin-bottom: 28px;
+}
+
+.tot-intro p {
+  margin: 0;
+
+  color: var(--muted);
+
+  line-height: 1.75;
+}
+
+.tot-pills {
+  margin-top: 8px;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.tot-pills span {
+  padding: 7px 11px;
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  background: white;
+
+  color: var(--muted);
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* ==============================
+   Random Game
+============================== */
+
+.tot-game {
+  padding: 18px 0 46px;
+}
+
+.tot-game-heading {
+  margin-bottom: 18px;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.tot-game-heading > div {
+  max-width: 760px;
+}
+
+.tot-game-heading h2 {
+  margin: 7px 0 8px;
+
+  font-size: clamp(
+    1.8rem,
+    3vw,
+    2.7rem
+  );
+
+  line-height: 1.08;
+
+  letter-spacing: -0.035em;
+}
+
+.tot-game-heading p {
+  margin: 0;
+
+  color: var(--muted);
+
+  line-height: 1.65;
+}
+
+.tot-shuffle-button {
+  padding: 10px 15px;
+
+  border: 1px solid var(--line);
+  border-radius: 12px;
+
+  background: white;
+
+  cursor: pointer;
+
+  font-weight: 800;
+}
+
+.tot-shuffle-button:hover {
+  border-color: #ffc3d3;
+
+  background: #fff8fa;
+}
+
+.tot-game-card,
+.tot-complete-card {
+  padding: 30px;
+
+  border: 1px solid var(--line);
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffafb,
+      #ffffff
+    );
+}
+
+.tot-game-loading {
+  color: var(--muted);
+
+  text-align: center;
+}
+
+.tot-game-progress-header {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  color: var(--muted);
+
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.tot-progress-track {
+  height: 7px;
+
+  margin-top: 12px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #f3edef;
+}
+
+.tot-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #ff4778;
+
+  transition:
+    width 0.2s ease;
+}
+
+.tot-game-card > h3 {
+  margin: 34px 0 22px;
+
+  text-align: center;
+
+  font-size: clamp(
+    1.8rem,
+    4vw,
+    3rem
+  );
+
+  letter-spacing: -0.04em;
+}
+
+.tot-choice-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    minmax(0, 1fr);
+
+  align-items: stretch;
+
+  gap: 14px;
+}
+
+.tot-choice {
+  min-height: 150px;
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 14px;
+
+  border: 2px solid var(--line);
+  border-radius: 18px;
+
+  background: white;
+
+  cursor: pointer;
+
+  font: inherit;
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.tot-choice:hover {
+  transform: translateY(-2px);
+
+  border-color: #ffb7ca;
+
+  background: #fff9fb;
+}
+
+.tot-choice-selected {
+  border-color: #ff4778;
+
+  background: #fff3f7;
+}
+
+.tot-choice-letter {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #fff0f5;
+
+  color: #ff4778;
+
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.tot-choice strong {
+  font-size: 1.1rem;
+
+  text-align: center;
+}
+
+.tot-or {
+  display: grid;
+  place-items: center;
+
+  color: var(--muted);
+
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.tot-game-footer {
+  margin-top: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.tot-game-footer p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.84rem;
+}
+
+.tot-game-footer button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+/* Complete */
+
+.tot-complete-card {
+  text-align: center;
+}
+
+.tot-complete-icon {
+  width: 54px;
+  height: 54px;
+
+  margin: 0 auto 18px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #fff0f5;
+
+  color: #ff4778;
+
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
+.tot-complete-card h2 {
+  margin: 8px 0 10px;
+
+  font-size: clamp(
+    2rem,
+    4vw,
+    3rem
+  );
+}
+
+.tot-complete-card p {
+  max-width: 650px;
+
+  margin: 0 auto 20px;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+.tot-browse-link {
+  margin-top: 14px;
+
+  display: block;
+
+  color: var(--muted);
+
+  font-size: 0.85rem;
+}
+
+/* ==============================
+   Category Nav
+============================== */
+
+.tot-category-nav {
+  margin: 10px 0 48px;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  background: white;
+}
+
+.tot-category-nav > div:first-child {
+  display: grid;
+
+  gap: 3px;
+}
+
+.tot-category-nav span {
+  color: var(--muted);
+
+  font-size: 0.8rem;
+}
+
+.tot-category-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+  gap: 8px;
+}
+
+.tot-category-links a {
+  padding: 7px 10px;
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  color: inherit;
+
+  font-size: 0.78rem;
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+.tot-category-links a:hover {
+  border-color: #ffc3d3;
+
+  background: #fff8fa;
+}
+
+/* ==============================
+   Section Heading
+============================== */
+
+.tot-section-heading {
+  max-width: 850px;
+
+  margin-bottom: 24px;
+}
+
+.tot-section-heading h2 {
+  margin: 8px 0 10px;
+
+  font-size: clamp(
+    1.9rem,
+    3.5vw,
+    2.9rem
+  );
+
+  line-height: 1.08;
+
+  letter-spacing: -0.035em;
+}
+
+.tot-section-heading p {
+  margin: 0;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+/* ==============================
+   Full Question List
+============================== */
+
+.tot-all-questions {
+  padding: 26px 0;
+}
+
+.tot-question-section {
+  padding: 34px 0;
+
+  scroll-margin-top: 90px;
+}
+
+.tot-question-section-heading {
+  max-width: 850px;
+
+  margin-bottom: 18px;
+}
+
+.tot-question-section-heading h2 {
+  margin: 7px 0 9px;
+
+  font-size: clamp(
+    1.65rem,
+    3vw,
+    2.45rem
+  );
+
+  letter-spacing: -0.03em;
+}
+
+.tot-question-section-heading p {
+  margin: 0;
+
+  color: var(--muted);
+
+  line-height: 1.65;
+}
+
+.tot-question-grid {
+  margin: 0;
+  padding: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 11px;
+
+  list-style: none;
+}
+
+.tot-question-item {
+  min-height: 88px;
+
+  padding: 17px 18px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  border: 1px solid var(--line);
+  border-radius: 14px;
+
+  background: white;
+}
+
+.tot-question-number {
+  flex: 0 0 auto;
+
+  color: #ff4778;
+
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.tot-question-text {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+.tot-question-text strong {
+  font-size: 0.92rem;
+}
+
+.tot-question-text span {
+  color: var(--muted);
+
+  font-size: 0.68rem;
+  font-weight: 900;
+}
+
+/* ==============================
+   How to Play
+============================== */
+
+.tot-how {
+  padding: 48px 0;
+}
+
+.tot-how-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 12px;
+}
+
+.tot-how-grid article {
+  padding: 21px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  background: white;
+}
+
+.tot-how-grid article > span {
+  display: block;
+
+  margin-bottom: 20px;
+
+  color: #ff4778;
+
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.tot-how-grid h3 {
+  margin: 0 0 7px;
+
+  font-size: 1rem;
+}
+
+.tot-how-grid p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.86rem;
+
+  line-height: 1.65;
+}
+
+/* ==============================
+   WYR CTA
+============================== */
+
+.tot-wyr-cta {
+  margin: 38px 0;
+
+  padding: 30px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 30px;
+
+  border: 1px solid #ffd0dc;
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff6f9,
+      #ffffff
+    );
+}
+
+.tot-wyr-cta h2 {
+  margin: 7px 0 10px;
+
+  font-size: clamp(
+    1.8rem,
+    3vw,
+    2.6rem
+  );
+}
+
+.tot-wyr-cta p {
+  max-width: 720px;
+
+  margin: 0 0 18px;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+.tot-wyr-icon {
+  width: 84px;
+  height: 84px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 22px;
+
+  background: #fff0f5;
+
+  font-size: 2.3rem;
+}
+
+/* ==============================
+   Related
+============================== */
+
+.tot-related-section,
+.tot-faq-section {
+  padding: 46px 0;
+}
+
+.tot-related-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 12px;
+}
+
+.tot-related-card {
+  padding: 19px;
+
+  display: flex;
+
+  gap: 13px;
+
+  border: 1px solid var(--line);
+  border-radius: 15px;
+
+  background: white;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+.tot-related-card:hover {
+  border-color: #ffc3d3;
+
+  transform: translateY(-1px);
+}
+
+.tot-related-card > span {
+  font-size: 1.4rem;
+}
+
+.tot-related-card h3 {
+  margin: 0 0 5px;
+
+  font-size: 1rem;
+}
+
+.tot-related-card p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.84rem;
+
+  line-height: 1.55;
+}
+
+/* ==============================
+   FAQ
+============================== */
+
+.tot-faq {
+  display: grid;
+
+  gap: 10px;
+}
+
+.tot-faq-item {
+  padding: 21px;
+
+  border: 1px solid var(--line);
+  border-radius: 15px;
+
+  background: white;
+}
+
+.tot-faq-item h3 {
+  margin: 0 0 7px;
+
+  font-size: 1rem;
+}
+
+.tot-faq-item p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 0.9rem;
+
+  line-height: 1.7;
+}
+
+/* ==============================
+   Tablet
+============================== */
+
+@media (max-width: 900px) {
+  .tot-how-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+}
+
+/* ==============================
+   Mobile
+============================== */
+
+@media (max-width: 700px) {
+  .tot-game-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tot-shuffle-button {
+    align-self: flex-start;
+  }
+
+  .tot-choice-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .tot-or {
+    min-height: 24px;
+  }
+
+  .tot-choice {
+    min-height: 120px;
+  }
+
+  .tot-game-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tot-game-footer .btn-primary {
+    width: 100%;
+  }
+
+  .tot-category-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tot-category-links {
+    justify-content: flex-start;
+  }
+
+  .tot-question-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .tot-how-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .tot-wyr-cta {
+    grid-template-columns:
+      1fr;
+
+    padding: 24px 20px;
+  }
+
+  .tot-related-grid {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+/* ==============================
+   This or That - Product First
+============================== */
+
+.tot-game {
+  padding-top: 4px;
+}
+
+/* 更紧凑的游戏标题 */
+
+.tot-game-heading-compact {
+  margin-bottom: 12px;
+}
+
+.tot-game-heading-compact h2 {
+  margin-top: 5px;
+  margin-bottom: 6px;
+
+  font-size: clamp(
+    1.75rem,
+    2.7vw,
+    2.45rem
+  );
+
+  line-height: 1.06;
+}
+
+.tot-game-heading-compact p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+/* 游戏之后才展示SEO intro */
+
+.tot-intro-after-game {
+  margin-top: 8px;
+  margin-bottom: 22px;
+
+  padding: 20px 0 8px;
+
+  max-width: 900px;
+
+  border-top: 1px solid var(--line);
+}
+
+.tot-intro-after-game .tot-pills {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+/* 题目卡稍微再紧凑一点 */
+
+.tot-game-card {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.tot-game-card > h3 {
+  margin-top: 22px;
+  margin-bottom: 18px;
+
+  font-size: clamp(
+    1.6rem,
+    3vw,
+    2.4rem
+  );
+}
+
+.tot-choice {
+  min-height: 125px;
+}
+
+/* Desktop首屏进一步优化 */
+
+@media (min-width: 901px) {
+  .tot-game {
+    padding-bottom: 30px;
+  }
+
+  .tot-choice-grid {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+/* ==========================================
+   This or That - True Product First Layout
+========================================== */
+
+/*
+ * 游戏紧跟页面Hero，
+ * 不再留大段顶部空间
+ */
+ .tot-game {
+  padding: 8px 0 28px;
+}
+
+/*
+ * 游戏卡本身
+ */
+.tot-game-card {
+  padding: 22px 26px 24px;
+
+  border: 1px solid var(--line);
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffafb,
+      #ffffff
+    );
+}
+
+/*
+ * Question / Category / Shuffle
+ * 全部放到同一行
+ */
+.tot-game-progress-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+}
+
+.tot-game-progress-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  color: var(--muted);
+
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.tot-game-category {
+  padding: 5px 9px;
+
+  border: 1px solid var(--line);
+  border-radius: 999px;
+
+  background: white;
+}
+
+/*
+ * Shuffle 不再单独占一整行
+ */
+.tot-shuffle-inline {
+  flex: 0 0 auto;
+
+  padding: 7px 11px;
+
+  border-radius: 10px;
+
+  font-size: 0.78rem;
+}
+
+/*
+ * Progress
+ */
+.tot-progress-track {
+  height: 6px;
+
+  margin-top: 11px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #f3edef;
+}
+
+.tot-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #ff4778;
+}
+
+/*
+ * This or That?
+ * 不再用巨大标题
+ */
+.tot-game-card > h3 {
+  margin: 20px 0 17px;
+
+  font-size: clamp(
+    1.35rem,
+    2.3vw,
+    1.9rem
+  );
+
+  line-height: 1.1;
+
+  text-align: center;
+
+  letter-spacing: -0.025em;
+}
+
+/*
+ * 两个选择卡片也稍微压低
+ */
+.tot-choice {
+  min-height: 110px;
+
+  padding: 18px 20px;
+}
+
+.tot-choice strong {
+  font-size: 1rem;
+}
+
+/*
+ * Footer也收紧
+ */
+.tot-game-footer {
+  margin-top: 18px;
+}
+
+/*
+ * SEO intro真正放在游戏之后
+ */
+.tot-intro-after-game {
+  margin-top: 6px;
+  margin-bottom: 28px;
+
+  padding: 20px 0 10px;
+
+  max-width: 900px;
+
+  border-top: 1px solid var(--line);
+}
+
+.tot-intro-after-game .tot-pills {
+  margin: 0 0 12px;
+}
+
+.tot-intro-after-game p {
+  margin: 0;
+
+  color: var(--muted);
+
+  line-height: 1.7;
+}
+
+.tot-intro-after-game p + p {
+  margin-top: 9px;
+}
+
+/* ==============================
+   Mobile
+============================== */
+
+@media (max-width: 700px) {
+
+  .tot-game-card {
+    padding: 18px;
+  }
+
+  .tot-game-progress-header {
+    align-items: flex-start;
+  }
+
+  .tot-game-progress-info {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 6px;
+  }
+
+  .tot-choice {
+    min-height: 96px;
+  }
+}
