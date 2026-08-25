@@ -11,8 +11,33 @@ export function trackEvent(
   eventName: string,
   params: EventParams = {}
 ) {
-  if (typeof window === "undefined") return;
+  // 防止服务端执行
+  if (typeof window === "undefined") {
+    return;
+  }
 
+  /*
+   * 本地开发环境：
+   * 不发送到正式 GA4，
+   * 只在 Console 显示事件，
+   * 避免 localhost 测试污染真实数据。
+   */
+  if (process.env.NODE_ENV !== "production") {
+    console.log(
+      `[Analytics] ${eventName}`,
+      params
+    );
+
+    return;
+  }
+
+  /*
+   * Production：
+   * 正式发送 GA4 Event。
+   *
+   * Analytics 即使发生异常，
+   * 也绝不能影响游戏本身。
+   */
   try {
     sendGAEvent(
       "event",
@@ -20,6 +45,6 @@ export function trackEvent(
       params
     );
   } catch {
-    // Analytics 失败绝不能影响游戏
+    // Analytics failure must never break the game.
   }
 }

@@ -19,6 +19,10 @@ import {
 
 import CompatibilityResults from "@/components/CompatibilityResults";
 
+import {
+  trackEvent,
+} from "@/lib/analytics";
+
 type TestStage =
   | "intro"
   | "partnerA"
@@ -29,6 +33,9 @@ type TestStage =
 const QUESTION_COUNT =
   compatibilityQuestions.length;
 
+/*
+ * 创建空答案数组
+ */
 function createEmptyAnswers() {
   return Array<
     CompatibilityOptionValue | null
@@ -39,7 +46,35 @@ function createEmptyAnswers() {
   );
 }
 
+/*
+ * 根据最终分数生成 Analytics 区间。
+ *
+ * 不发送具体答案。
+ * 只发送结果区间。
+ */
+function getScoreBucket(
+  score: number
+) {
+  if (score >= 85) {
+    return "85_100";
+  }
+
+  if (score >= 70) {
+    return "70_84";
+  }
+
+  if (score >= 50) {
+    return "50_69";
+  }
+
+  return "0_49";
+}
+
 export default function CompatibilityTest() {
+  // ==============================
+  // Test Stage
+  // ==============================
+
   const [
     stage,
     setStage,
@@ -48,11 +83,19 @@ export default function CompatibilityTest() {
       "intro"
     );
 
+  // ==============================
+  // Current Question
+  // ==============================
+
   const [
     currentIndex,
     setCurrentIndex,
   ] =
     useState(0);
+
+  // ==============================
+  // Partner A Answers
+  // ==============================
 
   const [
     partnerAAnswers,
@@ -67,6 +110,10 @@ export default function CompatibilityTest() {
       createEmptyAnswers
     );
 
+  // ==============================
+  // Partner B Answers
+  // ==============================
+
   const [
     partnerBAnswers,
     setPartnerBAnswers,
@@ -80,6 +127,10 @@ export default function CompatibilityTest() {
       createEmptyAnswers
     );
 
+  // ==============================
+  // Result
+  // ==============================
+
   const [
     result,
     setResult,
@@ -87,6 +138,10 @@ export default function CompatibilityTest() {
     useState<
       CompatibilityResult | null
     >(null);
+
+  // ==============================
+  // Current Question Data
+  // ==============================
 
   const question =
     compatibilityQuestions[
@@ -122,9 +177,6 @@ export default function CompatibilityTest() {
       ? "Partner A"
       : "Partner B";
 
-  /*
-   * 当前分类名称
-   */
   const categoryLabel =
     useMemo(
       () =>
@@ -140,11 +192,17 @@ export default function CompatibilityTest() {
     );
 
   // ==============================
-  // Start Partner A
+  // Start Test
+  // Analytics:
+  // compat_start
   // ==============================
 
   const startTest =
     () => {
+      trackEvent(
+        "compat_start"
+      );
+
       setCurrentIndex(
         0
       );
@@ -172,9 +230,10 @@ export default function CompatibilityTest() {
         return;
       }
 
-      /*
-       * Partner A
-       */
+      // ==============================
+      // Partner A
+      // ==============================
+
       if (
         stage ===
         "partnerA"
@@ -194,7 +253,7 @@ export default function CompatibilityTest() {
         );
 
         /*
-         * 不是最后一题
+         * 还没到最后一题
          */
         if (
           currentIndex <
@@ -213,8 +272,15 @@ export default function CompatibilityTest() {
         }
 
         /*
-         * Partner A完成
+         * Partner A 完成20题
+         *
+         * Analytics:
+         * compat_partner_a_complete
          */
+        trackEvent(
+          "compat_partner_a_complete"
+        );
+
         setCurrentIndex(
           0
         );
@@ -226,9 +292,10 @@ export default function CompatibilityTest() {
         return;
       }
 
-      /*
-       * Partner B
-       */
+      // ==============================
+      // Partner B
+      // ==============================
+
       const nextAnswers =
         [
           ...partnerBAnswers,
@@ -244,7 +311,7 @@ export default function CompatibilityTest() {
       );
 
       /*
-       * 不是最后一题
+       * 还没到最后一题
        */
       if (
         currentIndex <
@@ -263,13 +330,15 @@ export default function CompatibilityTest() {
       }
 
       /*
-       * Partner B完成
+       * Partner B 完成最后一题。
        *
-       * 注意必须使用 nextAnswers，
-       * 不能直接使用旧的
-       * partnerBAnswers state，
-       * 否则最后一题还没写进去。
+       * 注意：
+       * 必须使用 nextAnswers，
+       * 因为 React state 更新不是同步的。
+       * 如果直接使用 partnerBAnswers，
+       * 最后一题可能还没写进去。
        */
+
       const finalResult =
         calculateCompatibilityResult(
           partnerAAnswers as
@@ -279,6 +348,34 @@ export default function CompatibilityTest() {
             CompatibilityAnswers
         );
 
+      // ==============================
+      // Analytics:
+      // Partner B Complete
+      // ==============================
+
+      trackEvent(
+        "compat_partner_b_complete"
+      );
+
+      // ==============================
+      // Analytics:
+      // Result View
+      //
+      // 只记录分数区间，
+      // 不上传用户具体答案。
+      // ==============================
+
+      trackEvent(
+        "compat_result_view",
+        {
+          score_bucket:
+            getScoreBucket(
+              finalResult
+                .overallScore
+            ),
+        }
+      );
+
       setResult(
         finalResult
       );
@@ -287,6 +384,10 @@ export default function CompatibilityTest() {
         "results"
       );
 
+      /*
+       * 回到测试区域顶部，
+       * 方便直接看到结果。
+       */
       window.setTimeout(
         () => {
           document
@@ -329,10 +430,16 @@ export default function CompatibilityTest() {
 
   // ==============================
   // Start Partner B
+  // Analytics:
+  // compat_partner_b_start
   // ==============================
 
   const startPartnerB =
     () => {
+      trackEvent(
+        "compat_partner_b_start"
+      );
+
       setCurrentIndex(
         0
       );
@@ -361,10 +468,16 @@ export default function CompatibilityTest() {
 
   // ==============================
   // Restart
+  // Analytics:
+  // compat_restart
   // ==============================
 
   const restart =
     () => {
+      trackEvent(
+        "compat_restart"
+      );
+
       setStage(
         "intro"
       );
@@ -416,80 +529,104 @@ export default function CompatibilityTest() {
         id="compatibility-test"
         className="compat-test"
       >
-       <div className="compat-intro-card compat-intro-card-compact">
 
-{/* Left side */}
+        <div className="compat-intro-card compat-intro-card-compact">
 
-<div className="compat-intro-main">
+          {/* ==============================
+              Left
+          ============================== */}
 
-  <div className="game-kicker">
-    Ready to Compare?
-  </div>
+          <div className="compat-intro-main">
 
-  <h2>
-    Are We Compatible?
-  </h2>
+            <div className="game-kicker">
+              Ready to Compare?
+            </div>
 
-  <p>
-    Answer the same 20 questions separately,
-    then compare how closely your preferences
-    match across everyday life, future plans,
-    habits, and connection.
-  </p>
+            <h2>
+              Are We Compatible?
+            </h2>
 
-</div>
+            <p>
+              Answer the same 20
+              questions separately,
+              then compare how closely
+              your preferences match
+              across everyday life,
+              future plans, habits,
+              and connection.
+            </p>
 
-{/* Right side */}
+          </div>
 
-<div className="compat-intro-action">
+          {/* ==============================
+              Right
+          ============================== */}
 
-  <div className="compat-intro-stats">
+          <div className="compat-intro-action">
 
-    <span>
-      <strong>20</strong>
-      Questions
-    </span>
+            <div className="compat-intro-stats">
 
-    <span>
-      <strong>4</strong>
-      Categories
-    </span>
+              <span>
+                <strong>
+                  20
+                </strong>
 
-    <span>
-      <strong>≈5 min</strong>
-      To finish
-    </span>
+                Questions
+              </span>
 
-    <span>
-      <strong>Free</strong>
-      No signup
-    </span>
+              <span>
+                <strong>
+                  4
+                </strong>
 
-  </div>
+                Categories
+              </span>
 
-  <button
-    type="button"
-    className="btn-primary compat-start-button"
-    onClick={startTest}
-  >
-    Start Compatibility Test →
-  </button>
+              <span>
+                <strong>
+                  ≈5 min
+                </strong>
 
-  <p className="compat-intro-privacy">
-    Partner A answers first.
-    Answers stay hidden until Partner B finishes.
-  </p>
+                To finish
+              </span>
 
-</div>
+              <span>
+                <strong>
+                  Free
+                </strong>
 
-</div>
-</section>
-);
-}
- 
+                No signup
+              </span>
+
+            </div>
+
+            <button
+              type="button"
+              className="btn-primary compat-start-button"
+              onClick={
+                startTest
+              }
+            >
+              Start Compatibility Test →
+            </button>
+
+            <p className="compat-intro-privacy">
+              Partner A answers first.
+              Answers stay hidden until
+              Partner B finishes.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+    );
+  }
 
   // ==============================
-  // Handoff
+  // Partner A Finished
+  // Pass Device Screen
   // ==============================
 
   if (
@@ -599,7 +736,9 @@ export default function CompatibilityTest() {
 
       <div className="compat-question-card">
 
-        {/* Progress */}
+        {/* ==============================
+            Progress Header
+        ============================== */}
 
         <div className="compat-progress-header">
 
@@ -631,6 +770,10 @@ export default function CompatibilityTest() {
 
         </div>
 
+        {/* ==============================
+            Progress Bar
+        ============================== */}
+
         <div className="compat-progress-track">
 
           <div
@@ -643,7 +786,9 @@ export default function CompatibilityTest() {
 
         </div>
 
-        {/* Question */}
+        {/* ==============================
+            Question
+        ============================== */}
 
         <h2 className="compat-question-title">
           {
@@ -651,7 +796,9 @@ export default function CompatibilityTest() {
           }
         </h2>
 
-        {/* Options */}
+        {/* ==============================
+            Answer Options
+        ============================== */}
 
         <div className="compat-options">
 
@@ -696,7 +843,9 @@ export default function CompatibilityTest() {
 
         </div>
 
-        {/* Navigation */}
+        {/* ==============================
+            Footer / Back
+        ============================== */}
 
         <div className="compat-question-footer">
 
@@ -715,9 +864,8 @@ export default function CompatibilityTest() {
           </button>
 
           <span>
-            Choose the answer
-            that feels most
-            natural to you.
+            Choose the answer that
+            feels most natural to you.
           </span>
 
         </div>
