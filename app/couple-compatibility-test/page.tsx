@@ -781,134 +781,157 @@ export default function Page() {
 
       </section>
 
-      {/* ==============================
-          Related Games
-      ============================== */}
+{/* ==============================
+    Related Games
+============================== */}
 
-      <section className="compat-seo-section">
+<section className="compat-seo-section">
 
-        <div className="compat-seo-heading">
+  <div className="compat-seo-heading">
 
-          <div className="game-kicker">
-            More Couple Games
-          </div>
+    <div className="game-kicker">
+      More Couple Games
+    </div>
 
-          <h2>
-            Keep Playing Together
-          </h2>
+    <h2>
+      Keep Playing Together
+    </h2>
 
-          <p>
-            Try another TwoLumi game
-            after comparing your
-            compatibility results.
-          </p>
+    <p>
+      Try another TwoLumi game,
+      quiz, or question collection
+      after comparing your
+      compatibility results.
+    </p>
 
-        </div>
+  </div>
 
-        <div className="compat-related-grid">
+  <div className="compat-related-grid">
 
-          <Link
-            href="/would-you-rather-questions-for-couples"
-            className="compat-related-card"
-          >
+    {/* =================================
+        Couple Quiz
+    ================================= */}
 
-            <span>
-              ⚖️
-            </span>
+    <Link
+      href="/couple-quiz"
+      className="compat-related-card"
+    >
 
-            <div>
+      <span>
+        🧠
+      </span>
 
-              <h3>
-                Would You Rather for Couples
-              </h3>
+      <div>
 
-              <p>
-                Pick between two
-                choices and compare
-                your answers together.
-              </p>
+        <h3>
+          How Well Do You Know Your Partner?
+        </h3>
 
-            </div>
+        <p>
+          Predict your partner&apos;s
+          answers and see how well
+          you really know each other.
+        </p>
 
-          </Link>
+      </div>
 
-          <Link
-            href="/couple-quiz"
-            className="compat-related-card"
-          >
+    </Link>
 
-            <span>
-              🧠
-            </span>
+    {/* =================================
+        Couple Questions
+    ================================= */}
 
-            <div>
+    <Link
+      href="/couple-questions"
+      className="compat-related-card"
+    >
 
-              <h3>
-                Couple Quiz
-              </h3>
+      <span>
+        💬
+      </span>
 
-              <p>
-                Test how well you
-                know your partner.
-              </p>
+      <div>
 
-            </div>
+        <h3>
+          Questions to Ask Your Partner
+        </h3>
 
-          </Link>
+        <p>
+          Explore fun, deep, and
+          meaningful questions for
+          better conversations
+          together.
+        </p>
 
-          <Link
-            href="/long-distance-couple-games"
-            className="compat-related-card"
-          >
+      </div>
 
-            <span>
-              💕
-            </span>
+    </Link>
 
-            <div>
+    {/* =================================
+        Would You Rather
+    ================================= */}
 
-              <h3>
-                Long Distance Couple Games
-              </h3>
+    <Link
+      href="/would-you-rather-questions-for-couples"
+      className="compat-related-card"
+    >
 
-              <p>
-                Play together from
-                separate phones or
-                computers.
-              </p>
+      <span>
+        ⚖️
+      </span>
 
-            </div>
+      <div>
 
-          </Link>
+        <h3>
+          Would You Rather for Couples
+        </h3>
 
-          <Link
-            href="/games"
-            className="compat-related-card"
-          >
+        <p>
+          Pick between two choices
+          and compare your answers
+          together.
+        </p>
 
-            <span>
-              🎮
-            </span>
+      </div>
 
-            <div>
+    </Link>
 
-              <h3>
-                All Couple Games
-              </h3>
+    {/* =================================
+        All Games
+    ================================= */}
 
-              <p>
-                Browse all free games,
-                quizzes, and questions
-                on TwoLumi.
-              </p>
+    <Link
+      href="/games"
+      className="compat-related-card"
+    >
 
-            </div>
+      <span>
+        🎮
+      </span>
 
-          </Link>
+      <div>
 
-        </div>
+        <h3>
+          All Couple Games
+        </h3>
 
-      </section>
+        <p>
+          Browse all free games,
+          quizzes, and questions
+          on TwoLumi.
+        </p>
+
+      </div>
+
+    </Link>
+
+  </div>
+
+</section>
+
+
+        
+
 
       {/* ==============================
           FAQ

@@ -93,6 +93,7 @@ const faqItems = [
    Related Pages
 ============================== */
 
+
 const relatedPages = [
   {
     href:
@@ -119,21 +120,21 @@ const relatedPages = [
       "Couple Questions",
 
     description:
-      "Explore more questions and conversation starters for couples.",
+      "Explore fun, deep, and meaningful questions to ask your partner.",
   },
 
   {
     href:
-      "/long-distance-couple-games",
+      "/couple-quiz",
 
     icon:
-      "💕",
+      "🧠",
 
     title:
-      "Long Distance Couple Games",
+      "How Well Do You Know Your Partner?",
 
     description:
-      "Play together online when you are in different places.",
+      "Predict your partner's answers and see how well you really know each other.",
   },
 
   {
