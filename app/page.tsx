@@ -76,7 +76,9 @@ export default function HomePage() {
             <h2>Related games & questions</h2>
             <div className="pill-grid">
               <Link className="pill" href="/would-you-rather-questions-for-couples">Would You Rather for Couples</Link>
-              <Link className="pill" href="/couple-questions">Deep Questions for Couples</Link>
+              <Link className="pill" href="/couple-questions">
+                Questions to Ask Your Partner
+              </Link>
               <Link className="pill" href="/couple-compatibility-test">Relationship Compatibility Test</Link>
               <Link className="pill" href="/long-distance-couple-games">Long Distance Games</Link>
               <Link className="pill" href="/date-night-games">Date Night Games</Link>

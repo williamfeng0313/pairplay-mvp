@@ -10,7 +10,7 @@ export const games: Game[] = [
   {
     title: "Would You Rather",
     href: "/would-you-rather-questions-for-couples",
-    description: "100+ fun choices",
+    description: "60 fun questions",
     emoji: "♥",
     iconClass: "icon-pink"
   },
@@ -38,7 +38,7 @@ export const games: Game[] = [
   {
     title: "Couple Questions",
     href: "/couple-questions",
-    description: "Deep conversations",
+    description: "Fun, deep & meaningful questions",
     emoji: "☵",
     iconClass: "icon-purple"
   }
