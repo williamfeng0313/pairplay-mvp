@@ -10,7 +10,7 @@ import CompatibilityTest from "@/components/CompatibilityTest";
 
 export const metadata: Metadata = {
   title:
-    "Couple Compatibility Test: Are You Compatible? | TwoLumi",
+    "Couple Compatibility Test: Are You Compatible?",
 
   description:
     "Take a free couple compatibility test with your partner. Compare 20 answers across lifestyle, future plans, everyday habits, and connection.",
@@ -929,8 +929,6 @@ export default function Page() {
 
 </section>
 
-
-        
 
 
       {/* ==============================

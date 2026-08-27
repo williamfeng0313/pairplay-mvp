@@ -14,7 +14,7 @@ import {
 
 export const metadata: Metadata = {
   title:
-    "100 Questions for Long Distance Couples | TwoLumi",
+    "100 Questions for Long Distance Couples",
 
   description:
     "100 fun, deep, meaningful, and silly questions for long distance couples. Use them for texting, video calls, virtual dates, and deeper conversations.",

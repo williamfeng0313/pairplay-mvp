@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Online Couple Games | Free Games for Couples | TwoLumi",
+    "Online Couple Games | Free Games for Couples",
 
   description:
     "Play free online couple games on TwoLumi. Try Would You Rather, This or That, couple questions, quizzes, compatibility games, and games for long distance couples.",
