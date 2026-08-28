@@ -7877,3 +7877,624 @@ button:disabled {
     font-size: 1.5rem;
   }
 }
+
+/* =========================================================
+   Date Night Games
+========================================================= */
+
+.date-night-page {
+  padding: 56px 0 88px;
+}
+
+.date-night-hero {
+  max-width: 1040px;
+  margin-bottom: 38px;
+}
+
+.date-night-hero h1 {
+  max-width: 1100px;
+  margin: 12px 0 18px;
+  font-size: clamp(3rem, 6vw, 5.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.date-night-lead {
+  max-width: 900px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1.55;
+}
+
+.date-night-sublead {
+  max-width: 820px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   Section Heading
+========================================================= */
+
+.date-night-section,
+.date-night-picker {
+  padding: 34px 0;
+}
+
+.date-night-section-heading {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.date-night-section-heading > div {
+  max-width: 820px;
+}
+
+.date-night-section-heading h2 {
+  margin: 6px 0 8px;
+  font-size: clamp(2rem, 3.7vw, 3.15rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.date-night-section-heading p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.date-night-count {
+  flex: 0 0 auto;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: white;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   Product First Cards
+========================================================= */
+
+.date-night-picker {
+  padding-top: 8px;
+}
+
+.date-night-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.date-night-quick-card {
+  min-height: 220px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: white;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.date-night-quick-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+
+.date-night-quick-icon {
+  margin-bottom: 18px;
+  font-size: 1.65rem;
+}
+
+.date-night-card-label {
+  color: var(--pink);
+  font-size: 0.76rem;
+  font-weight: 800;
+}
+
+.date-night-quick-card h3 {
+  margin: 7px 0 9px;
+  color: var(--text);
+  font-size: 1.08rem;
+  line-height: 1.2;
+}
+
+.date-night-quick-card p {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+.date-night-quick-card strong {
+  margin-top: auto;
+  color: var(--pink);
+  font-size: 0.85rem;
+}
+
+
+/* =========================================================
+   Intro
+========================================================= */
+
+.date-night-intro {
+  margin: 28px 0;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: 1.5fr 0.8fr;
+  gap: 42px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: white;
+}
+
+.date-night-intro-copy h2 {
+  margin: 7px 0 12px;
+  font-size: clamp(1.8rem, 3vw, 2.65rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.date-night-intro-copy p {
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.date-night-benefits {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+}
+
+.date-night-benefits span {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--soft);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   Detailed Game List
+========================================================= */
+
+.date-night-game-list {
+  display: grid;
+  gap: 16px;
+}
+
+.date-night-game-detail {
+  padding: 26px;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 22px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: white;
+}
+
+.date-night-game-number {
+  color: var(--pink);
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.date-night-game-detail-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.date-night-game-detail-top h3 {
+  margin: 7px 0 0;
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  line-height: 1.1;
+}
+
+.date-night-game-icon {
+  flex: 0 0 auto;
+  font-size: 1.7rem;
+}
+
+.date-night-game-description {
+  max-width: 900px;
+  margin: 13px 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.date-night-game-meta {
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.date-night-game-meta span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.date-night-how-to {
+  max-width: 900px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--pink);
+  background: var(--soft);
+  border-radius: 0 14px 14px 0;
+}
+
+.date-night-how-to strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.date-night-how-to p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   At Home
+========================================================= */
+
+.date-night-soft-section {
+  margin: 26px 0;
+  padding: 32px;
+  border-radius: 26px;
+  background: var(--soft);
+}
+
+.date-night-at-home-grid,
+.date-night-tips-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.date-night-at-home-grid article,
+.date-night-tips-grid article {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+}
+
+.date-night-at-home-grid article > span {
+  color: var(--pink);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.date-night-at-home-grid h3,
+.date-night-tips-grid h3 {
+  margin: 8px 0 9px;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.date-night-at-home-grid p,
+.date-night-tips-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.date-night-at-home-grid a {
+  color: var(--pink);
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   Long Distance CTA
+========================================================= */
+
+.date-night-long-distance {
+  margin: 34px 0;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: white;
+}
+
+.date-night-long-distance > div:first-child {
+  max-width: 760px;
+}
+
+.date-night-long-distance h2 {
+  margin: 7px 0 10px;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.08;
+}
+
+.date-night-long-distance p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.date-night-long-distance-actions {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+
+/* =========================================================
+   Related
+========================================================= */
+
+.date-night-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.date-night-related-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: white;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.date-night-related-card > span {
+  font-size: 1.5rem;
+}
+
+.date-night-related-card h3 {
+  margin: 13px 0 7px;
+  font-size: 1.08rem;
+}
+
+.date-night-related-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.date-night-faq {
+  display: grid;
+  gap: 10px;
+}
+
+.date-night-faq-item {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: white;
+}
+
+.date-night-faq-item h3 {
+  margin: 0 0 7px;
+  font-size: 1rem;
+}
+
+.date-night-faq-item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   Final CTA
+========================================================= */
+
+.date-night-final-cta {
+  margin-top: 42px;
+  padding: 44px 30px;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: white;
+}
+
+.date-night-final-cta h2 {
+  max-width: 760px;
+  margin: 8px auto 10px;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  line-height: 1.05;
+}
+
+.date-night-final-cta p {
+  max-width: 720px;
+  margin: 0 auto 22px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.date-night-final-cta .hero-actions {
+  justify-content: center;
+}
+
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 1050px) {
+
+  .date-night-quick-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+
+  .date-night-at-home-grid,
+  .date-night-tips-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 760px) {
+
+  .date-night-page {
+    padding-top: 34px;
+  }
+
+  .date-night-hero h1 {
+    font-size: clamp(2.7rem, 13vw, 4.2rem);
+  }
+
+  .date-night-section-heading {
+    align-items: flex-start;
+  }
+
+  .date-night-quick-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .date-night-intro {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 22px;
+  }
+
+  .date-night-game-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .date-night-game-number {
+    margin-bottom: -8px;
+  }
+
+  .date-night-long-distance {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .date-night-long-distance-actions {
+    align-items: flex-start;
+  }
+
+  .date-night-related-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 520px) {
+
+  .date-night-quick-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .date-night-quick-card {
+    min-height: 0;
+  }
+
+  .date-night-at-home-grid,
+  .date-night-tips-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .date-night-soft-section {
+    padding: 22px 16px;
+  }
+
+  .date-night-game-detail {
+    padding: 20px 16px;
+  }
+
+  .date-night-game-detail-top {
+    gap: 12px;
+  }
+
+  .date-night-final-cta {
+    padding: 32px 18px;
+  }
+
+}
+
+/* =========================================================
+   Date Night - Product First Compact Override
+========================================================= */
+
+.date-night-page {
+  padding-top: 38px;
+}
+
+.date-night-hero {
+  max-width: 1120px;
+  margin-bottom: 24px;
+}
+
+.date-night-hero h1 {
+  margin: 8px 0 14px;
+  font-size: clamp(3rem, 5.1vw, 4.8rem);
+  line-height: 0.98;
+}
+
+.date-night-lead {
+  max-width: 980px;
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  line-height: 1.5;
+}
+
+.date-night-picker {
+  padding-top: 0;
+  padding-bottom: 28px;
+}
+
+.date-night-picker .date-night-section-heading {
+  margin-bottom: 12px;
+}
+
+.date-night-picker .date-night-section-heading h2 {
+  margin: 4px 0 5px;
+  font-size: clamp(1.8rem, 3vw, 2.65rem);
+}
+
+.date-night-picker .date-night-section-heading p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.date-night-quick-card {
+  min-height: 190px;
+  padding: 17px;
+}
+
+.date-night-quick-icon {
+  margin-bottom: 12px;
+}
