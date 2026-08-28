@@ -41,7 +41,7 @@ export default function HomeHero() {
       router.push(
         `/room/${encodeURIComponent(
           data.code
-        )}?token=${encodeURIComponent(data.token)}`
+        )}`
       );
     } catch (error) {
       setMessage(
@@ -125,7 +125,7 @@ export default function HomeHero() {
       router.push(
         `/room/${encodeURIComponent(
           data.code
-        )}?token=${encodeURIComponent(data.token)}`
+        )}`
       );
     } catch (error) {
       setMessage(

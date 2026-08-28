@@ -8,6 +8,11 @@ import {
 } from "@/lib/supabaseAdmin";
 
 import {
+  getRoomTokenFromRequest,
+  normalizeRoomCode,
+} from "@/lib/roomSession";
+
+import {
   getWouldYouRatherQuestionsForRoom,
   WOULD_YOU_RATHER_ROUND_LIMIT,
 } from "@/lib/wouldYouRatherGame";
@@ -23,28 +28,41 @@ export async function GET(
     // 1. 获取Room参数
     // ==============================
 
-    const code = (
-      request.nextUrl.searchParams.get(
-        "code"
-      ) || ""
-    )
-      .trim()
-      .toUpperCase();
+    const code =
+      normalizeRoomCode(
+        request.nextUrl.searchParams.get(
+          "code"
+        )
+      );
 
     const token =
-      request.nextUrl.searchParams.get(
-        "token"
-      ) || "";
+      getRoomTokenFromRequest(
+        request,
+        code
+      );
 
-    if (!code || !token) {
+    if (code.length !== 6) {
       return NextResponse.json(
         {
           ok: false,
           error:
-            "Missing room credentials.",
+            "Invalid room code.",
         },
         {
           status: 400,
+        }
+      );
+    }
+
+    if (!token) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Your room session is missing or has expired.",
+        },
+        {
+          status: 401,
         }
       );
     }

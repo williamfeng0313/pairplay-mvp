@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { randomBytes, randomUUID } from "crypto";
 import { supabaseRest } from "@/lib/supabaseAdmin";
+import { setRoomSessionCookie } from "@/lib/roomSession";
 
 export const dynamic = "force-dynamic";
 
@@ -15,10 +16,14 @@ export async function POST() {
   try {
     // Opportunistic cleanup so the MVP does not accumulate expired rooms forever.
     const now = new Date().toISOString();
-    await supabaseRest(`rooms?expires_at=lt.${encodeURIComponent(now)}`, {
-      method: "DELETE",
-      headers: { Prefer: "return=minimal" },
-    }).catch(() => null);
+
+    await supabaseRest(
+      `rooms?expires_at=lt.${encodeURIComponent(now)}`,
+      {
+        method: "DELETE",
+        headers: { Prefer: "return=minimal" },
+      }
+    ).catch(() => null);
 
     for (let attempt = 0; attempt < 6; attempt++) {
       const code = makeCode();
@@ -38,24 +43,41 @@ export async function POST() {
       const rows = await response.json();
 
       if (Array.isArray(rows) && rows[0]) {
-        return NextResponse.json({
+        const result = NextResponse.json({
           ok: true,
           code,
-          token: hostToken,
           status: rows[0].status,
           expiresAt: rows[0].expires_at,
         });
+
+        setRoomSessionCookie(
+          result,
+          code,
+          hostToken,
+          rows[0].expires_at
+        );
+
+        result.headers.set("Cache-Control", "no-store");
+
+        return result;
       }
     }
 
     return NextResponse.json(
-      { ok: false, error: "Could not create a unique room code." },
+      {
+        ok: false,
+        error: "Could not create a unique room code.",
+      },
       { status: 503 }
     );
   } catch (error) {
     console.error("create room error", error);
+
     return NextResponse.json(
-      { ok: false, error: "Room service is temporarily unavailable." },
+      {
+        ok: false,
+        error: "Room service is temporarily unavailable.",
+      },
       { status: 500 }
     );
   }

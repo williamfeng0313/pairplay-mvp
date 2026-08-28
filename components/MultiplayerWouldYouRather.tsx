@@ -67,11 +67,9 @@ type GameState = {
 
 export default function MultiplayerWouldYouRather({
   code,
-  token,
   role,
 }: {
   code: string;
-  token: string;
   role:
     | "host"
     | "guest";
@@ -150,8 +148,6 @@ export default function MultiplayerWouldYouRather({
             await fetch(
               `/api/rooms/game-state?code=${encodeURIComponent(
                 code
-              )}&token=${encodeURIComponent(
-                token
               )}`,
               {
                 cache:
@@ -275,7 +271,6 @@ export default function MultiplayerWouldYouRather({
     };
   }, [
     code,
-    token,
     role,
   ]);
 
@@ -323,8 +318,6 @@ export default function MultiplayerWouldYouRather({
               body:
                 JSON.stringify({
                   code,
-
-                  token,
 
                   questionIndex:
                     state.questionIndex,
@@ -420,8 +413,6 @@ export default function MultiplayerWouldYouRather({
               body:
                 JSON.stringify({
                   code,
-
-                  token,
 
                   questionIndex:
                     state.questionIndex,

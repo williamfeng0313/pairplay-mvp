@@ -22,10 +22,8 @@ type RoomState = {
 
 export default function RoomWaitingClient({
   code,
-  token,
 }: {
   code: string;
-  token: string;
 }) {
   // ==============================
   // Room State
@@ -70,8 +68,6 @@ export default function RoomWaitingClient({
             await fetch(
               `/api/rooms/status?code=${encodeURIComponent(
                 code
-              )}&token=${encodeURIComponent(
-                token
               )}`,
               {
                 cache: "no-store",
@@ -137,7 +133,7 @@ export default function RoomWaitingClient({
         timer
       );
     };
-  }, [code, token]);
+  }, [code]);
 
   // ==============================
   // Copy Room Code
@@ -327,7 +323,6 @@ export default function RoomWaitingClient({
 
         <MultiplayerWouldYouRather
           code={code}
-          token={token}
           role={room.role}
         />
 

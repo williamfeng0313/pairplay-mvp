@@ -8498,3 +8498,7 @@ button:disabled {
 .date-night-quick-icon {
   margin-bottom: 12px;
 }
+
+.date-night-picker .game-kicker {
+  margin-bottom: 2px;
+}

@@ -4,6 +4,10 @@ import {
   } from "next/server";
   
   import { supabaseRest } from "@/lib/supabaseAdmin";
+  import {
+    getRoomTokenFromRequest,
+    normalizeRoomCode,
+  } from "@/lib/roomSession";
   
   export const dynamic = "force-dynamic";
   
@@ -19,15 +23,16 @@ import {
         .json()
         .catch(() => ({}));
   
-      const code = String(
-        body.code || ""
-      )
-        .trim()
-        .toUpperCase();
-  
-      const token = String(
-        body.token || ""
-      );
+      const code =
+        normalizeRoomCode(
+          body.code
+        );
+
+      const token =
+        getRoomTokenFromRequest(
+          request,
+          code
+        );
   
       const questionIndex = Number(
         body.questionIndex
@@ -44,8 +49,7 @@ import {
       // ==============================
   
       if (
-        !code ||
-        !token ||
+        code.length !== 6 ||
         !Number.isInteger(questionIndex) ||
         !answer
       ) {
@@ -57,6 +61,19 @@ import {
           },
           {
             status: 400,
+          }
+        );
+      }
+
+      if (!token) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error:
+              "Your room session is missing or has expired.",
+          },
+          {
+            status: 401,
           }
         );
       }

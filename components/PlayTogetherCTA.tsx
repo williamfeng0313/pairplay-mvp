@@ -47,7 +47,7 @@ export default function PlayTogetherCTA({
       router.push(
         `/room/${encodeURIComponent(
           data.code
-        )}?token=${encodeURIComponent(data.token)}`
+        )}`
       );
     } catch (error) {
       setMessage(

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import RoomWaitingClient from "@/components/RoomWaitingClient";
+import { normalizeRoomCode } from "@/lib/roomSession";
 
 export const metadata: Metadata = {
   title: "Private Couple Room",
@@ -11,18 +12,16 @@ export const metadata: Metadata = {
 
 export default async function RoomPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ code: string }>;
-  searchParams: Promise<{ token?: string }>;
 }) {
-  const { code } = await params;
-  const { token = "" } = await searchParams;
+  const { code: rawCode } = await params;
+  const code = normalizeRoomCode(rawCode);
 
   return (
     <main className="game-page">
       <div className="container room-page-wrap">
-        <RoomWaitingClient code={code.toUpperCase()} token={token} />
+        <RoomWaitingClient code={code} />
       </div>
     </main>
   );

@@ -8,6 +8,11 @@ import {
 } from "@/lib/supabaseAdmin";
 
 import {
+  getRoomTokenFromRequest,
+  normalizeRoomCode,
+} from "@/lib/roomSession";
+
+import {
   WOULD_YOU_RATHER_ROUND_LIMIT,
 } from "@/lib/wouldYouRatherGame";
 
@@ -24,15 +29,14 @@ export async function POST(
         .catch(() => ({}));
 
     const code =
-      String(
-        body.code || ""
-      )
-        .trim()
-        .toUpperCase();
+      normalizeRoomCode(
+        body.code
+      );
 
     const token =
-      String(
-        body.token || ""
+      getRoomTokenFromRequest(
+        request,
+        code
       );
 
     const questionIndex =
@@ -41,8 +45,7 @@ export async function POST(
       );
 
     if (
-      !code ||
-      !token ||
+      code.length !== 6 ||
       !Number.isInteger(
         questionIndex
       )
@@ -55,6 +58,19 @@ export async function POST(
         },
         {
           status: 400,
+        }
+      );
+    }
+
+    if (!token) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Your room session is missing or has expired.",
+        },
+        {
+          status: 401,
         }
       );
     }
