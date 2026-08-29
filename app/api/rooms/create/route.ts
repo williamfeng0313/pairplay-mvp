@@ -1,10 +1,34 @@
-import { NextResponse } from "next/server";
-import { randomBytes, randomUUID } from "crypto";
+import {
+  NextRequest,
+  NextResponse,
+} from "next/server";
 
-import { supabaseRest } from "@/lib/supabaseAdmin";
-import { setRoomSessionCookie } from "@/lib/roomSession";
+import {
+  randomBytes,
+  randomUUID,
+} from "crypto";
 
-export const dynamic = "force-dynamic";
+import {
+  supabaseRest,
+} from "@/lib/supabaseAdmin";
+
+import {
+  setRoomSessionCookie,
+} from "@/lib/roomSession";
+
+import {
+  consumeRateLimit,
+} from "@/lib/rateLimit";
+
+export const dynamic =
+  "force-dynamic";
+
+/* =========================================================
+   Rate Limit
+========================================================= */
+
+const CREATE_ROOM_LIMIT = 5;
+const CREATE_ROOM_WINDOW_SECONDS = 60;
 
 /* =========================================================
    Room Code
@@ -13,7 +37,9 @@ export const dynamic = "force-dynamic";
 const ALPHABET =
   "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-function makeCode(length = 6) {
+function makeCode(
+  length = 6
+) {
   const bytes =
     randomBytes(length);
 
@@ -31,15 +57,66 @@ function makeCode(length = 6) {
    Create Room
 ========================================================= */
 
-export async function POST() {
+export async function POST(
+  request: NextRequest
+) {
   try {
 
     /* =====================================================
-       Temporary expired-room cleanup
+       Rate Limit
 
-       先保留这一段。
-       等 Supabase pg_cron 真正创建并验证成功以后，
-       我们再完整删除这里。
+       Maximum:
+       5 room creates / 60 seconds / IP
+    ===================================================== */
+
+    const rateLimit =
+      await consumeRateLimit(
+        request,
+        "room_create",
+        CREATE_ROOM_LIMIT,
+        CREATE_ROOM_WINDOW_SECONDS
+      );
+
+    if (
+      !rateLimit.allowed
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+
+          error:
+            "Too many rooms created. Please wait a minute and try again.",
+        },
+        {
+          status: 429,
+
+          headers: {
+            "Retry-After":
+              String(
+                rateLimit.retryAfter ||
+                  60
+              ),
+
+            "Cache-Control":
+              "no-store",
+
+            "X-RateLimit-Limit":
+              String(
+                CREATE_ROOM_LIMIT
+              ),
+
+            "X-RateLimit-Remaining":
+              "0",
+          },
+        }
+      );
+    }
+
+    /* =====================================================
+       Temporary Room Cleanup
+
+       Keep this until your separate Supabase cleanup job
+       is confirmed working.
     ===================================================== */
 
     const now =
@@ -50,7 +127,8 @@ export async function POST() {
         now
       )}`,
       {
-        method: "DELETE",
+        method:
+          "DELETE",
 
         headers: {
           Prefer:
@@ -80,7 +158,8 @@ export async function POST() {
         await supabaseRest(
           "rooms",
           {
-            method: "POST",
+            method:
+              "POST",
 
             headers: {
               Prefer:
@@ -106,10 +185,6 @@ export async function POST() {
       const rows =
         await response.json();
 
-      /* ===================================================
-         Success
-      =================================================== */
-
       if (
         Array.isArray(rows) &&
         rows[0]
@@ -129,9 +204,9 @@ export async function POST() {
           });
 
         /* ===============================================
-           Store room token in HttpOnly cookie
+           Secure room session
 
-           Token is NOT returned to browser JavaScript.
+           Token stays in HttpOnly Cookie.
         =============================================== */
 
         setRoomSessionCookie(
@@ -146,13 +221,27 @@ export async function POST() {
           "no-store"
         );
 
+        result.headers.set(
+          "X-RateLimit-Limit",
+          String(
+            CREATE_ROOM_LIMIT
+          )
+        );
+
+        result.headers.set(
+          "X-RateLimit-Remaining",
+          String(
+            Math.max(
+              0,
+              CREATE_ROOM_LIMIT -
+                rateLimit.count
+            )
+          )
+        );
+
         return result;
       }
     }
-
-    /* =====================================================
-       Failed to find unique room code
-    ===================================================== */
 
     return NextResponse.json(
       {
