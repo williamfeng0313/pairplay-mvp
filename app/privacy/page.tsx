@@ -387,6 +387,26 @@ export default function PrivacyPage() {
 
           </section>
 
+          <section className="content-card">
+          <h2>Real-Time Room Chat</h2>
+
+          <p>
+            When both participants are in a private room,
+            TwoLumi may transmit text messages in real time
+            using a realtime infrastructure provider.
+            TwoLumi does not store room chat messages in its
+            application database or provide chat history.
+          </p>
+
+          <p>
+            Messages are intended for the active session and
+            disappear from the TwoLumi interface when the page
+            is refreshed or the room is left. Limited technical
+            metadata may be processed by service providers to
+            deliver and secure the realtime service.
+          </p>
+        </section>
+
           {/* ==============================
               8. International Processing
           ============================== */}
