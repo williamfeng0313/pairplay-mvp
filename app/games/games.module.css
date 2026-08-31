@@ -1,0 +1,631 @@
+.page {
+    min-height: 100vh;
+    background:
+      linear-gradient(
+        180deg,
+        #fffafb 0%,
+        #ffffff 30%,
+        #ffffff 100%
+      );
+    color: #171a2d;
+  }
+  
+  
+  /* =========================================================
+     Hero
+  ========================================================= */
+  
+  .hero {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 72px 24px 48px;
+    text-align: center;
+  }
+  
+  .eyebrow,
+  .kicker {
+    margin-bottom: 12px;
+    color: #f43f75;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  
+  .hero h1 {
+    max-width: 820px;
+    margin: 0 auto;
+    font-size: clamp(
+      3rem,
+      7vw,
+      5.6rem
+    );
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+  }
+  
+  .heroLead {
+    max-width: 720px;
+    margin: 24px auto 0;
+    color: #667085;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+  
+  .heroActions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+  
+  .primaryButton,
+  .secondaryButton {
+    min-height: 50px;
+    padding: 0 22px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  
+  .primaryButton {
+    background: #f43f75;
+    color: #ffffff;
+    box-shadow:
+      0 12px 28px
+      rgba(244, 63, 117, 0.22);
+  }
+  
+  .secondaryButton {
+    border: 1px solid #eadde3;
+    background: #ffffff;
+    color: #171a2d;
+  }
+  
+  .primaryButton:hover,
+  .secondaryButton:hover {
+    transform: translateY(-1px);
+  }
+  
+  .heroTrust {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 10px 22px;
+    flex-wrap: wrap;
+    color: #7b7076;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  
+  /* =========================================================
+     General Section
+  ========================================================= */
+  
+  .section,
+  .seoSection,
+  .faqSection {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+  
+  .sectionHeading {
+    max-width: 720px;
+    margin-bottom: 28px;
+  }
+  
+  .sectionHeading h2 {
+    margin: 0;
+    font-size: clamp(
+      2rem,
+      4vw,
+      3rem
+    );
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+  
+  .sectionHeading p {
+    margin: 14px 0 0;
+    color: #667085;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  
+  
+  /* =========================================================
+     Time Picker
+  ========================================================= */
+  
+  .timeGrid {
+    display: grid;
+    grid-template-columns:
+      repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .timeCard {
+    padding: 22px;
+    border: 1px solid #eee3e7;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow:
+      0 8px 32px
+      rgba(27, 20, 24, 0.04);
+  }
+  
+  .timeIcon {
+    font-size: 28px;
+  }
+  
+  .timeLabel {
+    margin-top: 16px;
+    color: #f43f75;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  
+  .timeCard h3 {
+    margin: 6px 0 0;
+    font-size: 21px;
+  }
+  
+  .timeCard p {
+    min-height: 72px;
+    margin: 10px 0 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .timeLinks {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .timeLinks a {
+    color: #171a2d;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  
+  .timeLinks a:hover {
+    color: #f43f75;
+  }
+  
+  
+  /* =========================================================
+     Categories
+  ========================================================= */
+  
+  .category {
+    margin-top: 42px;
+  }
+  
+  .categoryHeading > div {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  
+  .categoryIcon {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    border-radius: 14px;
+    background: #fff1f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 23px;
+  }
+  
+  .categoryHeading h2 {
+    margin: 0;
+    font-size: 25px;
+    letter-spacing: -0.025em;
+  }
+  
+  .categoryHeading p {
+    max-width: 680px;
+    margin: 7px 0 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  
+  /* =========================================================
+     Game Cards
+  ========================================================= */
+  
+  .gameGrid {
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  
+  .gameCard {
+    min-height: 230px;
+    padding: 24px;
+    border: 1px solid #eee3e7;
+    border-radius: 22px;
+    background: #ffffff;
+    color: #171a2d;
+    text-decoration: none;
+    box-shadow:
+      0 8px 32px
+      rgba(27, 20, 24, 0.04);
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease,
+      border-color 0.15s ease;
+  }
+  
+  .gameCard:hover {
+    transform: translateY(-2px);
+    border-color: #f7b9cb;
+    box-shadow:
+      0 16px 42px
+      rgba(27, 20, 24, 0.08);
+  }
+  
+  .featuredGame {
+    background:
+      linear-gradient(
+        135deg,
+        #fff7fa,
+        #ffffff
+      );
+  }
+  
+  .gameCardTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .gameIcon {
+    font-size: 30px;
+  }
+  
+  .badge {
+    padding: 6px 9px;
+    border-radius: 999px;
+    background: #fff0f4;
+    color: #db3266;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  
+  .gameCard h3 {
+    margin: 22px 0 0;
+    font-size: 21px;
+    line-height: 1.2;
+  }
+  
+  .gameCard p {
+    margin: 10px 0 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  
+  .cardCta {
+    margin-top: 22px;
+    color: #f43f75;
+    font-size: 14px;
+    font-weight: 800;
+  }
+  
+  
+  /* =========================================================
+     Long Distance
+  ========================================================= */
+  
+  .longDistance {
+    max-width: 1120px;
+    margin: 44px auto;
+    padding: 42px;
+    border: 1px solid #f0dfe5;
+    border-radius: 28px;
+    background:
+      linear-gradient(
+        135deg,
+        #fff5f8,
+        #fffdfd
+      );
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1.35fr)
+      minmax(260px, 0.65fr);
+    gap: 32px;
+    align-items: center;
+  }
+  
+  .longDistanceContent h2 {
+    margin: 0;
+    max-width: 620px;
+    font-size: clamp(
+      2rem,
+      4vw,
+      3.1rem
+    );
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+  
+  .longDistanceContent p {
+    max-width: 650px;
+    margin: 16px 0 0;
+    color: #667085;
+    line-height: 1.7;
+  }
+  
+  .longDistanceActions {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  
+  .textLink {
+    color: #171a2d;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  
+  .textLink:hover {
+    color: #f43f75;
+  }
+  
+  .longDistanceVisual {
+    min-height: 180px;
+    border-radius: 22px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    font-size: 42px;
+  }
+  
+  .connectionLine {
+    color: #f43f75;
+    font-size: 18px;
+    font-weight: 800;
+  }
+  
+  
+  /* =========================================================
+     SEO Support
+  ========================================================= */
+  
+  .seoGrid {
+    display: grid;
+    grid-template-columns:
+      repeat(3, 1fr);
+    gap: 16px;
+  }
+  
+  .seoCard {
+    padding: 22px;
+    border: 1px solid #eee3e7;
+    border-radius: 20px;
+    background: #ffffff;
+  }
+  
+  .seoCard h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .seoCard p {
+    margin: 10px 0 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  
+  
+  /* =========================================================
+     FAQ
+  ========================================================= */
+  
+  .faqList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .faqItem {
+    padding: 18px 20px;
+    border: 1px solid #eee3e7;
+    border-radius: 16px;
+    background: #ffffff;
+  }
+  
+  .faqItem summary {
+    cursor: pointer;
+    color: #171a2d;
+    font-size: 15px;
+    font-weight: 800;
+  }
+  
+  .faqItem p {
+    margin: 12px 0 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  
+  
+  /* =========================================================
+     Final CTA
+  ========================================================= */
+  
+  .finalCta {
+    max-width: 1120px;
+    margin: 36px auto 72px;
+    padding: 36px 40px;
+    border-radius: 26px;
+    background: #171a2d;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 28px;
+  }
+  
+  .finalCta h2 {
+    margin: 0;
+    font-size: clamp(
+      2rem,
+      4vw,
+      2.8rem
+    );
+    line-height: 1.05;
+  }
+  
+  .finalCta p {
+    margin: 10px 0 0;
+    color: #c7c9d2;
+  }
+  
+  
+  /* =========================================================
+     Responsive
+  ========================================================= */
+  
+  @media (
+    max-width: 820px
+  ) {
+  
+    .hero {
+      padding-top: 48px;
+    }
+  
+    .timeGrid,
+    .seoGrid {
+      grid-template-columns: 1fr;
+    }
+  
+    .timeCard p {
+      min-height: 0;
+    }
+  
+    .longDistance {
+      margin-left: 18px;
+      margin-right: 18px;
+      padding: 28px;
+      grid-template-columns: 1fr;
+    }
+  
+    .longDistanceVisual {
+      min-height: 130px;
+    }
+  
+    .finalCta {
+      margin-left: 18px;
+      margin-right: 18px;
+      padding: 28px;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+  
+  
+  @media (
+    max-width: 640px
+  ) {
+  
+    .hero {
+      padding:
+        42px 18px
+        34px;
+    }
+  
+    .hero h1 {
+      font-size:
+        clamp(
+          2.7rem,
+          13vw,
+          4rem
+        );
+    }
+  
+    .heroLead {
+      font-size: 16px;
+    }
+  
+    .heroActions {
+      flex-direction: column;
+    }
+  
+    .primaryButton,
+    .secondaryButton {
+      width: 100%;
+    }
+  
+    .section,
+    .seoSection,
+    .faqSection {
+      padding:
+        36px 18px;
+    }
+  
+    .gameGrid {
+      grid-template-columns: 1fr;
+    }
+  
+    .gameCard {
+      min-height: 0;
+    }
+  
+    .categoryHeading > div {
+      gap: 11px;
+    }
+  
+    .categoryIcon {
+      width: 42px;
+      height: 42px;
+      font-size: 20px;
+    }
+  
+    .longDistance {
+      margin-top: 26px;
+      margin-bottom: 26px;
+    }
+  
+    .longDistanceActions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  
+    .longDistanceActions
+    .primaryButton {
+      width: 100%;
+    }
+  
+    .finalCta
+    .primaryButton {
+      width: 100%;
+    }
+  }

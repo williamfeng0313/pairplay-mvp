@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import GamePageLayout from "@/components/GamePageLayout";
 import RandomCoupleQuestion from "@/components/RandomCoupleQuestion";
+import BackToGames from "@/components/BackToGames";
 
 import {
   coupleQuestions,
@@ -753,6 +754,8 @@ export default function Page() {
         </div>
 
       </section>
+
+      <BackToGames />
 
       {/* ===================================================
           FAQ

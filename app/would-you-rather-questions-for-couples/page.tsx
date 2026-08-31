@@ -8,6 +8,8 @@ import GamePageLayout from "@/components/GamePageLayout";
 
 import PlayTogetherCTA from "@/components/PlayTogetherCTA";
 
+import BackToGames from "@/components/BackToGames";
+
 import RandomWouldYouRatherGame from "@/components/RandomWouldYouRatherGame";
 
 import {
@@ -649,6 +651,8 @@ export default function Page() {
         </div>
 
       </section>
+
+      <BackToGames />
 
       {/* ==============================
           FAQ

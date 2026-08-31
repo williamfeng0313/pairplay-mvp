@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import GamePageLayout from "@/components/GamePageLayout";
 import CompatibilityTest from "@/components/CompatibilityTest";
+import BackToGames from "@/components/BackToGames";
 
 /* ==============================
    SEO Metadata
@@ -929,8 +930,7 @@ export default function Page() {
 
 </section>
 
-
-
+<BackToGames />
       {/* ==============================
           FAQ
       ============================== */}

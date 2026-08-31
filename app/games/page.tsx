@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import styles from "./games.module.css";
+
+
+/* =========================================================
+   SEO Metadata
+========================================================= */
+
 export const metadata: Metadata = {
   title:
-    "Online Couple Games | Free Games for Couples",
+    "Online Games for Couples — Free Games to Play Together",
 
   description:
-    "Play free online couple games on TwoLumi. Try Would You Rather, This or That, couple questions, quizzes, compatibility games, and games for long distance couples.",
+    "Play free online games for couples on separate phones or laptops. Try multiplayer games, couple questions, quizzes, and fun games for long-distance couples — no signup required.",
 
   alternates: {
     canonical:
@@ -15,524 +22,1381 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Online Couple Games | TwoLumi",
+      "Online Games for Couples — Free Games to Play Together | TwoLumi",
 
     description:
-      "Free online games, questions, and quizzes made for couples. Play together on one device or from separate devices.",
+      "Play free online games for couples on separate phones or laptops. Try multiplayer games, couple questions, quizzes, and fun games for long-distance couples — no signup required.",
 
     url:
       "https://twolumi.com/games",
 
-    type: "website",
+    siteName:
+      "TwoLumi",
+
+    type:
+      "website",
+  },
+
+  twitter: {
+    card:
+      "summary",
+
+    title:
+      "Online Games for Couples — Free Games to Play Together | TwoLumi",
+
+    description:
+      "Free online games for couples to play together on separate phones or laptops. No signup required.",
+  },
+
+  robots: {
+    index:
+      true,
+
+    follow:
+      true,
+
+    googleBot: {
+      index:
+        true,
+
+      follow:
+        true,
+    },
   },
 };
 
-const games = [
+
+/* =========================================================
+   Game Data
+========================================================= */
+
+const multiplayerGames = [
   {
     href:
       "/would-you-rather-questions-for-couples",
 
-    icon: "⚖️",
-
-    badge: "Most Popular",
+    icon:
+      "⚖️",
 
     title:
       "Would You Rather for Couples",
 
     description:
-      "Choose between two options, compare your answers, and discover the funny little differences between you.",
+      "Answer privately, reveal together, and see where you agree — or completely disagree.",
 
-    meta:
-      "60-question bank · Multiplayer available",
+    badge:
+      "Multiplayer",
 
-    featured: true,
+    cta:
+      "Play Together",
   },
+];
 
+
+const questionGames = [
   {
     href:
-      "/long-distance-couple-games",
+      "/couple-questions",
 
-    icon: "💞",
-
-    badge: "Play Together",
+    icon:
+      "💬",
 
     title:
-      "Long Distance Couple Games",
+      "Questions to Ask Your Partner",
 
     description:
-      "Games and activities for couples using separate phones or computers. Create a private room and play together.",
+      "Explore fun, deep, and meaningful questions for better conversations together.",
 
-    meta:
-      "Two devices · No signup",
+    badge:
+      "100 Questions",
 
-    featured: true,
+    cta:
+      "Start Asking",
   },
 
   {
     href:
       "/this-or-that-for-couples",
 
-    icon: "↔️",
-
-    badge: "Quick Game",
+    icon:
+      "💗",
 
     title:
       "This or That for Couples",
 
     description:
-      "Coffee or tea? Beach or mountains? Compare quick choices and learn more about each other's preferences.",
+      "Choose between two options and compare what you and your partner would pick.",
 
-    meta:
-      "Fast · Easy · One device",
+    badge:
+      "Quick Game",
+
+    cta:
+      "Play Now",
   },
+];
 
-  {
-    href:
-      "/couple-questions",
 
-    icon: "💬",
-
-    badge: "Conversation",
-
-    title:
-      "Couple Questions",
-
-    description:
-      "Fun and thoughtful conversation starters for date nights, long distance calls, and quiet evenings together.",
-
-    meta:
-      "Questions · Conversation",
-  },
-
+const coupleQuizzes = [
   {
     href:
       "/couple-quiz",
 
-    icon: "🧠",
-
-    badge: "Quiz",
+    icon:
+      "🧠",
 
     title:
-      "Couple Quiz",
+      "How Well Do You Know Your Partner?",
 
     description:
-      "Test how well you know each other with simple couple quiz questions and compare your answers.",
+      "Predict your partner’s answers and see how well you really know each other.",
 
-    meta:
-      "Quiz · Just for fun",
+    badge:
+      "20 Questions",
+
+    cta:
+      "Take the Quiz",
   },
 
   {
     href:
       "/couple-compatibility-test",
 
-    icon: "💕",
-
-    badge: "Just for Fun",
+    icon:
+      "✨",
 
     title:
       "Couple Compatibility Test",
 
     description:
-      "Compare your preferences and see where you match. Designed for entertainment rather than relationship diagnosis.",
+      "Compare your answers and discover how closely your preferences and personalities match.",
 
-    meta:
-      "Compatibility · Entertainment",
-  },
+    badge:
+      "Compatibility",
 
-  {
-    href:
-      "/date-night-games",
-
-    icon: "🌙",
-
-    badge: "Date Idea",
-
-    title:
-      "Date Night Games",
-
-    description:
-      "Simple games and questions that make an at-home or virtual date night more interactive.",
-
-    meta:
-      "Date night · Couples",
+    cta:
+      "Take the Test",
   },
 ];
 
+
+const quickChoices = [
+  {
+    time:
+      "5 minutes",
+
+    icon:
+      "⚡",
+
+    title:
+      "Quick & Easy",
+
+    description:
+      "Perfect when you want something fun without starting a long game.",
+
+    links: [
+      {
+        label:
+          "Would You Rather",
+
+        href:
+          "/would-you-rather-questions-for-couples",
+      },
+
+      {
+        label:
+          "This or That",
+
+        href:
+          "/this-or-that-for-couples",
+      },
+    ],
+  },
+
+  {
+    time:
+      "10–15 minutes",
+
+    icon:
+      "🎮",
+
+    title:
+      "Play Together",
+
+    description:
+      "Choose something interactive when you have a little more time together.",
+
+    links: [
+      {
+        label:
+          "Partner Quiz",
+
+        href:
+          "/couple-quiz",
+      },
+
+      {
+        label:
+          "Compatibility Test",
+
+        href:
+          "/couple-compatibility-test",
+      },
+    ],
+  },
+
+  {
+    time:
+      "Just want to talk?",
+
+    icon:
+      "💬",
+
+    title:
+      "Start a Conversation",
+
+    description:
+      "Skip the competition and use a question to start a better conversation.",
+
+    links: [
+      {
+        label:
+          "Couple Questions",
+
+        href:
+          "/couple-questions",
+      },
+
+      {
+        label:
+          "Long Distance Questions",
+
+        href:
+          "/questions-for-long-distance-couples",
+      },
+    ],
+  },
+];
+
+
+const faqItems = [
+  {
+    question:
+      "What are good online games for couples?",
+
+    answer:
+      "Good online games for couples are easy to start, work well on separate devices, and give both partners something to react to together. TwoLumi includes Would You Rather, This or That, partner quizzes, compatibility tests, and conversation games.",
+  },
+
+  {
+    question:
+      "Can long-distance couples play TwoLumi together?",
+
+    answer:
+      "Yes. Long-distance couples can use TwoLumi on separate phones or laptops. Multiplayer rooms use a private six-character room code, so both partners can join the same game without creating an account.",
+  },
+
+  {
+    question:
+      "Do we need to download anything?",
+
+    answer:
+      "No. TwoLumi games run directly in your web browser. There is no app download or account required to start playing.",
+  },
+
+  {
+    question:
+      "Are TwoLumi couple games free?",
+
+    answer:
+      "Yes. The couple games, quizzes, and question collections currently available on TwoLumi are free to use.",
+  },
+];
+
+
+/* =========================================================
+   Structured Data
+========================================================= */
+
+const webPageSchema = {
+  "@context":
+    "https://schema.org",
+
+  "@type":
+    "WebPage",
+
+  name:
+    "Free Online Games for Couples",
+
+  url:
+    "https://twolumi.com/games",
+
+  description:
+    "Free online games for couples to play together on separate phones or laptops.",
+
+  isPartOf: {
+    "@type":
+      "WebSite",
+
+    name:
+      "TwoLumi",
+
+    url:
+      "https://twolumi.com",
+  },
+};
+
+
+const itemListSchema = {
+  "@context":
+    "https://schema.org",
+
+  "@type":
+    "ItemList",
+
+  name:
+    "Online Games for Couples",
+
+  itemListElement: [
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        1,
+
+      name:
+        "Would You Rather for Couples",
+
+      url:
+        "https://twolumi.com/would-you-rather-questions-for-couples",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        2,
+
+      name:
+        "This or That for Couples",
+
+      url:
+        "https://twolumi.com/this-or-that-for-couples",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        3,
+
+      name:
+        "Questions to Ask Your Partner",
+
+      url:
+        "https://twolumi.com/couple-questions",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        4,
+
+      name:
+        "How Well Do You Know Your Partner?",
+
+      url:
+        "https://twolumi.com/couple-quiz",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        5,
+
+      name:
+        "Couple Compatibility Test",
+
+      url:
+        "https://twolumi.com/couple-compatibility-test",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        6,
+
+      name:
+        "Long Distance Couple Games",
+
+      url:
+        "https://twolumi.com/long-distance-couple-games",
+    },
+  ],
+};
+
+
+const faqSchema = {
+  "@context":
+    "https://schema.org",
+
+  "@type":
+    "FAQPage",
+
+  mainEntity:
+    faqItems.map(
+      (item) => ({
+        "@type":
+          "Question",
+
+        name:
+          item.question,
+
+        acceptedAnswer: {
+          "@type":
+            "Answer",
+
+          text:
+            item.answer,
+        },
+      })
+    ),
+};
+
+
+/* =========================================================
+   Page
+========================================================= */
+
 export default function GamesPage() {
   return (
-    <main className="games-hub-page">
-      <div className="container">
+    <main className={styles.page}>
 
-        {/* ==============================
-            Hero
-        ============================== */}
+      {/* ===================================================
+          Structured Data
+      =================================================== */}
 
-        <section className="games-hub-hero">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html:
+            JSON.stringify(
+              webPageSchema
+            ),
+        }}
+      />
 
-          <div className="game-kicker">
-            Games Made for Two
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html:
+            JSON.stringify(
+              itemListSchema
+            ),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html:
+            JSON.stringify(
+              faqSchema
+            ),
+        }}
+      />
+
+
+      {/* ===================================================
+          Hero
+      =================================================== */}
+
+      <section
+        className={
+          styles.hero
+        }
+      >
+
+        <div
+          className={
+            styles.eyebrow
+          }
+        >
+          PLAY TOGETHER
+        </div>
+
+        <h1>
+          Free Online Games
+          for Couples
+        </h1>
+
+        <p
+          className={
+            styles.heroLead
+          }
+        >
+          Play fun online games
+          with your partner on
+          the same couch or miles
+          apart. Choose a quick
+          game, start a private
+          room, or find something
+          fun to do together —
+          no signup required.
+        </p>
+
+        <div
+          className={
+            styles.heroActions
+          }
+        >
+
+          <Link
+            href="/would-you-rather-questions-for-couples"
+            className={
+              styles.primaryButton
+            }
+          >
+            Start Playing
+          </Link>
+
+          <a
+            href="#couple-games"
+            className={
+              styles.secondaryButton
+            }
+          >
+            Browse Games
+          </a>
+
+        </div>
+
+        <div
+          className={
+            styles.heroTrust
+          }
+        >
+
+          <span>
+            ✓ Free to play
+          </span>
+
+          <span>
+            ✓ No signup
+          </span>
+
+          <span>
+            ✓ Works on phones
+          </span>
+
+          <span>
+            ✓ Long-distance friendly
+          </span>
+
+        </div>
+
+      </section>
+
+
+      {/* ===================================================
+          Time Picker
+      =================================================== */}
+
+      <section
+        className={
+          styles.section
+        }
+      >
+
+        <div
+          className={
+            styles.sectionHeading
+          }
+        >
+
+          <div
+            className={
+              styles.kicker
+            }
+          >
+            PICK YOUR VIBE
           </div>
 
-          <h1>
-            Online Couple Games
-            You Can Play Together
-          </h1>
+          <h2>
+            How Much Time Do You Have?
+          </h2>
 
           <p>
-            Play free games, questions,
-            and quizzes made for couples.
-            Use one device together or
-            create a private TwoLumi room
-            when you are playing from
-            different places.
+            Sometimes you want a
+            full game. Sometimes
+            you just have ten
+            minutes before bed.
+            Pick what fits tonight.
           </p>
 
-          <div className="games-hub-actions">
+        </div>
 
-            <Link
-              href="/would-you-rather-questions-for-couples"
-              className="btn-primary"
-            >
-              Play Would You Rather →
-            </Link>
 
-            <Link
-              href="/long-distance-couple-games"
-              className="btn-secondary"
-            >
-              Long Distance Games
-            </Link>
+        <div
+          className={
+            styles.timeGrid
+          }
+        >
 
-          </div>
+          {quickChoices.map(
+            (item) => (
 
-        </section>
+              <article
+                key={
+                  item.time
+                }
+                className={
+                  styles.timeCard
+                }
+              >
 
-        {/* ==============================
-            Primary Cluster
-        ============================== */}
+                <div
+                  className={
+                    styles.timeIcon
+                  }
+                >
+                  {item.icon}
+                </div>
 
-        <section className="games-hub-section">
+                <div
+                  className={
+                    styles.timeLabel
+                  }
+                >
+                  {item.time}
+                </div>
 
-          <div className="games-hub-heading">
+                <h3>
+                  {item.title}
+                </h3>
 
-            <div className="game-kicker">
-              Start Playing
-            </div>
+                <p>
+                  {
+                    item.description
+                  }
+                </p>
 
-            <h2>
-              Popular Couple Games
-            </h2>
-
-            <p>
-              Start with our most popular
-              games or choose something
-              based on how you want to
-              spend time together.
-            </p>
-
-          </div>
-
-          <div className="games-hub-grid">
-
-            {games.map(
-              (game) => (
-                <article
-                  key={game.href}
-                  className={`games-hub-card ${
-                    game.featured
-                      ? "games-hub-card-featured"
-                      : ""
-                  }`}
+                <div
+                  className={
+                    styles.timeLinks
+                  }
                 >
 
-                  <div className="games-hub-card-top">
+                  {item.links.map(
+                    (link) => (
 
-                    <div className="games-hub-icon">
-                      {game.icon}
-                    </div>
+                      <Link
+                        key={
+                          link.href
+                        }
+                        href={
+                          link.href
+                        }
+                      >
+                        {link.label}
+                        {" "}
+                        →
+                      </Link>
 
-                    <span className="games-hub-badge">
-                      {game.badge}
-                    </span>
+                    )
+                  )}
 
-                  </div>
+                </div>
 
-                  <h2>
-                    <Link href={game.href}>
-                      {game.title}
-                    </Link>
-                  </h2>
+              </article>
 
-                  <p>
-                    {game.description}
-                  </p>
+            )
+          )}
 
-                  <div className="games-hub-meta">
-                    {game.meta}
-                  </div>
+        </div>
 
-                  <Link
-                    href={game.href}
-                    className="games-hub-link"
-                  >
-                    Play {game.title} →
-                  </Link>
+      </section>
 
-                </article>
+
+      {/* ===================================================
+          Games
+      =================================================== */}
+
+      <section
+        id="couple-games"
+        className={
+          styles.section
+        }
+      >
+
+        <div
+          className={
+            styles.sectionHeading
+          }
+        >
+
+          <div
+            className={
+              styles.kicker
+            }
+          >
+            PLAY NOW
+          </div>
+
+          <h2>
+            Play Online Couple Games
+          </h2>
+
+          <p>
+            Choose a game based
+            on how you want to
+            spend time together:
+            play, talk, compare,
+            or test how well you
+            know each other.
+          </p>
+
+        </div>
+
+
+        {/* ===============================================
+            Multiplayer
+        =============================================== */}
+
+        <div
+          className={
+            styles.category
+          }
+        >
+
+          <div
+            className={
+              styles.categoryHeading
+            }
+          >
+
+            <div>
+
+              <div
+                className={
+                  styles.categoryIcon
+                }
+              >
+                🎮
+              </div>
+
+              <div>
+
+                <h2>
+                  Multiplayer Games
+                  for Couples
+                </h2>
+
+                <p>
+                  Play together on
+                  separate phones or
+                  laptops. Create a
+                  private room, share
+                  the six-character
+                  code, and start
+                  playing instantly.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div
+            className={
+              styles.gameGrid
+            }
+          >
+
+            {multiplayerGames.map(
+              (game) => (
+
+                <GameCard
+                  key={
+                    game.href
+                  }
+                  game={
+                    game
+                  }
+                  featured
+                />
+
               )
             )}
 
           </div>
 
-        </section>
-
-        {/* ==============================
-            Ad Slot
-        ============================== */}
-
-        <div
-          className="ad-slot"
-          aria-label="Advertisement"
-        >
-          Sponsored · Games hub content slot
         </div>
 
-        {/* ==============================
-            Play Together Feature
-        ============================== */}
 
-        <section className="games-together-section">
+        {/* ===============================================
+            Questions
+        =============================================== */}
 
-          <div>
+        <div
+          className={
+            styles.category
+          }
+        >
 
-            <div className="game-kicker">
-              Two Devices
-            </div>
+          <div
+            className={
+              styles.categoryHeading
+            }
+          >
 
-            <h2>
-              Playing Long Distance?
-              Play the Same Game Together.
-            </h2>
+            <div>
 
-            <p>
-              TwoLumi private rooms let two
-              people play from separate
-              devices. One person creates a
-              room, shares the six-character
-              code, and both partners receive
-              the same questions.
-            </p>
-
-            <p>
-              In supported multiplayer games,
-              your choices stay hidden until
-              both people answer.
-            </p>
-
-            <div className="hero-actions">
-
-              <Link
-                href="/would-you-rather-questions-for-couples"
-                className="btn-primary"
+              <div
+                className={
+                  styles.categoryIcon
+                }
               >
-                Play Would You Rather →
-              </Link>
+                💬
+              </div>
 
-              <Link
-                href="/long-distance-couple-games"
-                className="btn-secondary"
+              <div>
+
+                <h2>
+                  Question Games
+                  for Couples
+                </h2>
+
+                <p>
+                  Use quick choices
+                  or meaningful
+                  questions when the
+                  best part of the
+                  game is where the
+                  conversation goes.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div
+            className={
+              styles.gameGrid
+            }
+          >
+
+            {questionGames.map(
+              (game) => (
+
+                <GameCard
+                  key={
+                    game.href
+                  }
+                  game={
+                    game
+                  }
+                />
+
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        {/* ===============================================
+            Quizzes
+        =============================================== */}
+
+        <div
+          className={
+            styles.category
+          }
+        >
+
+          <div
+            className={
+              styles.categoryHeading
+            }
+          >
+
+            <div>
+
+              <div
+                className={
+                  styles.categoryIcon
+                }
               >
-                Explore Long Distance Games
-              </Link>
+                🧠
+              </div>
+
+              <div>
+
+                <h2>
+                  Couple Quizzes
+                </h2>
+
+                <p>
+                  Test how well you
+                  know your partner
+                  or compare your
+                  answers and see
+                  where you match.
+                </p>
+
+              </div>
 
             </div>
 
           </div>
 
-          <div className="games-together-flow">
 
-            <div>
-              <span>1</span>
+          <div
+            className={
+              styles.gameGrid
+            }
+          >
 
-              <strong>
-                Create a Room
-              </strong>
-            </div>
+            {coupleQuizzes.map(
+              (game) => (
 
-            <div>
-              <span>2</span>
+                <GameCard
+                  key={
+                    game.href
+                  }
+                  game={
+                    game
+                  }
+                />
 
-              <strong>
-                Share the Code
-              </strong>
-            </div>
-
-            <div>
-              <span>3</span>
-
-              <strong>
-                Answer Together
-              </strong>
-            </div>
-
-            <div>
-              <span>4</span>
-
-              <strong>
-                Reveal Together
-              </strong>
-            </div>
+              )
+            )}
 
           </div>
 
-        </section>
+        </div>
 
-        {/* ==============================
-            Browse by situation
-        ============================== */}
+      </section>
 
-        <section className="games-hub-section">
 
-          <div className="games-hub-heading">
+      {/* ===================================================
+          Long Distance
+      =================================================== */}
 
-            <div className="game-kicker">
-              Find Your Game
-            </div>
+      <section
+        className={
+          styles.longDistance
+        }
+      >
 
-            <h2>
-              Couple Games for Different Moments
-            </h2>
+        <div
+          className={
+            styles.longDistanceContent
+          }
+        >
 
-          </div>
-
-          <div className="games-situation-grid">
-
-            <Link
-              href="/long-distance-couple-games"
-              className="games-situation-card"
-            >
-              <span>📱</span>
-
-              <div>
-                <h3>
-                  Long Distance
-                </h3>
-
-                <p>
-                  Games for two phones
-                  or computers.
-                </p>
-              </div>
-            </Link>
-
-            <Link
-              href="/date-night-games"
-              className="games-situation-card"
-            >
-              <span>🌙</span>
-
-              <div>
-                <h3>
-                  Date Night
-                </h3>
-
-                <p>
-                  Easy games for a
-                  relaxed evening.
-                </p>
-              </div>
-            </Link>
-
-            <Link
-              href="/couple-questions"
-              className="games-situation-card"
-            >
-              <span>💬</span>
-
-              <div>
-                <h3>
-                  Better Conversations
-                </h3>
-
-                <p>
-                  Questions that create
-                  something to talk about.
-                </p>
-              </div>
-            </Link>
-
-            <Link
-              href="/couple-quiz"
-              className="games-situation-card"
-            >
-              <span>🧠</span>
-
-              <div>
-                <h3>
-                  Test Each Other
-                </h3>
-
-                <p>
-                  Quick quizzes and
-                  playful challenges.
-                </p>
-              </div>
-            </Link>
-
-          </div>
-
-        </section>
-
-        {/* ==============================
-            SEO text
-        ============================== */}
-
-        <section className="games-hub-copy">
-
-          <div className="game-kicker">
-            Free Online Couple Games
+          <div
+            className={
+              styles.kicker
+            }
+          >
+            MILES APART?
           </div>
 
           <h2>
-            What Can Couples Play Online?
+            Online Games for
+            Long Distance Couples
           </h2>
 
           <p>
-            Online couple games can be as
-            simple as choosing between two
-            options or asking each other
-            interesting questions. Games
-            like Would You Rather and This
-            or That work especially well
-            because there are no complicated
-            rules and you can start playing
-            immediately.
+            Being in different
+            places does not mean
+            every date has to be
+            another movie call.
+            Play browser-based
+            couple games on
+            separate phones or
+            laptops, use a private
+            room, and keep talking
+            while you play.
           </p>
+
+          <div
+            className={
+              styles.longDistanceActions
+            }
+          >
+
+            <Link
+              href="/long-distance-couple-games"
+              className={
+                styles.primaryButton
+              }
+            >
+              Explore Long Distance Games
+            </Link>
+
+            <Link
+              href="/questions-for-long-distance-couples"
+              className={
+                styles.textLink
+              }
+            >
+              100 Long Distance Questions
+              {" "}
+              →
+            </Link>
+
+          </div>
+
+        </div>
+
+
+        <div
+          className={
+            styles.longDistanceVisual
+          }
+          aria-hidden="true"
+        >
+          <span>
+            📱
+          </span>
+
+          <div
+            className={
+              styles.connectionLine
+            }
+          >
+            · · · ♥ · · ·
+          </div>
+
+          <span>
+            💻
+          </span>
+        </div>
+
+      </section>
+
+
+      {/* ===================================================
+          SEO Support
+      =================================================== */}
+
+      <section
+        className={
+          styles.seoSection
+        }
+      >
+
+        <div
+          className={
+            styles.sectionHeading
+          }
+        >
+
+          <div
+            className={
+              styles.kicker
+            }
+          >
+            EASY TO START
+          </div>
+
+          <h2>
+            Couple Games You Can
+            Play Right in Your Browser
+          </h2>
+
+        </div>
+
+
+        <div
+          className={
+            styles.seoGrid
+          }
+        >
+
+          <div
+            className={
+              styles.seoCard
+            }
+          >
+
+            <h3>
+              No download required
+            </h3>
+
+            <p>
+              TwoLumi games run
+              directly in your
+              browser. Open a game
+              on your phone, tablet,
+              or laptop and start
+              playing without
+              installing an app.
+            </p>
+
+          </div>
+
+
+          <div
+            className={
+              styles.seoCard
+            }
+          >
+
+            <h3>
+              Play on separate devices
+            </h3>
+
+            <p>
+              Multiplayer rooms let
+              couples use separate
+              devices while staying
+              in the same game. This
+              works especially well
+              for long-distance
+              couples.
+            </p>
+
+          </div>
+
+
+          <div
+            className={
+              styles.seoCard
+            }
+          >
+
+            <h3>
+              Pick the right kind of game
+            </h3>
+
+            <p>
+              Choose something fast
+              when you only have a
+              few minutes, use a quiz
+              when you want something
+              competitive, or pick
+              couple questions when
+              you just want to talk.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* ===================================================
+          FAQ
+      =================================================== */}
+
+      <section
+        className={
+          styles.faqSection
+        }
+      >
+
+        <div
+          className={
+            styles.sectionHeading
+          }
+        >
+
+          <div
+            className={
+              styles.kicker
+            }
+          >
+            FAQ
+          </div>
+
+          <h2>
+            Online Couple Games FAQ
+          </h2>
+
+        </div>
+
+
+        <div
+          className={
+            styles.faqList
+          }
+        >
+
+          {faqItems.map(
+            (item) => (
+
+              <details
+                key={
+                  item.question
+                }
+                className={
+                  styles.faqItem
+                }
+              >
+
+                <summary>
+                  {
+                    item.question
+                  }
+                </summary>
+
+                <p>
+                  {
+                    item.answer
+                  }
+                </p>
+
+              </details>
+
+            )
+          )}
+
+        </div>
+
+      </section>
+
+
+      {/* ===================================================
+          Final CTA
+      =================================================== */}
+
+      <section
+        className={
+          styles.finalCta
+        }
+      >
+
+        <div>
+          <div
+            className={
+              styles.kicker
+            }
+          >
+            READY?
+          </div>
+
+          <h2>
+            Pick a Game and
+            Play Together
+          </h2>
 
           <p>
-            Long distance couples can also
-            use games to make video calls
-            more interactive. Instead of
-            only talking about your day,
-            you can answer the same
-            questions, compare preferences,
-            take a couple quiz, or use the
-            answers as conversation starters.
+            No account, no download,
+            no complicated setup.
           </p>
+        </div>
 
-          <p>
-            TwoLumi is designed around that
-            idea: simple browser games made
-            for two people. No download is
-            required, and supported games
-            can be played through private
-            rooms on separate devices.
-          </p>
 
-        </section>
+        <Link
+          href="/would-you-rather-questions-for-couples"
+          className={
+            styles.primaryButton
+          }
+        >
+          Start With Would You Rather
+        </Link>
+
+      </section>
+
+    </main>
+  );
+}
+
+
+/* =========================================================
+   Game Card
+========================================================= */
+
+function GameCard({
+  game,
+  featured = false,
+}: {
+  game: {
+    href: string;
+    icon: string;
+    title: string;
+    description: string;
+    badge: string;
+    cta: string;
+  };
+
+  featured?: boolean;
+}) {
+  return (
+    <Link
+      href={
+        game.href
+      }
+      className={`${styles.gameCard} ${
+        featured
+          ? styles.featuredGame
+          : ""
+      }`}
+    >
+
+      <div
+        className={
+          styles.gameCardTop
+        }
+      >
+
+        <div
+          className={
+            styles.gameIcon
+          }
+        >
+          {game.icon}
+        </div>
+
+        <div
+          className={
+            styles.badge
+          }
+        >
+          {game.badge}
+        </div>
 
       </div>
-    </main>
+
+
+      <h3>
+        {game.title}
+      </h3>
+
+      <p>
+        {game.description}
+      </p>
+
+
+      <div
+        className={
+          styles.cardCta
+        }
+      >
+        {game.cta}
+        {" "}
+        →
+      </div>
+
+    </Link>
   );
 }

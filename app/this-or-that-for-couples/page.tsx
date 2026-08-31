@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import GamePageLayout from "@/components/GamePageLayout";
 import RandomThisOrThatGame from "@/components/RandomThisOrThatGame";
+import BackToGames from "@/components/BackToGames";
 
 import {
   thisOrThatQuestions,
@@ -42,6 +43,8 @@ export const metadata: Metadata = {
       "website",
   },
 };
+
+
 
 /* ==============================
    FAQ
@@ -755,6 +758,8 @@ export default function Page() {
         </div>
 
       </section>
+
+      <BackToGames />
 
       {/* ==============================
           FAQ
