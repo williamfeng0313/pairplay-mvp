@@ -4,10 +4,12 @@ import "./globals.css";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MicrosoftClarity from "@/components/MicrosoftClarity";
 
 import {
   GoogleAnalytics,
 } from "@next/third-parties/google";
+
 
 /* =========================================================
    Metadata
@@ -42,6 +44,7 @@ export const metadata: Metadata = {
   },
 };
 
+
 /* =========================================================
    Root Layout
 ========================================================= */
@@ -51,30 +54,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   /* =======================================================
-     Google Analytics
-
-     Only load GA4 on the real Vercel Production environment.
-
-     localhost:
-     VERCEL_ENV is undefined
-     → GA4 disabled
-
-     Vercel Preview:
-     VERCEL_ENV = "preview"
-     → GA4 disabled
-
-     Vercel Production:
-     VERCEL_ENV = "production"
-     → GA4 enabled
+     Analytics Environment Variables
   ======================================================= */
 
   const gaId =
     process.env.NEXT_PUBLIC_GA_ID;
 
+  const clarityId =
+    process.env.NEXT_PUBLIC_CLARITY_ID;
+
   const isProduction =
     process.env.VERCEL_ENV ===
     "production";
+
 
   return (
     <html lang="en">
@@ -87,13 +81,46 @@ export default function RootLayout({
 
         <Footer />
 
+
         {/* ===============================================
             Production-only Google Analytics
+
+            localhost:
+            VERCEL_ENV undefined
+            → GA4 disabled
+
+            Vercel Preview:
+            VERCEL_ENV = "preview"
+            → GA4 disabled
+
+            Vercel Production:
+            VERCEL_ENV = "production"
+            → GA4 enabled
         =============================================== */}
 
         {isProduction && gaId ? (
           <GoogleAnalytics
             gaId={gaId}
+          />
+        ) : null}
+
+
+        {/* ===============================================
+            Production-only Microsoft Clarity
+
+            localhost:
+            → Clarity disabled
+
+            Vercel Preview:
+            → Clarity disabled
+
+            Vercel Production:
+            → Clarity enabled
+        =============================================== */}
+
+        {isProduction && clarityId ? (
+          <MicrosoftClarity
+            projectId={clarityId}
           />
         ) : null}
 
