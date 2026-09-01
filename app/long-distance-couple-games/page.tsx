@@ -3,16 +3,17 @@ import Link from "next/link";
 
 import PlayTogetherCTA from "@/components/PlayTogetherCTA";
 
+
 /* =========================================================
    SEO Metadata
 ========================================================= */
 
 export const metadata: Metadata = {
   title:
-    "Long Distance Couple Games Online | Play Together",
+    "Long Distance Couple Games — Free Online Games to Play Together",
 
   description:
-    "Play free online games for long distance couples. Create a private room, share a code with your partner, answer the same questions, and reveal your choices together.",
+    "Play free online games for long distance couples on separate phones or laptops. Create a private room, share a code, play together, and chat — no signup required.",
 
   alternates: {
     canonical:
@@ -21,18 +22,209 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Long Distance Couple Games Online | TwoLumi",
+      "Long Distance Couple Games — Free Online Games to Play Together | TwoLumi",
 
     description:
-      "Free games for long distance couples. Create a private TwoLumi room and play together from different devices.",
+      "Free online games for long distance couples to play together on separate phones or laptops. Create a private room, play together, and chat — no signup required.",
 
     url:
       "https://twolumi.com/long-distance-couple-games",
 
+    siteName:
+      "TwoLumi",
+
     type:
       "website",
   },
+
+  twitter: {
+    card:
+      "summary",
+
+    title:
+      "Long Distance Couple Games — Free Online Games to Play Together | TwoLumi",
+
+    description:
+      "Play free online games for long distance couples on separate phones or laptops — no signup required.",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
+
+
+/* =========================================================
+   Game Data
+========================================================= */
+
+const quickGames = [
+  {
+    href:
+      "/this-or-that-for-couples",
+
+    icon:
+      "↔️",
+
+    badge:
+      "Quick Game",
+
+    title:
+      "This or That for Couples",
+
+    description:
+      "Make fast choices, compare your preferences, and turn simple answers into fun conversations.",
+  },
+
+  {
+    href:
+      "/couple-quiz",
+
+    icon:
+      "🧠",
+
+    badge:
+      "Partner Quiz",
+
+    title:
+      "How Well Do You Know Your Partner?",
+
+    description:
+      "Predict your partner’s answers to 20 questions and see how many you get right.",
+  },
+
+  {
+    href:
+      "/couple-compatibility-test",
+
+    icon:
+      "💞",
+
+    badge:
+      "Just for Fun",
+
+    title:
+      "Couple Compatibility Test",
+
+    description:
+      "Compare your preferences and see where you match. Designed for entertainment, not serious relationship assessment.",
+  },
+];
+
+
+const conversationGames = [
+  {
+    href:
+      "/questions-for-long-distance-couples",
+
+    icon:
+      "📱",
+
+    title:
+      "100 Questions for Long Distance Couples",
+
+    description:
+      "Pick a question for video calls, daily check-ins, deeper conversations, funny moments, and future plans.",
+
+    cta:
+      "Explore Long Distance Questions",
+  },
+
+  {
+    href:
+      "/couple-questions",
+
+    icon:
+      "💬",
+
+    title:
+      "Questions to Ask Your Partner",
+
+    description:
+      "Use fun, meaningful, and deeper questions when you want something slower than a game.",
+
+    cta:
+      "Browse Couple Questions",
+  },
+];
+
+
+const moodChoices = [
+  {
+    href:
+      "/would-you-rather-questions-for-couples",
+
+    icon:
+      "🎮",
+
+    title:
+      "Want to play?",
+
+    description:
+      "Start a private Would You Rather room and compare your answers together.",
+
+    cta:
+      "Play Together",
+  },
+
+  {
+    href:
+      "/questions-for-long-distance-couples",
+
+    icon:
+      "💬",
+
+    title:
+      "Want to talk?",
+
+    description:
+      "Pick one question when the call goes quiet and let the conversation go somewhere new.",
+
+    cta:
+      "Pick a Question",
+  },
+
+  {
+    href:
+      "/couple-quiz",
+
+    icon:
+      "🧠",
+
+    title:
+      "Want to test each other?",
+
+    description:
+      "Predict your partner’s answers and see how well you know the little things about each other.",
+
+    cta:
+      "Take the Quiz",
+  },
+
+  {
+    href:
+      "/date-night-games",
+
+    icon:
+      "🌙",
+
+    title:
+      "Want a date-night idea?",
+
+    description:
+      "Choose something light and interactive when you want the call to feel more like an actual date.",
+
+    cta:
+      "Explore Date Night Games",
+  },
+];
+
 
 /* =========================================================
    FAQ
@@ -44,7 +236,15 @@ const faqItems = [
       "What games can long distance couples play online?",
 
     answer:
-      "Long distance couples can play question games, Would You Rather, This or That, couple quizzes, compatibility games, and conversation games. TwoLumi also lets couples create a private room and answer the same questions from separate devices.",
+      "Long distance couples can play Would You Rather, This or That, couple quizzes, compatibility games, and conversation games. TwoLumi also supports a private multiplayer room so both partners can play from separate devices.",
+  },
+
+  {
+    question:
+      "Can we play on separate phones or computers?",
+
+    answer:
+      "Yes. TwoLumi multiplayer rooms are designed for two people using separate phones, tablets, laptops, or desktop computers. Both partners see the same game while using their own device.",
   },
 
   {
@@ -57,10 +257,10 @@ const faqItems = [
 
   {
     question:
-      "Can we play on different phones or computers?",
+      "Can we chat while we play?",
 
     answer:
-      "Yes. TwoLumi private rooms are designed for two people using separate devices. Both partners receive the same questions and the answers are revealed after both people choose.",
+      "Yes. TwoLumi multiplayer rooms include live chat so you can keep talking while you play. Chat messages are temporary and are not kept as a permanent chat history.",
   },
 
   {
@@ -68,60 +268,187 @@ const faqItems = [
       "Are TwoLumi long distance couple games free?",
 
     answer:
-      "Yes. The current TwoLumi couple games and private room experience are free to play in the browser.",
-  },
-
-  {
-    question:
-      "Do we need to install an app?",
-
-    answer:
-      "No. TwoLumi works directly in a web browser, so you can play from a phone, tablet, laptop, or desktop without installing an app.",
+      "Yes. The current TwoLumi couple games, quizzes, question collections, and private room experience are free to use in the browser.",
   },
 ];
+
+
+/* =========================================================
+   Structured Data
+========================================================= */
+
+const webPageSchema = {
+  "@context":
+    "https://schema.org",
+
+  "@type":
+    "WebPage",
+
+  name:
+    "Free Online Games for Long Distance Couples",
+
+  url:
+    "https://twolumi.com/long-distance-couple-games",
+
+  description:
+    "Free online games for long distance couples to play together on separate phones or laptops.",
+
+  isPartOf: {
+    "@type":
+      "WebSite",
+
+    name:
+      "TwoLumi",
+
+    url:
+      "https://twolumi.com",
+  },
+};
+
+
+const itemListSchema = {
+  "@context":
+    "https://schema.org",
+
+  "@type":
+    "ItemList",
+
+  name:
+    "Online Games for Long Distance Couples",
+
+  itemListElement: [
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        1,
+
+      name:
+        "Would You Rather for Couples",
+
+      url:
+        "https://twolumi.com/would-you-rather-questions-for-couples",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        2,
+
+      name:
+        "This or That for Couples",
+
+      url:
+        "https://twolumi.com/this-or-that-for-couples",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        3,
+
+      name:
+        "How Well Do You Know Your Partner?",
+
+      url:
+        "https://twolumi.com/couple-quiz",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        4,
+
+      name:
+        "Couple Compatibility Test",
+
+      url:
+        "https://twolumi.com/couple-compatibility-test",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        5,
+
+      name:
+        "100 Questions for Long Distance Couples",
+
+      url:
+        "https://twolumi.com/questions-for-long-distance-couples",
+    },
+  ],
+};
+
+
+const faqSchema = {
+  "@context":
+    "https://schema.org",
+
+  "@type":
+    "FAQPage",
+
+  mainEntity:
+    faqItems.map(
+      (item) => ({
+        "@type":
+          "Question",
+
+        name:
+          item.question,
+
+        acceptedAnswer: {
+          "@type":
+            "Answer",
+
+          text:
+            item.answer,
+        },
+      })
+    ),
+};
+
 
 /* =========================================================
    Page
 ========================================================= */
 
 export default function LongDistanceCoupleGamesPage() {
-  /* =======================================================
-     FAQ Schema
-  ======================================================= */
-
-  const faqSchema = {
-    "@context":
-      "https://schema.org",
-
-    "@type":
-      "FAQPage",
-
-    mainEntity:
-      faqItems.map(
-        (item) => ({
-          "@type":
-            "Question",
-
-          name:
-            item.question,
-
-          acceptedAnswer: {
-            "@type":
-              "Answer",
-
-            text:
-              item.answer,
-          },
-        })
-      ),
-  };
-
   return (
-    <main className="ld-page">
+    <main className="ldg-page">
 
       {/* ===================================================
-          FAQ Structured Data
+          Structured Data
       =================================================== */}
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html:
+            JSON.stringify(
+              webPageSchema
+            ),
+        }}
+      />
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html:
+            JSON.stringify(
+              itemListSchema
+            ),
+        }}
+      />
 
       <script
         type="application/ld+json"
@@ -133,95 +460,90 @@ export default function LongDistanceCoupleGamesPage() {
         }}
       />
 
-      <div className="container">
+
+      <div className="ldg-container">
 
         {/* =================================================
             HERO
         ================================================= */}
 
-        <section className="ld-hero">
+        <section className="ldg-hero">
 
-          <div className="ld-hero-copy">
+          <div className="ldg-hero-copy">
 
-            <div className="game-kicker">
-              Long Distance Couples
+            <div className="ldg-kicker">
+              LONG DISTANCE, STILL TOGETHER
             </div>
 
             <h1>
-              Long Distance Couple Games
-              You Can Actually Play Together
+              Free Online Games for
+              Long Distance Couples
             </h1>
 
-            <p className="ld-lead">
-              Looking for online games
-              for long distance couples?
-              TwoLumi lets you play
-              together from different
-              devices without
-              downloading an app or
-              creating an account.
+            <p className="ldg-hero-lead">
+              Play together from separate
+              phones or laptops. Create a
+              private room, share the
+              six-character code, and keep
+              talking while you play —
+              no signup required.
             </p>
 
-            <p className="ld-sublead">
-              Create a private room,
-              send the code to your
-              partner, answer the same
-              questions, and reveal
-              your choices together.
-            </p>
 
-            <div className="ld-hero-points">
+            <div className="ldg-trust-row">
 
               <span>
-                ✓ Two separate devices
+                ✓ Separate devices
+              </span>
+
+              <span>
+                ✓ Private room
+              </span>
+
+              <span>
+                ✓ Live chat
               </span>
 
               <span>
                 ✓ No signup
               </span>
 
-              <span>
-                ✓ Private room code
-              </span>
-
-              <span>
-                ✓ Instant answer reveal
-              </span>
-
             </div>
 
-            <div className="hero-actions">
+
+            <div className="ldg-actions">
 
               <a
-                href="#play-together"
-                className="btn-primary"
+                href="#create-room"
+                className="ldg-btn-primary"
               >
-                Play Together →
+                Play Together
               </a>
 
               <a
-                href="#games"
-                className="btn-secondary"
+                href="#long-distance-games"
+                className="ldg-btn-secondary"
               >
-                See Couple Games
+                Browse Games
               </a>
 
             </div>
 
           </div>
 
+
           {/* ===============================================
-              Product Preview
+              3 STEP EXPLANATION CARD
           =============================================== */}
 
-          <div className="ld-room-preview">
+          <div className="ldg-hero-card">
 
-            <div className="ld-preview-icon">
+            <div className="ldg-hero-card-icon">
               ♥
             </div>
 
-            <div className="game-kicker">
-              Made for Two
+            <div className="ldg-kicker">
+              3 SIMPLE STEPS
             </div>
 
             <h2>
@@ -230,119 +552,129 @@ export default function LongDistanceCoupleGamesPage() {
               Two Devices.
             </h2>
 
-            <div className="ld-preview-flow">
+            <p className="ldg-card-intro">
+              Start together in less than a minute.
+            </p>
 
-              <div>
+
+            <div className="ldg-mini-flow">
+
+              <div className="ldg-flow-step">
+
                 <span>
                   1
                 </span>
 
-                Create a room
+                <div>
+
+                  <strong>
+                    Create a private room
+                  </strong>
+
+                  <small>
+                    One person starts the game.
+                  </small>
+
+                </div>
+
               </div>
 
-              <div>
+
+              <div className="ldg-flow-arrow">
+                ↓
+              </div>
+
+
+              <div className="ldg-flow-step">
+
                 <span>
                   2
                 </span>
 
-                Share the code
+                <div>
+
+                  <strong>
+                    Share the code
+                  </strong>
+
+                  <small>
+                    Send the 6-character code
+                    to your partner.
+                  </small>
+
+                </div>
+
               </div>
 
-              <div>
+
+              <div className="ldg-flow-arrow">
+                ↓
+              </div>
+
+
+              <div className="ldg-flow-step">
+
                 <span>
                   3
                 </span>
 
-                Answer together
+                <div>
+
+                  <strong>
+                    Play &amp; chat
+                  </strong>
+
+                  <small>
+                    Join from separate devices
+                    and play together.
+                  </small>
+
+                </div>
+
               </div>
 
-              <div>
-                <span>
-                  4
-                </span>
-
-                Reveal your choices
-              </div>
-
             </div>
 
-            <div className="micro-copy">
-              Works in your browser · No app required
-            </div>
 
-          </div>
-
-        </section>
-
-        {/* =================================================
-            PLAY TOGETHER CTA
-        ================================================= */}
-
-        <section
-          id="play-together"
-          className="ld-section"
-        >
-
-          <div className="ld-section-heading">
-
-            <div className="game-kicker">
-              Start Here
-            </div>
-
-            <h2>
-              Play a Long Distance Couple Game Now
-            </h2>
-
-            <p>
-              Would You Rather is
-              currently available as a
-              synchronized TwoLumi
-              multiplayer game. Both of
-              you see the same random
-              questions, but neither
-              person can see the
-              other&apos;s choice until
-              both have answered.
+            <p className="ldg-micro">
+              Browser-based · No app · No signup
             </p>
 
           </div>
 
-          <PlayTogetherCTA
-            source="long_distance_couple_games_page"
-          />
-
         </section>
+
 
         {/* =================================================
             HOW IT WORKS
         ================================================= */}
 
-        <section className="ld-section">
+        <section className="ldg-section">
 
-          <div className="ld-section-heading">
+          <div className="ldg-section-heading">
 
-            <div className="game-kicker">
-              How TwoLumi Works
+            <div className="ldg-kicker">
+              HOW IT WORKS
             </div>
 
             <h2>
-              A Simple Couple Game for Two Phones
+              Start a Couple Game in Three Steps
             </h2>
 
             <p>
-              You do not need to screen
-              share, install an app, or
-              manually count down your
-              answers.
+              No screen sharing, app install,
+              or account setup. Each partner
+              can use their own device.
             </p>
 
           </div>
 
-          <div className="ld-steps">
 
-            <article className="ld-step-card">
+          <div className="ldg-step-grid">
 
-              <div className="ld-step-number">
+            <article className="ldg-step-card">
+
+              <div className="ldg-step-number">
                 01
               </div>
 
@@ -351,71 +683,47 @@ export default function LongDistanceCoupleGamesPage() {
               </h3>
 
               <p>
-                One person creates a
-                TwoLumi room. A
-                temporary six-character
-                room code is generated
-                instantly.
+                Start a multiplayer game and
+                TwoLumi generates a temporary
+                six-character room code.
               </p>
 
             </article>
 
-            <article className="ld-step-card">
 
-              <div className="ld-step-number">
+            <article className="ldg-step-card">
+
+              <div className="ldg-step-number">
                 02
               </div>
 
               <h3>
-                Send the Code
+                Share the Code
               </h3>
 
               <p>
-                Share the room code
-                with your partner
-                through WhatsApp,
-                Messenger, iMessage,
-                Discord, or any chat
-                app.
+                Send the code to your partner.
+                They can join from another
+                phone, tablet, or computer.
               </p>
 
             </article>
 
-            <article className="ld-step-card">
 
-              <div className="ld-step-number">
+            <article className="ldg-step-card">
+
+              <div className="ldg-step-number">
                 03
               </div>
 
               <h3>
-                Answer the Same Question
+                Play &amp; Chat Together
               </h3>
 
               <p>
-                Both partners see the
-                same question on their
-                own device and choose
-                an answer independently.
-              </p>
-
-            </article>
-
-            <article className="ld-step-card">
-
-              <div className="ld-step-number">
-                04
-              </div>
-
-              <h3>
-                Reveal Together
-              </h3>
-
-              <p>
-                Your answers stay
-                hidden until both
-                people choose. Then
-                TwoLumi reveals whether
-                you matched.
+                Answer on your own devices,
+                reveal the results together,
+                and use live chat while you play.
               </p>
 
             </article>
@@ -424,49 +732,51 @@ export default function LongDistanceCoupleGamesPage() {
 
         </section>
 
+
         {/* =================================================
-            GAME LIST
+            MULTIPLAYER
         ================================================= */}
 
         <section
-          id="games"
-          className="ld-section"
+          id="play-together"
+          className="ldg-section"
         >
 
-          <div className="ld-section-heading">
+          <div className="ldg-section-heading">
 
-            <div className="game-kicker">
-              Games for Long Distance Couples
+            <div className="ldg-kicker">
+              PLAY TOGETHER NOW
             </div>
 
             <h2>
-              Fun Online Couple Games to Try
+              Multiplayer Games for
+              Long Distance Couples
             </h2>
 
             <p>
-              Some work best as a
-              synchronized TwoLumi
-              room, while others are
-              easy to play together
-              over a video call or
-              chat.
+              Would You Rather is currently
+              available as a synchronized
+              TwoLumi multiplayer game.
+              Your answers stay hidden until
+              both of you choose.
             </p>
 
           </div>
 
-          <div className="ld-game-grid">
 
-            {/* ===============================================
-                Game 1
-            =============================================== */}
+          <div className="ldg-featured-game">
 
-            <article className="ld-game-card ld-featured-game">
+            {/* =============================================
+                LEFT — GAME DESCRIPTION
+            ============================================= */}
 
-              <div className="ld-game-tag">
+            <div className="ldg-featured-copy">
+
+              <div className="ldg-game-label">
                 Multiplayer
               </div>
 
-              <div className="ld-game-icon">
+              <div className="ldg-game-icon">
                 ⚖️
               </div>
 
@@ -475,447 +785,532 @@ export default function LongDistanceCoupleGamesPage() {
               </h3>
 
               <p>
-                Choose between two
-                options and find out
-                whether your partner
-                picked the same one.
-                TwoLumi keeps both
-                answers hidden until
-                you are ready to
-                reveal.
+                Both partners get the same
+                question on separate devices.
+                Pick privately, reveal together,
+                and talk about the choices
+                that surprise you.
               </p>
 
-              <div className="ld-game-meta">
+
+              <div className="ldg-game-meta">
 
                 <span>
-                  12 questions per game
+                  12 rounds
                 </span>
 
                 <span>
                   Two devices
                 </span>
 
+                <span>
+                  Private room
+                </span>
+
+                <span>
+                  Live chat
+                </span>
+
               </div>
+
 
               <Link
                 href="/would-you-rather-questions-for-couples"
-                className="ld-text-link"
+                className="ldg-text-link"
               >
-                Play Would You Rather →
+                Learn About Would You Rather →
               </Link>
 
-            </article>
+            </div>
 
-            {/* ===============================================
-                Game 2
-            =============================================== */}
 
-            <article className="ld-game-card">
+            {/* =============================================
+                RIGHT — REAL CREATE ROOM ACTION
 
-              <div className="ld-game-tag">
-                Quick Game
-              </div>
+                IMPORTANT:
+                Hero "Play Together" jumps directly here.
+            ============================================= */}
 
-              <div className="ld-game-icon">
-                ↔️
-              </div>
+            <div
+              id="create-room"
+              className="ldg-featured-cta"
+            >
 
-              <h3>
-                This or That for Couples
-              </h3>
+              <PlayTogetherCTA
+                source="long_distance_couple_games_page"
+              />
 
-              <p>
-                Coffee or tea? Beach or
-                mountains? Movie night
-                or game night? Compare
-                quick choices and learn
-                your partner&apos;s
-                preferences.
-              </p>
-
-              <Link
-                href="/this-or-that-for-couples"
-                className="ld-text-link"
-              >
-                Play This or That →
-              </Link>
-
-            </article>
-
-            {/* ===============================================
-                Game 3
-            =============================================== */}
-
-            <article className="ld-game-card">
-
-              <div className="ld-game-tag">
-                Conversation
-              </div>
-
-              <div className="ld-game-icon">
-                💬
-              </div>
-
-              <h3>
-                Couple Questions
-              </h3>
-
-              <p>
-                Turn a normal video
-                call into a better
-                conversation with fun,
-                deep, and meaningful
-                questions for couples.
-              </p>
-
-              <Link
-                href="/couple-questions"
-                className="ld-text-link"
-              >
-                Try Couple Questions →
-              </Link>
-
-            </article>
-
-            {/* ===============================================
-                Game 4
-            =============================================== */}
-
-            <article className="ld-game-card">
-
-              <div className="ld-game-tag">
-                Quiz
-              </div>
-
-              <div className="ld-game-icon">
-                🧠
-              </div>
-
-              <h3>
-                How Well Do You Know Your Partner?
-              </h3>
-
-              <p>
-                Predict your
-                partner&apos;s answers
-                to 20 questions, then
-                compare your
-                predictions with their
-                real choices.
-              </p>
-
-              <Link
-                href="/couple-quiz"
-                className="ld-text-link"
-              >
-                Take the Couple Quiz →
-              </Link>
-
-            </article>
-
-            {/* ===============================================
-                Game 5
-            =============================================== */}
-
-            <article className="ld-game-card">
-
-              <div className="ld-game-tag">
-                Just for Fun
-              </div>
-
-              <div className="ld-game-icon">
-                💞
-              </div>
-
-              <h3>
-                Couple Compatibility Test
-              </h3>
-
-              <p>
-                Compare your
-                preferences and see
-                where you match. The
-                result is designed for
-                entertainment, not as a
-                serious relationship
-                assessment.
-              </p>
-
-              <Link
-                href="/couple-compatibility-test"
-                className="ld-text-link"
-              >
-                Try the Compatibility Test →
-              </Link>
-
-            </article>
-
-            {/* ===============================================
-                Game 6
-            =============================================== */}
-
-            <article className="ld-game-card">
-
-              <div className="ld-game-tag">
-                Date Idea
-              </div>
-
-              <div className="ld-game-icon">
-                🌙
-              </div>
-
-              <h3>
-                Virtual Date Night Games
-              </h3>
-
-              <p>
-                Use simple browser
-                games and couple
-                questions to make a
-                long distance date
-                night feel more
-                intentional.
-              </p>
-
-              <Link
-                href="/date-night-games"
-                className="ld-text-link"
-              >
-                Explore Date Night Games →
-              </Link>
-
-            </article>
+            </div>
 
           </div>
 
+
+          {/*
+            =================================================
+            FUTURE PRODUCT SLOT
+
+            Same Answer / Couple Puzzle 上线后：
+
+            在这个 Multiplayer 区域增加真实游戏卡。
+
+            不要提前创建 Coming Soon 假链接。
+            =================================================
+          */}
+
         </section>
 
+
         {/* =================================================
-            NEW INTERNAL LINK CTA
-            Long Distance Games
-            → Long Distance Questions
+            QUICK GAMES
         ================================================= */}
 
-        <section className="ld-section ld-soft-section">
+        <section
+          id="long-distance-games"
+          className="ldg-section"
+        >
 
-          <div className="ld-section-heading">
+          <div className="ldg-section-heading">
 
-            <div className="game-kicker">
-              Keep Talking
+            <div className="ldg-kicker">
+              QUICK GAMES
             </div>
 
             <h2>
-              100 Questions for Long Distance Couples
+              More Games for Long Distance Couples
             </h2>
 
             <p>
-              Want something slower
-              than a game? Try
-              questions designed for
-              video calls, daily
-              check-ins, deeper
-              conversations, funny
-              moments, and future plans.
+              Switch between different kinds
+              of games depending on your mood,
+              energy, and how much time you have.
             </p>
 
           </div>
 
-          <div className="hero-actions">
+
+          <div className="ldg-card-grid">
+
+            {quickGames.map(
+              (game) => (
+
+                <Link
+                  key={
+                    game.href
+                  }
+                  href={
+                    game.href
+                  }
+                  className="ldg-game-card"
+                >
+
+                  <div className="ldg-game-card-top">
+
+                    <div className="ldg-game-icon">
+                      {game.icon}
+                    </div>
+
+                    <div className="ldg-game-label">
+                      {game.badge}
+                    </div>
+
+                  </div>
+
+
+                  <h3>
+                    {game.title}
+                  </h3>
+
+                  <p>
+                    {game.description}
+                  </p>
+
+                  <div className="ldg-card-link">
+                    Play Now →
+                  </div>
+
+                </Link>
+
+              )
+            )}
+
+          </div>
+
+        </section>
+
+
+        {/* =================================================
+            CONVERSATION GAMES
+        ================================================= */}
+
+        <section className="ldg-section">
+
+          <div className="ldg-section-heading">
+
+            <div className="ldg-kicker">
+              KEEP TALKING
+            </div>
+
+            <h2>
+              Conversation Games for
+              Long Distance Couples
+            </h2>
+
+            <p>
+              Sometimes you do not need a
+              competitive game. One good
+              question is enough to make a
+              normal call feel different.
+            </p>
+
+          </div>
+
+
+          <div className="ldg-card-grid ldg-card-grid-two">
+
+            {conversationGames.map(
+              (game) => (
+
+                <Link
+                  key={
+                    game.href
+                  }
+                  href={
+                    game.href
+                  }
+                  className="ldg-game-card"
+                >
+
+                  <div className="ldg-game-icon">
+                    {game.icon}
+                  </div>
+
+                  <h3>
+                    {game.title}
+                  </h3>
+
+                  <p>
+                    {game.description}
+                  </p>
+
+                  <div className="ldg-card-link">
+                    {game.cta} →
+                  </div>
+
+                </Link>
+
+              )
+            )}
+
+          </div>
+
+        </section>
+
+
+        {/* =================================================
+            PICK BY MOOD
+        ================================================= */}
+
+        <section className="ldg-section ldg-soft-section">
+
+          <div className="ldg-section-heading">
+
+            <div className="ldg-kicker">
+              PICK YOUR VIBE
+            </div>
+
+            <h2>
+              What Do You Feel Like Doing Tonight?
+            </h2>
+
+            <p>
+              Long-distance time together
+              feels less repetitive when you
+              have different kinds of small
+              activities to switch between.
+            </p>
+
+          </div>
+
+
+          <div className="ldg-mood-grid">
+
+            {moodChoices.map(
+              (item) => (
+
+                <Link
+                  key={
+                    item.href
+                  }
+                  href={
+                    item.href
+                  }
+                  className="ldg-mood-card"
+                >
+
+                  <div className="ldg-mood-icon">
+                    {item.icon}
+                  </div>
+
+                  <h3>
+                    {item.title}
+                  </h3>
+
+                  <p>
+                    {item.description}
+                  </p>
+
+                  <span>
+                    {item.cta} →
+                  </span>
+
+                </Link>
+
+              )
+            )}
+
+          </div>
+
+        </section>
+
+
+        {/* =================================================
+            WHY TWOLUMI
+        ================================================= */}
+
+        <section className="ldg-section">
+
+          <div className="ldg-section-heading">
+
+            <div className="ldg-kicker">
+              BUILT FOR DISTANCE
+            </div>
+
+            <h2>
+              Why TwoLumi Works for
+              Long Distance Couples
+            </h2>
+
+          </div>
+
+
+          <div className="ldg-benefit-grid">
+
+            <article>
+
+              <div className="ldg-benefit-icon">
+                📱
+              </div>
+
+              <h3>
+                Separate Devices
+              </h3>
+
+              <p>
+                You do not need to share one
+                screen. Both partners can play
+                from their own phone or laptop.
+              </p>
+
+            </article>
+
+
+            <article>
+
+              <div className="ldg-benefit-icon">
+                🔒
+              </div>
+
+              <h3>
+                No Signup
+              </h3>
+
+              <p>
+                Create a private room and start
+                playing without building a
+                profile or creating an account.
+              </p>
+
+            </article>
+
+
+            <article>
+
+              <div className="ldg-benefit-icon">
+                💬
+              </div>
+
+              <h3>
+                Live Chat
+              </h3>
+
+              <p>
+                Keep talking inside the room
+                while you play. Chat messages
+                are temporary and are not kept
+                as permanent chat history.
+              </p>
+
+            </article>
+
+
+            <article>
+
+              <div className="ldg-benefit-icon">
+                🌐
+              </div>
+
+              <h3>
+                Browser-Based
+              </h3>
+
+              <p>
+                TwoLumi works directly in the
+                browser, so there is nothing to
+                install before your date starts.
+              </p>
+
+            </article>
+
+          </div>
+
+        </section>
+
+
+        {/* =================================================
+            MORE LONG DISTANCE CONTENT
+        ================================================= */}
+
+        <section className="ldg-section ldg-soft-section">
+
+          <div className="ldg-section-heading">
+
+            <div className="ldg-kicker">
+              MORE TO DO TOGETHER
+            </div>
+
+            <h2>
+              Make the Next Call Feel Different
+            </h2>
+
+            <p>
+              Mix games, questions, and simple
+              date-night activities instead of
+              relying on one activity every time.
+            </p>
+
+          </div>
+
+
+          <div className="ldg-support-links">
 
             <Link
               href="/questions-for-long-distance-couples"
-              className="btn-primary"
             >
-              Explore Long Distance Questions →
+
+              <span>
+                📱
+              </span>
+
+              <div>
+
+                <strong>
+                  100 Questions for Long Distance Couples
+                </strong>
+
+                <p>
+                  Better prompts for video calls,
+                  daily check-ins, and future plans.
+                </p>
+
+              </div>
+
+              <b>
+                →
+              </b>
+
             </Link>
+
 
             <Link
-              href="/couple-questions"
-              className="btn-secondary"
+              href="/date-night-games"
             >
-              Browse All Couple Questions
+
+              <span>
+                🌙
+              </span>
+
+              <div>
+
+                <strong>
+                  Date Night Games for Couples
+                </strong>
+
+                <p>
+                  Pick something light and interactive
+                  for your next virtual date night.
+                </p>
+
+              </div>
+
+              <b>
+                →
+              </b>
+
+            </Link>
+
+
+            <Link
+              href="/games"
+            >
+
+              <span>
+                🎮
+              </span>
+
+              <div>
+
+                <strong>
+                  Browse All Online Games for Couples
+                </strong>
+
+                <p>
+                  Explore all TwoLumi games,
+                  quizzes, and question activities
+                  in one place.
+                </p>
+
+              </div>
+
+              <b>
+                →
+              </b>
+
             </Link>
 
           </div>
 
-        </section>
 
-        {/* =================================================
-            WHY IT WORKS
-        ================================================= */}
+          {/*
+            =================================================
+            FUTURE INTERNAL LINK
 
-        <section className="ld-section ld-soft-section">
-
-          <div className="ld-section-heading">
-
-            <div className="game-kicker">
-              More Than Texting
-            </div>
-
-            <h2>
-              Why Games Help Long Distance Couples
-              Stay Connected
-            </h2>
-
-          </div>
-
-          <div className="ld-benefit-grid">
-
-            <article>
-
-              <h3>
-                Give video calls something to do
-              </h3>
-
-              <p>
-                A call can become
-                repetitive when every
-                conversation starts
-                with &quot;How was your
-                day?&quot; A simple
-                game gives both of you
-                a shared activity.
-              </p>
-
-            </article>
-
-            <article>
-
-              <h3>
-                Discover unexpected differences
-              </h3>
-
-              <p>
-                Small questions about
-                travel, routines, food,
-                and future plans often
-                create more interesting
-                conversations than
-                serious relationship
-                prompts.
-              </p>
-
-            </article>
-
-            <article>
-
-              <h3>
-                Make distance feel interactive
-              </h3>
-
-              <p>
-                Synchronized games make
-                both people participate
-                at the same time instead
-                of one person simply
-                sending a list of
-                questions in chat.
-              </p>
-
-            </article>
-
-          </div>
+            /long-distance-date-ideas 上线后，
+            在这里增加第四张链接卡。
+            =================================================
+          */}
 
         </section>
 
-        {/* =================================================
-            LONG DISTANCE DATE IDEAS
-        ================================================= */}
-
-        <section className="ld-section">
-
-          <div className="ld-section-heading">
-
-            <div className="game-kicker">
-              Virtual Date Ideas
-            </div>
-
-            <h2>
-              Ways to Turn TwoLumi Into a Long
-              Distance Date
-            </h2>
-
-          </div>
-
-          <div className="ld-idea-list">
-
-            <div>
-
-              <strong>
-                Video call + Would You Rather
-              </strong>
-
-              <p>
-                Keep a call open while
-                you play a TwoLumi room
-                and explain your choices
-                after every reveal.
-              </p>
-
-            </div>
-
-            <div>
-
-              <strong>
-                Ten-minute lunch-break game
-              </strong>
-
-              <p>
-                Create a room when you
-                only have a few minutes
-                together. A short round
-                works better than
-                planning a full virtual
-                date every time.
-              </p>
-
-            </div>
-
-            <div>
-
-              <strong>
-                Weekend question night
-              </strong>
-
-              <p>
-                Mix Would You Rather
-                with Couple Questions
-                and use interesting
-                answers as conversation
-                starters.
-              </p>
-
-            </div>
-
-            <div>
-
-              <strong>
-                Compare your predictions
-              </strong>
-
-              <p>
-                Before revealing, guess
-                which answer your
-                partner chose. It adds
-                another playful layer
-                to the game.
-              </p>
-
-            </div>
-
-          </div>
-
-        </section>
 
         {/* =================================================
             FAQ
         ================================================= */}
 
-        <section className="ld-section">
+        <section className="ldg-section">
 
-          <div className="ld-section-heading">
+          <div className="ldg-section-heading">
 
-            <div className="game-kicker">
+            <div className="ldg-kicker">
               FAQ
             </div>
 
@@ -925,30 +1320,29 @@ export default function LongDistanceCoupleGamesPage() {
 
           </div>
 
-          <div className="ld-faq">
+
+          <div className="ldg-faq-list">
 
             {faqItems.map(
               (item) => (
-                <article
+
+                <details
                   key={
                     item.question
                   }
-                  className="ld-faq-item"
+                  className="ldg-faq-item"
                 >
 
-                  <h3>
-                    {
-                      item.question
-                    }
-                  </h3>
+                  <summary>
+                    {item.question}
+                  </summary>
 
                   <p>
-                    {
-                      item.answer
-                    }
+                    {item.answer}
                   </p>
 
-                </article>
+                </details>
+
               )
             )}
 
@@ -956,41 +1350,45 @@ export default function LongDistanceCoupleGamesPage() {
 
         </section>
 
+
         {/* =================================================
             FINAL CTA
         ================================================= */}
 
-        <section className="ld-final-cta">
+        <section className="ldg-final-cta">
 
-          <div className="game-kicker">
-            Ready to Play?
+          <div>
+
+            <div className="ldg-kicker">
+              READY TO PLAY?
+            </div>
+
+            <h2>
+              Make Your Next Long Distance Call
+              More Fun
+            </h2>
+
+            <p>
+              Start with a private Would You Rather
+              room, send the code to your partner,
+              and see where your answers match.
+            </p>
+
           </div>
 
-          <h2>
-            Make Your Next Long Distance Call
-            More Fun
-          </h2>
 
-          <p>
-            Start with a private Would
-            You Rather room, send the
-            code to your partner, and
-            see how often your answers
-            match.
-          </p>
-
-          <div className="hero-actions">
+          <div className="ldg-final-actions">
 
             <a
-              href="#play-together"
-              className="btn-primary"
+              href="#create-room"
+              className="ldg-btn-primary"
             >
-              Create a Couple Room →
+              Create a Couple Room
             </a>
 
             <Link
               href="/games"
-              className="btn-secondary"
+              className="ldg-btn-secondary"
             >
               Browse All Games
             </Link>

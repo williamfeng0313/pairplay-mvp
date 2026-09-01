@@ -8502,3 +8502,1311 @@ button:disabled {
 .date-night-picker .game-kicker {
   margin-bottom: 2px;
 }
+
+/* =========================================================
+   Long Distance Couple Games
+   /long-distance-couple-games
+   Prefix: ldg-
+========================================================= */
+
+.ldg-page {
+  min-height: 100vh;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fffafb 0%,
+      #ffffff 30%,
+      #ffffff 100%
+    );
+
+  color: #171a2d;
+}
+
+
+.ldg-container {
+  width: min(
+    1120px,
+    calc(100% - 36px)
+  );
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   Shared
+========================================================= */
+
+.ldg-kicker {
+  margin-bottom: 10px;
+
+  color: #f43f75;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+
+.ldg-section {
+  padding: 52px 0;
+}
+
+
+.ldg-section-heading {
+  max-width: 760px;
+
+  margin-bottom: 28px;
+}
+
+
+.ldg-section-heading h2 {
+  margin: 0;
+
+  font-size:
+    clamp(
+      2rem,
+      4.3vw,
+      3.1rem
+    );
+
+  line-height: 1.05;
+
+  letter-spacing: -0.04em;
+}
+
+
+.ldg-section-heading p {
+  margin: 14px 0 0;
+
+  color: #667085;
+
+  font-size: 16px;
+
+  line-height: 1.7;
+}
+
+
+.ldg-soft-section {
+  margin: 26px 0;
+
+  padding: 42px;
+
+  border: 1px solid #f0e2e7;
+
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7f9 0%,
+      #fffdfd 100%
+    );
+}
+
+
+.ldg-actions,
+.ldg-final-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+}
+
+
+.ldg-btn-primary,
+.ldg-btn-secondary {
+  min-height: 50px;
+
+  padding: 0 22px;
+
+  border-radius: 14px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-weight: 800;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+.ldg-btn-primary {
+  background: #f43f75;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 12px 28px
+    rgba(244, 63, 117, 0.22);
+}
+
+
+.ldg-btn-secondary {
+  border: 1px solid #eadde3;
+
+  background: #ffffff;
+
+  color: #171a2d;
+}
+
+
+.ldg-btn-primary:hover,
+.ldg-btn-secondary:hover {
+  transform: translateY(-1px);
+}
+
+
+.ldg-text-link,
+.ldg-card-link {
+  color: #f43f75;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   Hero
+========================================================= */
+
+.ldg-hero {
+  padding: 64px 0 48px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(300px, 0.65fr);
+
+  gap: 42px;
+
+  align-items: center;
+}
+
+
+.ldg-hero h1 {
+  max-width: 760px;
+
+  margin: 0;
+
+  font-size:
+    clamp(
+      3rem,
+      6vw,
+      5.2rem
+    );
+
+  line-height: 0.98;
+
+  letter-spacing: -0.055em;
+}
+
+
+.ldg-hero-lead {
+  max-width: 700px;
+
+  margin: 22px 0 0;
+
+  color: #667085;
+
+  font-size: 18px;
+
+  line-height: 1.7;
+}
+
+
+.ldg-trust-row {
+  margin-top: 22px;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px 20px;
+
+  color: #6f6870;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+.ldg-actions {
+  margin-top: 26px;
+}
+
+
+.ldg-hero-card {
+  padding: 30px;
+
+  border: 1px solid #f0dfe5;
+
+  border-radius: 26px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 18px 50px
+    rgba(27, 20, 24, 0.07);
+}
+
+
+.ldg-hero-card-icon {
+  width: 54px;
+
+  height: 54px;
+
+  margin-bottom: 18px;
+
+  border-radius: 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #fff0f4;
+
+  color: #f43f75;
+
+  font-size: 26px;
+
+  font-weight: 900;
+}
+
+
+.ldg-hero-card h2 {
+  margin: 0;
+
+  font-size: 34px;
+
+  line-height: 1.05;
+
+  letter-spacing: -0.04em;
+}
+
+
+.ldg-mini-flow {
+  margin-top: 22px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.ldg-mini-flow > div {
+  padding: 12px 14px;
+
+  border: 1px solid #f1e7ea;
+
+  border-radius: 14px;
+
+  display: flex;
+
+  gap: 11px;
+
+  align-items: center;
+
+  background: #fffafa;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+
+.ldg-mini-flow span {
+  width: 26px;
+
+  height: 26px;
+
+  border-radius: 999px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #f43f75;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+
+.ldg-micro {
+  margin: 16px 0 0;
+
+  color: #8a7f85;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   Steps
+========================================================= */
+
+.ldg-step-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+}
+
+
+.ldg-step-card {
+  padding: 24px;
+
+  border: 1px solid #eee3e7;
+
+  border-radius: 22px;
+
+  background: #ffffff;
+}
+
+
+.ldg-step-number {
+  color: #f43f75;
+
+  font-size: 13px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.08em;
+}
+
+
+.ldg-step-card h3 {
+  margin: 16px 0 0;
+
+  font-size: 20px;
+}
+
+
+.ldg-step-card p {
+  margin: 10px 0 0;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   Featured Multiplayer
+========================================================= */
+
+.ldg-featured-game {
+  padding: 28px;
+
+  border: 1px solid #f1dfe6;
+
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff7fa 0%,
+      #ffffff 100%
+    );
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.05fr)
+    minmax(320px, 0.95fr);
+
+  gap: 28px;
+
+  align-items: stretch;
+}
+
+
+.ldg-featured-copy {
+  padding: 6px;
+}
+
+
+.ldg-game-label {
+  display: inline-flex;
+
+  padding: 6px 9px;
+
+  border-radius: 999px;
+
+  background: #fff0f4;
+
+  color: #db3266;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+
+.ldg-game-icon {
+  margin-top: 16px;
+
+  font-size: 30px;
+}
+
+
+.ldg-featured-copy h3 {
+  margin: 16px 0 0;
+
+  font-size: 27px;
+
+  line-height: 1.15;
+}
+
+
+.ldg-featured-copy p {
+  margin: 12px 0 0;
+
+  color: #667085;
+
+  line-height: 1.7;
+}
+
+
+.ldg-game-meta {
+  margin: 18px 0;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+
+.ldg-game-meta span {
+  padding: 7px 10px;
+
+  border: 1px solid #f0e1e6;
+
+  border-radius: 999px;
+
+  background: #ffffff;
+
+  color: #6f6670;
+
+  font-size: 12px;
+
+  font-weight: 700;
+}
+
+
+.ldg-featured-cta {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   Game Cards
+========================================================= */
+
+.ldg-card-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+}
+
+
+.ldg-card-grid-two {
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+}
+
+
+.ldg-game-card {
+  min-height: 240px;
+
+  padding: 24px;
+
+  border: 1px solid #eee3e7;
+
+  border-radius: 22px;
+
+  background: #ffffff;
+
+  color: #171a2d;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 8px 32px
+    rgba(27, 20, 24, 0.04);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+
+.ldg-game-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #f7b9cb;
+
+  box-shadow:
+    0 16px 42px
+    rgba(27, 20, 24, 0.08);
+}
+
+
+.ldg-game-card-top {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+.ldg-game-card h3 {
+  margin: 18px 0 0;
+
+  font-size: 20px;
+
+  line-height: 1.2;
+}
+
+
+.ldg-game-card p {
+  margin: 10px 0 0;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+
+.ldg-card-link {
+  margin-top: 20px;
+}
+
+
+/* =========================================================
+   Mood Picker
+========================================================= */
+
+.ldg-mood-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap: 14px;
+}
+
+
+.ldg-mood-card {
+  padding: 20px;
+
+  border: 1px solid #f0e1e6;
+
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  color: #171a2d;
+
+  text-decoration: none;
+}
+
+
+.ldg-mood-icon {
+  font-size: 28px;
+}
+
+
+.ldg-mood-card h3 {
+  margin: 14px 0 0;
+
+  font-size: 18px;
+}
+
+
+.ldg-mood-card p {
+  margin: 8px 0 0;
+
+  color: #667085;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+.ldg-mood-card span {
+  display: inline-block;
+
+  margin-top: 16px;
+
+  color: #f43f75;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   Benefits
+========================================================= */
+
+.ldg-benefit-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(0, 1fr)
+    );
+
+  gap: 16px;
+}
+
+
+.ldg-benefit-grid article {
+  padding: 22px;
+
+  border: 1px solid #eee3e7;
+
+  border-radius: 20px;
+
+  background: #ffffff;
+}
+
+
+.ldg-benefit-icon {
+  font-size: 28px;
+}
+
+
+.ldg-benefit-grid h3 {
+  margin: 14px 0 0;
+
+  font-size: 18px;
+}
+
+
+.ldg-benefit-grid p {
+  margin: 9px 0 0;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   Support Links
+========================================================= */
+
+.ldg-support-links {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.ldg-support-links > a {
+  padding: 18px 20px;
+
+  border: 1px solid #f0e1e6;
+
+  border-radius: 16px;
+
+  background: #ffffff;
+
+  display: grid;
+
+  grid-template-columns:
+    auto 1fr auto;
+
+  gap: 15px;
+
+  align-items: center;
+
+  color: #171a2d;
+
+  text-decoration: none;
+}
+
+
+.ldg-support-links > a > span {
+  font-size: 28px;
+}
+
+
+.ldg-support-links strong {
+  font-size: 15px;
+}
+
+
+.ldg-support-links p {
+  margin: 4px 0 0;
+
+  color: #667085;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+
+.ldg-support-links b {
+  color: #f43f75;
+
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.ldg-faq-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.ldg-faq-item {
+  padding: 18px 20px;
+
+  border: 1px solid #eee3e7;
+
+  border-radius: 16px;
+
+  background: #ffffff;
+}
+
+
+.ldg-faq-item summary {
+  cursor: pointer;
+
+  color: #171a2d;
+
+  font-size: 15px;
+
+  font-weight: 800;
+}
+
+
+.ldg-faq-item p {
+  margin: 12px 0 0;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   Final CTA
+========================================================= */
+
+.ldg-final-cta {
+  margin: 28px 0 72px;
+
+  padding: 38px 40px;
+
+  border-radius: 28px;
+
+  background: #171a2d;
+
+  color: #ffffff;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 28px;
+
+  align-items: center;
+}
+
+
+.ldg-final-cta h2 {
+  max-width: 700px;
+
+  margin: 0;
+
+  font-size:
+    clamp(
+      2rem,
+      4vw,
+      3rem
+    );
+
+  line-height: 1.05;
+
+  letter-spacing: -0.04em;
+}
+
+
+.ldg-final-cta p {
+  max-width: 670px;
+
+  margin: 12px 0 0;
+
+  color: #c7c9d2;
+
+  line-height: 1.65;
+}
+
+
+.ldg-final-actions {
+  flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   Tablet
+========================================================= */
+
+@media (
+  max-width: 920px
+) {
+
+  .ldg-hero {
+    grid-template-columns: 1fr;
+  }
+
+
+  .ldg-hero-card {
+    max-width: 620px;
+  }
+
+
+  .ldg-step-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .ldg-featured-game {
+    grid-template-columns: 1fr;
+  }
+
+
+  .ldg-card-grid,
+  .ldg-card-grid-two {
+    grid-template-columns: 1fr;
+  }
+
+
+  .ldg-mood-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .ldg-benefit-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+
+
+  .ldg-final-cta {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .ldg-final-actions {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (
+  max-width: 640px
+) {
+
+  .ldg-container {
+    width:
+      min(
+        calc(100% - 28px),
+        1120px
+      );
+  }
+
+
+  .ldg-hero {
+    padding:
+      42px 0
+      28px;
+  }
+
+
+  .ldg-hero h1 {
+    font-size:
+      clamp(
+        2.65rem,
+        12vw,
+        4rem
+      );
+  }
+
+
+  .ldg-hero-lead {
+    font-size: 16px;
+  }
+
+
+  .ldg-actions,
+  .ldg-final-actions {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+
+  .ldg-btn-primary,
+  .ldg-btn-secondary {
+    width: 100%;
+  }
+
+
+  .ldg-section {
+    padding: 38px 0;
+  }
+
+
+  .ldg-soft-section {
+    margin-left: -2px;
+
+    margin-right: -2px;
+
+    padding: 26px 20px;
+
+    border-radius: 22px;
+  }
+
+
+  .ldg-mood-grid,
+  .ldg-benefit-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .ldg-support-links > a {
+    grid-template-columns:
+      auto 1fr;
+  }
+
+
+  .ldg-support-links b {
+    display: none;
+  }
+
+
+  .ldg-final-cta {
+    margin-bottom: 52px;
+
+    padding: 28px 22px;
+  }
+
+}
+
+/* =========================================================
+   Long Distance Hero Flow UX Fix
+========================================================= */
+
+.ldg-card-intro {
+  margin: 12px 0 0;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+.ldg-mini-flow {
+  margin-top: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.ldg-mini-flow .ldg-flow-step {
+  padding: 10px 0;
+
+  border: 0;
+
+  border-radius: 0;
+
+  background: transparent;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  cursor: default;
+}
+
+
+.ldg-flow-step > span {
+  width: 28px;
+
+  height: 28px;
+
+  flex: 0 0 28px;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #f43f75;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+
+.ldg-flow-step > div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.ldg-flow-step strong {
+  color: #171a2d;
+
+  font-size: 14px;
+
+  line-height: 1.35;
+}
+
+
+.ldg-flow-step small {
+  color: #8a7f85;
+
+  font-size: 12px;
+
+  line-height: 1.45;
+}
+
+
+.ldg-flow-arrow {
+  margin-left: 13px;
+
+  color: #d3c8cd;
+
+  font-size: 16px;
+
+  line-height: 1;
+}
+
+/* Fix flow arrows so they do not look clickable */
+.ldg-mini-flow > .ldg-flow-arrow {
+  width: auto;
+  height: auto;
+
+  margin: -2px 0 -2px 13px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+
+  display: block;
+
+  color: #d3c8cd;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  box-shadow: none;
+}
+
+/* =========================================================
+   Long Distance Create Room Anchor Fix
+========================================================= */
+
+#create-room {
+  scroll-margin-top: 120px;
+}
+
+.ldg-card-intro {
+  margin: 12px 0 0;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+.ldg-mini-flow .ldg-flow-step {
+  padding: 10px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: default;
+}
+
+
+.ldg-flow-step > span {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f43f75;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 900;
+}
+
+
+.ldg-flow-step > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+
+.ldg-flow-step strong {
+  color: #171a2d;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+
+.ldg-flow-step small {
+  color: #8a7f85;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+
+.ldg-mini-flow > .ldg-flow-arrow {
+  width: auto;
+  height: auto;
+
+  margin: -2px 0 -2px 13px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 0;
+
+  background: transparent;
+
+  display: block;
+
+  color: #d3c8cd;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  box-shadow: none;
+}
