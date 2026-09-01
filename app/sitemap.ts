@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/couple-quiz",
     "/couple-compatibility-test",
     "/long-distance-couple-games",
+    "/long-distance-date-ideas",
     "/questions-for-long-distance-couples",
     "/date-night-games",
     "/about",

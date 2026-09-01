@@ -1231,6 +1231,41 @@ export default function LongDistanceCoupleGamesPage() {
             </Link>
 
 
+            {/* =============================================
+                NEW:
+                Long Distance Date Ideas
+            ============================================= */}
+
+            <Link
+              href="/long-distance-date-ideas"
+            >
+
+              <span>
+                ✨
+              </span>
+
+              <div>
+
+                <strong>
+                  56 Long Distance Date Ideas
+                </strong>
+
+                <p>
+                  Games, puzzles, walks, food,
+                  shared routines, and simple
+                  virtual date ideas for your
+                  next call.
+                </p>
+
+              </div>
+
+              <b>
+                →
+              </b>
+
+            </Link>
+
+
             <Link
               href="/date-night-games"
             >
@@ -1288,16 +1323,6 @@ export default function LongDistanceCoupleGamesPage() {
             </Link>
 
           </div>
-
-
-          {/*
-            =================================================
-            FUTURE INTERNAL LINK
-
-            /long-distance-date-ideas 上线后，
-            在这里增加第四张链接卡。
-            =================================================
-          */}
 
         </section>
 

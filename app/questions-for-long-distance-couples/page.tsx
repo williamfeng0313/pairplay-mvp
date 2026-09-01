@@ -106,6 +106,20 @@ const relatedPages = [
 
   {
     href:
+      "/long-distance-date-ideas",
+
+    icon:
+      "✨",
+
+    title:
+      "Long Distance Date Ideas",
+
+    description:
+      "Find games, puzzles, walks, food ideas, and simple virtual dates to do together.",
+  },
+
+  {
+    href:
       "/couple-questions",
 
     icon:
