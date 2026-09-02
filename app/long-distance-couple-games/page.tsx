@@ -209,19 +209,19 @@ const moodChoices = [
 
   {
     href:
-      "/date-night-games",
+      "/long-distance-date-ideas",
 
     icon:
-      "🌙",
+      "✨",
 
     title:
-      "Want a date-night idea?",
+      "Want a date idea?",
 
     description:
-      "Choose something light and interactive when you want the call to feel more like an actual date.",
+      "Pick a game, walk, shared meal, puzzle, or simple activity when you want the call to feel different.",
 
     cta:
-      "Explore Date Night Games",
+      "Explore Date Ideas",
   },
 ];
 
@@ -533,7 +533,7 @@ export default function LongDistanceCoupleGamesPage() {
 
 
           {/* ===============================================
-              3 STEP EXPLANATION CARD
+              HERO INFO CARD
           =============================================== */}
 
           <div className="ldg-hero-card">
@@ -738,7 +738,7 @@ export default function LongDistanceCoupleGamesPage() {
         ================================================= */}
 
         <section
-          id="play-together"
+          id="long-distance-games"
           className="ldg-section"
         >
 
@@ -826,9 +826,6 @@ export default function LongDistanceCoupleGamesPage() {
 
             {/* =============================================
                 RIGHT — REAL CREATE ROOM ACTION
-
-                IMPORTANT:
-                Hero "Play Together" jumps directly here.
             ============================================= */}
 
             <div
@@ -865,7 +862,7 @@ export default function LongDistanceCoupleGamesPage() {
         ================================================= */}
 
         <section
-          id="long-distance-games"
+          id="quick-games"
           className="ldg-section"
         >
 
@@ -876,13 +873,16 @@ export default function LongDistanceCoupleGamesPage() {
             </div>
 
             <h2>
-              More Games for Long Distance Couples
+              Quick Online Games for
+              Long Distance Couples
             </h2>
 
             <p>
               Switch between different kinds
               of games depending on your mood,
               energy, and how much time you have.
+              These are useful when you only
+              have a few minutes together.
             </p>
 
           </div>
@@ -1121,13 +1121,14 @@ export default function LongDistanceCoupleGamesPage() {
               </div>
 
               <h3>
-                No Signup
+                Private Rooms, No Signup
               </h3>
 
               <p>
-                Create a private room and start
-                playing without building a
-                profile or creating an account.
+                Create a temporary private room,
+                share the six-character code,
+                and start playing without creating
+                an account or personal profile.
               </p>
 
             </article>
@@ -1177,10 +1178,83 @@ export default function LongDistanceCoupleGamesPage() {
 
 
         {/* =================================================
-            MORE LONG DISTANCE CONTENT
+            SEO SUPPORTING CONTENT
         ================================================= */}
 
         <section className="ldg-section ldg-soft-section">
+
+          <div className="ldg-section-heading">
+
+            <div className="ldg-kicker">
+              PLAY YOUR WAY
+            </div>
+
+            <h2>
+              Games That Make Long Distance
+              Feel a Little Closer
+            </h2>
+
+          </div>
+
+
+          <div className="ldg-copy-grid">
+
+            <p>
+              The best long distance couple games
+              do more than fill silence on a video
+              call. They give both people something
+              small to focus on together. A quick
+              choice, a surprising answer, or a
+              shared result can make an ordinary
+              call feel more interactive without
+              turning it into a complicated event.
+            </p>
+
+            <p>
+              That is why TwoLumi mixes different
+              kinds of online games for long distance
+              couples. You can start with a private
+              multiplayer room when you both want to
+              play at the same time, switch to a quick
+              This or That round when you only have a
+              few minutes, or use couple questions
+              when you would rather talk than compete.
+            </p>
+
+            <p>
+              You do not need to find one perfect game
+              and repeat it every night. Switching
+              between games, questions, quizzes,
+              puzzles, and simple date activities can
+              make time together feel less repetitive,
+              especially when your usual routine is
+              another video call or movie night.
+            </p>
+
+            <p>
+              The multiplayer experience is designed
+              for separate devices, so one partner can
+              be on a phone while the other uses a
+              laptop somewhere else. There is no app
+              to install and no account to create.
+              For couples looking for free online games
+              for long distance relationships, the goal
+              is simple: open the browser, choose
+              something that fits your mood, and spend
+              a little time doing the same thing
+              together.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        {/* =================================================
+            MORE LONG DISTANCE CONTENT
+        ================================================= */}
+
+        <section className="ldg-section">
 
           <div className="ldg-section-heading">
 
@@ -1230,11 +1304,6 @@ export default function LongDistanceCoupleGamesPage() {
 
             </Link>
 
-
-            {/* =============================================
-                NEW:
-                Long Distance Date Ideas
-            ============================================= */}
 
             <Link
               href="/long-distance-date-ideas"
