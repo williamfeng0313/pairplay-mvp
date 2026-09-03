@@ -10985,3 +10985,597 @@ button:disabled {
     line-height: 1.7;
   }
 }
+
+/* =========================================================
+   Post Game Feedback
+========================================================= */
+
+.feedback-card {
+  width: 100%;
+  max-width: 760px;
+
+  margin:
+    28px auto 0;
+
+  padding:
+    28px;
+
+  border:
+    1px solid
+    #eee3e7;
+
+  border-radius:
+    24px;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 12px 40px
+    rgba(
+      35,
+      24,
+      30,
+      0.055
+    );
+}
+
+
+.feedback-card h2 {
+  margin:
+    6px 0 10px;
+
+  font-size:
+    clamp(
+      24px,
+      4vw,
+      34px
+    );
+
+  line-height:
+    1.15;
+}
+
+
+.feedback-intro {
+  max-width:
+    620px;
+
+  margin:
+    0 0 22px;
+
+  color:
+    #667085;
+
+  line-height:
+    1.7;
+}
+
+
+/* =========================================================
+   Rating
+========================================================= */
+
+.feedback-rating-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap:
+    10px;
+}
+
+
+.feedback-rating {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    7px;
+
+  min-height:
+    104px;
+
+  padding:
+    14px 8px;
+
+  border:
+    1px solid
+    #e7dde1;
+
+  border-radius:
+    16px;
+
+  background:
+    #fff;
+
+  color:
+    #344054;
+
+  font:
+    inherit;
+
+  cursor:
+    pointer;
+
+  transition:
+    transform
+      0.15s ease,
+    border-color
+      0.15s ease,
+    background
+      0.15s ease;
+}
+
+
+.feedback-rating:hover {
+  transform:
+    translateY(
+      -2px
+    );
+
+  border-color:
+    #c9a9b6;
+}
+
+
+.feedback-rating.is-selected {
+  border-color:
+    #9e647c;
+
+  background:
+    #fff6f9;
+}
+
+
+.feedback-rating-emoji {
+  font-size:
+    27px;
+}
+
+
+/* =========================================================
+   Blocks
+========================================================= */
+
+.feedback-block {
+  margin-top:
+    28px;
+}
+
+
+.feedback-block h3 {
+  margin:
+    0 0 5px;
+
+  font-size:
+    18px;
+}
+
+
+.feedback-block > p {
+  margin:
+    0 0 14px;
+
+  color:
+    #667085;
+
+  font-size:
+    14px;
+}
+
+
+/* =========================================================
+   Tags
+========================================================= */
+
+.feedback-tag-grid {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    9px;
+}
+
+
+.feedback-tag {
+  padding:
+    10px 14px;
+
+  border:
+    1px solid
+    #e7dde1;
+
+  border-radius:
+    999px;
+
+  background:
+    #fff;
+
+  color:
+    #475467;
+
+  font:
+    inherit;
+
+  font-size:
+    14px;
+
+  cursor:
+    pointer;
+}
+
+
+.feedback-tag:hover {
+  border-color:
+    #c9a9b6;
+}
+
+
+.feedback-tag.is-selected {
+  border-color:
+    #9e647c;
+
+  background:
+    #fff1f5;
+
+  color:
+    #713b52;
+}
+
+
+/* =========================================================
+   Textarea
+========================================================= */
+
+.feedback-label {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  margin-bottom:
+    9px;
+
+  font-weight:
+    700;
+}
+
+
+.feedback-label span {
+  color:
+    #98a2b3;
+
+  font-size:
+    12px;
+
+  font-weight:
+    500;
+}
+
+
+.feedback-textarea {
+  width:
+    100%;
+
+  min-height:
+    118px;
+
+  padding:
+    14px 15px;
+
+  box-sizing:
+    border-box;
+
+  resize:
+    vertical;
+
+  border:
+    1px solid
+    #ded6da;
+
+  border-radius:
+    14px;
+
+  background:
+    #fff;
+
+  color:
+    #1d2939;
+
+  font:
+    inherit;
+
+  line-height:
+    1.6;
+
+  outline:
+    none;
+}
+
+
+.feedback-textarea:focus {
+  border-color:
+    #9e647c;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      158,
+      100,
+      124,
+      0.09
+    );
+}
+
+
+.feedback-character-count {
+  margin-top:
+    5px;
+
+  color:
+    #98a2b3;
+
+  font-size:
+    12px;
+
+  text-align:
+    right;
+}
+
+
+/* =========================================================
+   Public Option
+========================================================= */
+
+.feedback-public-option {
+  display:
+    flex;
+
+  align-items:
+    flex-start;
+
+  gap:
+    9px;
+
+  margin-top:
+    20px;
+
+  color:
+    #475467;
+
+  font-size:
+    14px;
+
+  line-height:
+    1.5;
+
+  cursor:
+    pointer;
+}
+
+
+.feedback-public-option input {
+  margin-top:
+    3px;
+}
+
+
+/* =========================================================
+   Submit
+========================================================= */
+
+.feedback-submit {
+  margin-top:
+    20px;
+}
+
+
+.feedback-submit:disabled {
+  opacity:
+    0.65;
+
+  cursor:
+    wait;
+}
+
+
+.feedback-error {
+  margin:
+    14px 0 0;
+
+  color:
+    #b42318;
+
+  font-size:
+    14px;
+}
+
+
+.feedback-privacy-note {
+  margin:
+    13px 0 0;
+
+  color:
+    #98a2b3;
+
+  font-size:
+    12px;
+
+  line-height:
+    1.6;
+}
+
+
+.feedback-privacy-note a {
+  color:
+    #667085;
+
+  text-decoration:
+    underline;
+}
+
+
+/* =========================================================
+   Success
+========================================================= */
+
+.feedback-success {
+  text-align:
+    center;
+}
+
+
+.feedback-success > p {
+  max-width:
+    560px;
+
+  margin:
+    0 auto;
+
+  color:
+    #667085;
+
+  line-height:
+    1.7;
+}
+
+
+.feedback-heart {
+  width:
+    48px;
+
+  height:
+    48px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  margin:
+    0 auto 12px;
+
+  border-radius:
+    50%;
+
+  background:
+    #fff1f5;
+
+  font-size:
+    23px;
+}
+
+
+.feedback-next-links {
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    10px;
+
+  margin-top:
+    22px;
+}
+
+
+/* =========================================================
+   Tablet
+========================================================= */
+
+@media (
+  max-width:
+    720px
+) {
+  .feedback-card {
+    padding:
+      22px;
+  }
+
+  .feedback-rating-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
+  }
+}
+
+
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (
+  max-width:
+    480px
+) {
+  .feedback-card {
+    margin-top:
+      20px;
+
+    padding:
+      18px;
+
+    border-radius:
+      18px;
+  }
+
+
+  .feedback-rating {
+    min-height:
+      92px;
+  }
+
+
+  .feedback-next-links {
+    flex-direction:
+      column;
+  }
+
+
+  .feedback-next-links a {
+    width:
+      100%;
+
+    box-sizing:
+      border-box;
+
+    text-align:
+      center;
+  }
+}

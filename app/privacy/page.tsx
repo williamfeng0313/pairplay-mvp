@@ -205,6 +205,58 @@ export default function PrivacyPage() {
 
           </section>
 
+                      <section>
+
+              <h2>
+                Feedback and Comments
+              </h2>
+
+              <p>
+                If you voluntarily submit feedback
+                after using a TwoLumi game, we may
+                store the rating you select, the
+                feedback categories you choose,
+                an optional written comment, the
+                game or page associated with the
+                feedback, whether you allow the
+                feedback to be featured publicly,
+                and the time the feedback was
+                submitted.
+              </p>
+
+              <p>
+                Written feedback is used to improve
+                TwoLumi, identify problems, understand
+                what couples would like us to build
+                next, and evaluate existing games
+                and features. Please do not include
+                sensitive information or personally
+                identifying information in feedback.
+              </p>
+
+              <p>
+                Feedback comments are stored in our
+                database and are not sent to Google
+                Analytics. We may send non-text
+                analytics information such as the
+                game name, rating, or selected
+                feedback category to help us
+                understand general usage patterns.
+              </p>
+
+              <p>
+                Feedback is private by default.
+                If you specifically select the
+                option allowing TwoLumi to feature
+                your feedback, we may display an
+                excerpt anonymously after review.
+                We will not publicly display feedback
+                that has not been approved for
+                public use.
+              </p>
+
+            </section>
+
           {/* ==============================
               3. How We Use Information
           ============================== */}

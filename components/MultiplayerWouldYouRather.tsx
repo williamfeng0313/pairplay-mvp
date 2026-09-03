@@ -12,9 +12,13 @@ import {
   trackEvent,
 } from "@/lib/analytics";
 
+import PostGameFeedback from "@/components/PostGameFeedback";
+
+
 type Choice =
   | "a"
   | "b";
+
 
 type GameState = {
   ok: boolean;
@@ -65,6 +69,7 @@ type GameState = {
   error?: string;
 };
 
+
 export default function MultiplayerWouldYouRather({
   code,
   role,
@@ -87,11 +92,13 @@ export default function MultiplayerWouldYouRather({
         false,
     });
 
+
   const [
     busy,
     setBusy,
   ] =
     useState(false);
+
 
   const [
     message,
@@ -99,19 +106,24 @@ export default function MultiplayerWouldYouRather({
   ] =
     useState("");
 
+
   const startedTracked =
     useRef(false);
+
 
   const roundTracked =
     useRef<
       number | null
     >(null);
 
+
   const fiveTracked =
     useRef(false);
 
+
   const completeTracked =
     useRef(false);
+
 
   // ==============================
   // Start Analytics
@@ -131,7 +143,10 @@ export default function MultiplayerWouldYouRather({
       startedTracked.current =
         true;
     }
-  }, [role]);
+  }, [
+    role,
+  ]);
+
 
   // ==============================
   // Poll Game State
@@ -140,6 +155,7 @@ export default function MultiplayerWouldYouRather({
   useEffect(() => {
     let cancelled =
       false;
+
 
     const loadGameState =
       async () => {
@@ -155,8 +171,10 @@ export default function MultiplayerWouldYouRather({
               }
             );
 
+
           const data =
             await response.json();
+
 
           if (
             cancelled
@@ -164,9 +182,11 @@ export default function MultiplayerWouldYouRather({
             return;
           }
 
+
           setState(
             data
           );
+
 
           // ==============================
           // Game Complete Analytics
@@ -188,11 +208,13 @@ export default function MultiplayerWouldYouRather({
               }
             );
 
+
             completeTracked.current =
               true;
 
             return;
           }
+
 
           // ==============================
           // Round Complete Analytics
@@ -223,8 +245,10 @@ export default function MultiplayerWouldYouRather({
               }
             );
 
+
             roundTracked.current =
               data.questionIndex;
+
 
             if (
               data.questionIndex >=
@@ -237,6 +261,7 @@ export default function MultiplayerWouldYouRather({
                   role,
                 }
               );
+
 
               fiveTracked.current =
                 true;
@@ -253,7 +278,9 @@ export default function MultiplayerWouldYouRather({
         }
       };
 
+
     loadGameState();
+
 
     const timer =
       window.setInterval(
@@ -261,9 +288,11 @@ export default function MultiplayerWouldYouRather({
         1200
       );
 
+
     return () => {
       cancelled =
         true;
+
 
       window.clearInterval(
         timer
@@ -273,6 +302,7 @@ export default function MultiplayerWouldYouRather({
     code,
     role,
   ]);
+
 
   // ==============================
   // Submit Answer
@@ -291,6 +321,7 @@ export default function MultiplayerWouldYouRather({
         return;
       }
 
+
       if (
         typeof state.questionIndex !==
         "number"
@@ -298,9 +329,11 @@ export default function MultiplayerWouldYouRather({
         return;
       }
 
+
       setBusy(true);
 
       setMessage("");
+
 
       try {
         const response =
@@ -327,8 +360,10 @@ export default function MultiplayerWouldYouRather({
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (
           !response.ok ||
@@ -340,6 +375,7 @@ export default function MultiplayerWouldYouRather({
           );
         }
 
+
         setState(
           (previous) => ({
             ...previous,
@@ -348,6 +384,7 @@ export default function MultiplayerWouldYouRather({
               true,
           })
         );
+
 
         trackEvent(
           "wyr_answer",
@@ -359,7 +396,9 @@ export default function MultiplayerWouldYouRather({
               1,
           }
         );
-      } catch (error) {
+      } catch (
+        error
+      ) {
         setMessage(
           error instanceof
           Error
@@ -370,6 +409,7 @@ export default function MultiplayerWouldYouRather({
         setBusy(false);
       }
     };
+
 
   // ==============================
   // Next Question
@@ -386,6 +426,7 @@ export default function MultiplayerWouldYouRather({
         return;
       }
 
+
       if (
         typeof state.questionIndex !==
         "number"
@@ -393,9 +434,11 @@ export default function MultiplayerWouldYouRather({
         return;
       }
 
+
       setBusy(true);
 
       setMessage("");
+
 
       try {
         const response =
@@ -420,8 +463,10 @@ export default function MultiplayerWouldYouRather({
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (
           !response.ok ||
@@ -433,6 +478,7 @@ export default function MultiplayerWouldYouRather({
           );
         }
 
+
         trackEvent(
           "wyr_next_round",
           {
@@ -443,7 +489,9 @@ export default function MultiplayerWouldYouRather({
               2,
           }
         );
-      } catch (error) {
+      } catch (
+        error
+      ) {
         setMessage(
           error instanceof
           Error
@@ -455,11 +503,14 @@ export default function MultiplayerWouldYouRather({
       }
     };
 
+
   // ==============================
   // API Error
   // ==============================
 
-  if (!state.ok) {
+  if (
+    !state.ok
+  ) {
     return (
       <div className="play-card">
 
@@ -476,6 +527,7 @@ export default function MultiplayerWouldYouRather({
     );
   }
 
+
   // ==============================
   // Game Completed
   // ==============================
@@ -484,47 +536,69 @@ export default function MultiplayerWouldYouRather({
     state.completed
   ) {
     return (
-      <div className="play-card">
+      <>
 
-        <div className="game-kicker">
-          Game Complete
+        <div className="play-card">
+
+          <div className="game-kicker">
+            Game Complete
+          </div>
+
+
+          <div className="question">
+            You finished all{" "}
+            {state.roundLimit ||
+              12}{" "}
+            questions! 🎉
+          </div>
+
+
+          <p className="game-sub">
+            Want another random set?
+            Create a new room or explore
+            another couple game.
+          </p>
+
+
+          <div className="hero-actions">
+
+            <Link
+              href="/long-distance-couple-games#create-room"
+              className="btn-primary"
+            >
+              Create New Room →
+            </Link>
+
+
+            <Link
+              href="/games"
+              className="btn-secondary"
+            >
+              Explore More Games
+            </Link>
+
+          </div>
+
         </div>
 
-        <div className="question">
-          You finished all{" "}
-          {state.roundLimit ||
-            12}{" "}
-          questions! 🎉
-        </div>
 
-        <p className="game-sub">
-          Want another random set?
-          Create a new room and
-          TwoLumi will generate a
-          different mix of questions.
-        </p>
+        {/* ===============================================
+            POST GAME FEEDBACK
 
-        <div className="hero-actions">
+            Important:
+            - Do not store real room code.
+            - Do not send comment content to GA4.
+        =============================================== */}
 
-          <Link
-            href="/"
-            className="btn-primary"
-          >
-            Create New Room →
-          </Link>
+        <PostGameFeedback
+          gameSlug="wyr_multiplayer"
+          pagePath="/room/[code]"
+        />
 
-          <Link
-            href="/games"
-            className="btn-secondary"
-          >
-            Explore More Games
-          </Link>
-
-        </div>
-
-      </div>
+      </>
     );
   }
+
 
   // ==============================
   // Loading
@@ -546,15 +620,19 @@ export default function MultiplayerWouldYouRather({
     );
   }
 
+
   const choiceText = (
     choice:
       | Choice
       | null
       | undefined
   ) => {
-    if (!choice) {
+    if (
+      !choice
+    ) {
       return "—";
     }
+
 
     return choice ===
       "a"
@@ -562,13 +640,16 @@ export default function MultiplayerWouldYouRather({
       : state.question!.b;
   };
 
+
   const roundLimit =
     state.roundLimit ||
     12;
 
+
   const isLastRound =
     state.questionIndex ===
     roundLimit - 1;
+
 
   // ==============================
   // UI
@@ -586,12 +667,15 @@ export default function MultiplayerWouldYouRather({
 
       </div>
 
+
       <div className="question">
         Would you rather…
       </div>
 
+
       {!state.reveal ? (
         <>
+
           <div className="choice-grid">
 
             <button
@@ -612,6 +696,7 @@ export default function MultiplayerWouldYouRather({
             >
               {state.question.a}
             </button>
+
 
             <button
               className={`choice ${
@@ -634,6 +719,7 @@ export default function MultiplayerWouldYouRather({
 
           </div>
 
+
           <div className="answer-waiting">
 
             {!state.selfAnswered
@@ -643,6 +729,7 @@ export default function MultiplayerWouldYouRather({
               : "Answer saved. Waiting for your partner…"}
 
           </div>
+
         </>
       ) : (
         <div className="reveal-panel">
@@ -654,6 +741,7 @@ export default function MultiplayerWouldYouRather({
               : "Different this time 😂"}
 
           </div>
+
 
           <div className="reveal-grid">
 
@@ -671,6 +759,7 @@ export default function MultiplayerWouldYouRather({
 
             </div>
 
+
             <div>
 
               <span>
@@ -687,6 +776,7 @@ export default function MultiplayerWouldYouRather({
             </div>
 
           </div>
+
 
           {role ===
           "host" ? (
@@ -717,6 +807,7 @@ export default function MultiplayerWouldYouRather({
 
         </div>
       )}
+
 
       {message ? (
         <div className="room-error">
