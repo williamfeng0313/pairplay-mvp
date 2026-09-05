@@ -190,7 +190,7 @@ export default function Page() {
       ============================== */}
 
       <PlayTogetherCTA
-        source="would_you_rather_page"
+        entryPoint="would_you_rather_page"
       />
 
       {/* ==============================

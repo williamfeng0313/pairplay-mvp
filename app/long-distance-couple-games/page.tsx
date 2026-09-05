@@ -1,4 +1,7 @@
-import type { Metadata } from "next";
+import type {
+  Metadata,
+} from "next";
+
 import Link from "next/link";
 
 import PlayTogetherCTA from "@/components/PlayTogetherCTA";
@@ -49,12 +52,18 @@ export const metadata: Metadata = {
   },
 
   robots: {
-    index: true,
-    follow: true,
+    index:
+      true,
+
+    follow:
+      true,
 
     googleBot: {
-      index: true,
-      follow: true,
+      index:
+        true,
+
+      follow:
+        true,
     },
   },
 };
@@ -399,7 +408,9 @@ const faqSchema = {
 
   mainEntity:
     faqItems.map(
-      (item) => ({
+      (
+        item
+      ) => ({
         "@type":
           "Question",
 
@@ -440,6 +451,7 @@ export default function LongDistanceCoupleGamesPage() {
         }}
       />
 
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -449,6 +461,7 @@ export default function LongDistanceCoupleGamesPage() {
             ),
         }}
       />
+
 
       <script
         type="application/ld+json"
@@ -475,10 +488,12 @@ export default function LongDistanceCoupleGamesPage() {
               LONG DISTANCE, STILL TOGETHER
             </div>
 
+
             <h1>
               Free Online Games for
               Long Distance Couples
             </h1>
+
 
             <p className="ldg-hero-lead">
               Play together from separate
@@ -520,6 +535,7 @@ export default function LongDistanceCoupleGamesPage() {
                 Play Together
               </a>
 
+
               <a
                 href="#long-distance-games"
                 className="ldg-btn-secondary"
@@ -542,15 +558,18 @@ export default function LongDistanceCoupleGamesPage() {
               ♥
             </div>
 
+
             <div className="ldg-kicker">
               3 SIMPLE STEPS
             </div>
+
 
             <h2>
               One Room.
               <br />
               Two Devices.
             </h2>
+
 
             <p className="ldg-card-intro">
               Start together in less than a minute.
@@ -565,11 +584,13 @@ export default function LongDistanceCoupleGamesPage() {
                   1
                 </span>
 
+
                 <div>
 
                   <strong>
                     Create a private room
                   </strong>
+
 
                   <small>
                     One person starts the game.
@@ -591,11 +612,13 @@ export default function LongDistanceCoupleGamesPage() {
                   2
                 </span>
 
+
                 <div>
 
                   <strong>
                     Share the code
                   </strong>
+
 
                   <small>
                     Send the 6-character code
@@ -618,11 +641,13 @@ export default function LongDistanceCoupleGamesPage() {
                   3
                 </span>
 
+
                 <div>
 
                   <strong>
                     Play &amp; chat
                   </strong>
+
 
                   <small>
                     Join from separate devices
@@ -657,9 +682,11 @@ export default function LongDistanceCoupleGamesPage() {
               HOW IT WORKS
             </div>
 
+
             <h2>
               Start a Couple Game in Three Steps
             </h2>
+
 
             <p>
               No screen sharing, app install,
@@ -678,9 +705,11 @@ export default function LongDistanceCoupleGamesPage() {
                 01
               </div>
 
+
               <h3>
                 Create a Private Room
               </h3>
+
 
               <p>
                 Start a multiplayer game and
@@ -697,9 +726,11 @@ export default function LongDistanceCoupleGamesPage() {
                 02
               </div>
 
+
               <h3>
                 Share the Code
               </h3>
+
 
               <p>
                 Send the code to your partner.
@@ -716,9 +747,11 @@ export default function LongDistanceCoupleGamesPage() {
                 03
               </div>
 
+
               <h3>
                 Play &amp; Chat Together
               </h3>
+
 
               <p>
                 Answer on your own devices,
@@ -748,10 +781,12 @@ export default function LongDistanceCoupleGamesPage() {
               PLAY TOGETHER NOW
             </div>
 
+
             <h2>
               Multiplayer Games for
               Long Distance Couples
             </h2>
+
 
             <p>
               Would You Rather is currently
@@ -766,23 +801,22 @@ export default function LongDistanceCoupleGamesPage() {
 
           <div className="ldg-featured-game">
 
-            {/* =============================================
-                LEFT — GAME DESCRIPTION
-            ============================================= */}
-
             <div className="ldg-featured-copy">
 
               <div className="ldg-game-label">
                 Multiplayer
               </div>
 
+
               <div className="ldg-game-icon">
                 ⚖️
               </div>
 
+
               <h3>
                 Would You Rather for Couples
               </h3>
+
 
               <p>
                 Both partners get the same
@@ -824,35 +858,18 @@ export default function LongDistanceCoupleGamesPage() {
             </div>
 
 
-            {/* =============================================
-                RIGHT — REAL CREATE ROOM ACTION
-            ============================================= */}
-
             <div
               id="create-room"
               className="ldg-featured-cta"
             >
 
               <PlayTogetherCTA
-                source="long_distance_couple_games_page"
+                entryPoint="long_distance_couple_games_page"
               />
 
             </div>
 
           </div>
-
-
-          {/*
-            =================================================
-            FUTURE PRODUCT SLOT
-
-            Same Answer / Couple Puzzle 上线后：
-
-            在这个 Multiplayer 区域增加真实游戏卡。
-
-            不要提前创建 Coming Soon 假链接。
-            =================================================
-          */}
 
         </section>
 
@@ -872,10 +889,12 @@ export default function LongDistanceCoupleGamesPage() {
               QUICK GAMES
             </div>
 
+
             <h2>
               Quick Online Games for
               Long Distance Couples
             </h2>
+
 
             <p>
               Switch between different kinds
@@ -891,7 +910,9 @@ export default function LongDistanceCoupleGamesPage() {
           <div className="ldg-card-grid">
 
             {quickGames.map(
-              (game) => (
+              (
+                game
+              ) => (
 
                 <Link
                   key={
@@ -909,6 +930,7 @@ export default function LongDistanceCoupleGamesPage() {
                       {game.icon}
                     </div>
 
+
                     <div className="ldg-game-label">
                       {game.badge}
                     </div>
@@ -920,9 +942,11 @@ export default function LongDistanceCoupleGamesPage() {
                     {game.title}
                   </h3>
 
+
                   <p>
                     {game.description}
                   </p>
+
 
                   <div className="ldg-card-link">
                     Play Now →
@@ -950,10 +974,12 @@ export default function LongDistanceCoupleGamesPage() {
               KEEP TALKING
             </div>
 
+
             <h2>
               Conversation Games for
               Long Distance Couples
             </h2>
+
 
             <p>
               Sometimes you do not need a
@@ -968,7 +994,9 @@ export default function LongDistanceCoupleGamesPage() {
           <div className="ldg-card-grid ldg-card-grid-two">
 
             {conversationGames.map(
-              (game) => (
+              (
+                game
+              ) => (
 
                 <Link
                   key={
@@ -984,13 +1012,16 @@ export default function LongDistanceCoupleGamesPage() {
                     {game.icon}
                   </div>
 
+
                   <h3>
                     {game.title}
                   </h3>
 
+
                   <p>
                     {game.description}
                   </p>
+
 
                   <div className="ldg-card-link">
                     {game.cta} →
@@ -1018,9 +1049,11 @@ export default function LongDistanceCoupleGamesPage() {
               PICK YOUR VIBE
             </div>
 
+
             <h2>
               What Do You Feel Like Doing Tonight?
             </h2>
+
 
             <p>
               Long-distance time together
@@ -1035,7 +1068,9 @@ export default function LongDistanceCoupleGamesPage() {
           <div className="ldg-mood-grid">
 
             {moodChoices.map(
-              (item) => (
+              (
+                item
+              ) => (
 
                 <Link
                   key={
@@ -1051,13 +1086,16 @@ export default function LongDistanceCoupleGamesPage() {
                     {item.icon}
                   </div>
 
+
                   <h3>
                     {item.title}
                   </h3>
 
+
                   <p>
                     {item.description}
                   </p>
+
 
                   <span>
                     {item.cta} →
@@ -1085,6 +1123,7 @@ export default function LongDistanceCoupleGamesPage() {
               BUILT FOR DISTANCE
             </div>
 
+
             <h2>
               Why TwoLumi Works for
               Long Distance Couples
@@ -1101,9 +1140,11 @@ export default function LongDistanceCoupleGamesPage() {
                 📱
               </div>
 
+
               <h3>
                 Separate Devices
               </h3>
+
 
               <p>
                 You do not need to share one
@@ -1120,9 +1161,11 @@ export default function LongDistanceCoupleGamesPage() {
                 🔒
               </div>
 
+
               <h3>
                 Private Rooms, No Signup
               </h3>
+
 
               <p>
                 Create a temporary private room,
@@ -1140,9 +1183,11 @@ export default function LongDistanceCoupleGamesPage() {
                 💬
               </div>
 
+
               <h3>
                 Live Chat
               </h3>
+
 
               <p>
                 Keep talking inside the room
@@ -1160,9 +1205,11 @@ export default function LongDistanceCoupleGamesPage() {
                 🌐
               </div>
 
+
               <h3>
                 Browser-Based
               </h3>
+
 
               <p>
                 TwoLumi works directly in the
@@ -1189,6 +1236,7 @@ export default function LongDistanceCoupleGamesPage() {
               PLAY YOUR WAY
             </div>
 
+
             <h2>
               Games That Make Long Distance
               Feel a Little Closer
@@ -1210,6 +1258,7 @@ export default function LongDistanceCoupleGamesPage() {
               turning it into a complicated event.
             </p>
 
+
             <p>
               That is why TwoLumi mixes different
               kinds of online games for long distance
@@ -1221,6 +1270,7 @@ export default function LongDistanceCoupleGamesPage() {
               when you would rather talk than compete.
             </p>
 
+
             <p>
               You do not need to find one perfect game
               and repeat it every night. Switching
@@ -1230,6 +1280,7 @@ export default function LongDistanceCoupleGamesPage() {
               especially when your usual routine is
               another video call or movie night.
             </p>
+
 
             <p>
               The multiplayer experience is designed
@@ -1262,9 +1313,11 @@ export default function LongDistanceCoupleGamesPage() {
               MORE TO DO TOGETHER
             </div>
 
+
             <h2>
               Make the Next Call Feel Different
             </h2>
+
 
             <p>
               Mix games, questions, and simple
@@ -1285,11 +1338,13 @@ export default function LongDistanceCoupleGamesPage() {
                 📱
               </span>
 
+
               <div>
 
                 <strong>
                   100 Questions for Long Distance Couples
                 </strong>
+
 
                 <p>
                   Better prompts for video calls,
@@ -1297,6 +1352,7 @@ export default function LongDistanceCoupleGamesPage() {
                 </p>
 
               </div>
+
 
               <b>
                 →
@@ -1313,11 +1369,13 @@ export default function LongDistanceCoupleGamesPage() {
                 ✨
               </span>
 
+
               <div>
 
                 <strong>
                   56 Long Distance Date Ideas
                 </strong>
+
 
                 <p>
                   Games, puzzles, walks, food,
@@ -1327,6 +1385,7 @@ export default function LongDistanceCoupleGamesPage() {
                 </p>
 
               </div>
+
 
               <b>
                 →
@@ -1343,11 +1402,13 @@ export default function LongDistanceCoupleGamesPage() {
                 🌙
               </span>
 
+
               <div>
 
                 <strong>
                   Date Night Games for Couples
                 </strong>
+
 
                 <p>
                   Pick something light and interactive
@@ -1355,6 +1416,7 @@ export default function LongDistanceCoupleGamesPage() {
                 </p>
 
               </div>
+
 
               <b>
                 →
@@ -1371,11 +1433,13 @@ export default function LongDistanceCoupleGamesPage() {
                 🎮
               </span>
 
+
               <div>
 
                 <strong>
                   Browse All Online Games for Couples
                 </strong>
+
 
                 <p>
                   Explore all TwoLumi games,
@@ -1384,6 +1448,7 @@ export default function LongDistanceCoupleGamesPage() {
                 </p>
 
               </div>
+
 
               <b>
                 →
@@ -1408,6 +1473,7 @@ export default function LongDistanceCoupleGamesPage() {
               FAQ
             </div>
 
+
             <h2>
               Long Distance Couple Games FAQ
             </h2>
@@ -1418,7 +1484,9 @@ export default function LongDistanceCoupleGamesPage() {
           <div className="ldg-faq-list">
 
             {faqItems.map(
-              (item) => (
+              (
+                item
+              ) => (
 
                 <details
                   key={
@@ -1430,6 +1498,7 @@ export default function LongDistanceCoupleGamesPage() {
                   <summary>
                     {item.question}
                   </summary>
+
 
                   <p>
                     {item.answer}
@@ -1457,10 +1526,12 @@ export default function LongDistanceCoupleGamesPage() {
               READY TO PLAY?
             </div>
 
+
             <h2>
               Make Your Next Long Distance Call
               More Fun
             </h2>
+
 
             <p>
               Start with a private Would You Rather
@@ -1479,6 +1550,7 @@ export default function LongDistanceCoupleGamesPage() {
             >
               Create a Couple Room
             </a>
+
 
             <Link
               href="/games"

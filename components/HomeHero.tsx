@@ -1,17 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import {
+  useState,
+} from "react";
 
-import { trackEvent } from "@/lib/analytics";
+import Link from "next/link";
+
+import {
+  useRouter,
+} from "next/navigation";
+
+import {
+  trackEvent,
+} from "@/lib/analytics";
+
 
 /* =========================================================
    Home Hero
 ========================================================= */
 
 export default function HomeHero() {
-  const router = useRouter();
+  const router =
+    useRouter();
+
 
   /* =======================================================
      State
@@ -20,24 +31,34 @@ export default function HomeHero() {
   const [
     joinCode,
     setJoinCode,
-  ] = useState("");
+  ] =
+    useState("");
+
 
   const [
     joinError,
     setJoinError,
-  ] = useState("");
+  ] =
+    useState("");
+
 
   const [
     createError,
     setCreateError,
-  ] = useState("");
+  ] =
+    useState("");
+
 
   const [
     busy,
     setBusy,
-  ] = useState<
-    "create" | "join" | null
-  >(null);
+  ] =
+    useState<
+      "create" |
+      "join" |
+      null
+    >(null);
+
 
   /* =======================================================
      Create Room
@@ -45,22 +66,35 @@ export default function HomeHero() {
 
   const createRoom =
     async () => {
-      setBusy("create");
+      setBusy(
+        "create"
+      );
 
-      setCreateError("");
-      setJoinError("");
+
+      setCreateError(
+        ""
+      );
+
+
+      setJoinError(
+        ""
+      );
+
 
       try {
         const response =
           await fetch(
             "/api/rooms/create",
             {
-              method: "POST",
+              method:
+                "POST",
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (
           !response.ok ||
@@ -72,25 +106,30 @@ export default function HomeHero() {
           );
         }
 
+
         /* ===============================================
            GA4
 
-           Do not send room code or token.
+           Do not use "source".
+
+           Keep traffic attribution separate from
+           internal CTA / entry point tracking.
         =============================================== */
 
         trackEvent(
           "create_room",
           {
-            source:
+            entry_point:
               "home_hero",
           }
         );
 
+
         /* ===============================================
-           HttpOnly Cookie version
+           HttpOnly Cookie Version
 
            Token is already stored by the server.
-           Never put token into the URL.
+           Never put token into URL.
         =============================================== */
 
         router.push(
@@ -98,16 +137,24 @@ export default function HomeHero() {
             data.code
           )}`
         );
-      } catch (error) {
+
+      } catch (
+        error
+      ) {
         setCreateError(
-          error instanceof Error
+          error instanceof
+          Error
             ? error.message
             : "Could not create room."
         );
 
-        setBusy(null);
+
+        setBusy(
+          null
+        );
       }
     };
+
 
   /* =======================================================
      Join Room
@@ -116,8 +163,7 @@ export default function HomeHero() {
   const joinRoom =
     async () => {
       /* ===================================================
-         Only validate after the user explicitly tries
-         to join.
+         Only validate after user explicitly tries to join.
       =================================================== */
 
       const normalized =
@@ -133,7 +179,11 @@ export default function HomeHero() {
             6
           );
 
-      setCreateError("");
+
+      setCreateError(
+        ""
+      );
+
 
       /* ===================================================
          Invalid Length
@@ -148,18 +198,31 @@ export default function HomeHero() {
           {
             reason:
               "invalid_length",
+
+            entry_point:
+              "home_hero",
           }
         );
+
 
         setJoinError(
           "Enter the 6-character room code."
         );
 
+
         return;
       }
 
-      setBusy("join");
-      setJoinError("");
+
+      setBusy(
+        "join"
+      );
+
+
+      setJoinError(
+        ""
+      );
+
 
       try {
         const response =
@@ -182,8 +245,10 @@ export default function HomeHero() {
             }
           );
 
+
         const data =
           await response.json();
+
 
         if (
           !response.ok ||
@@ -192,7 +257,7 @@ export default function HomeHero() {
           /* =============================================
              Analytics
 
-             Never send the actual room code.
+             Never send actual room code.
           ============================================= */
 
           trackEvent(
@@ -203,14 +268,18 @@ export default function HomeHero() {
                 404
                   ? "not_found"
                   : response.status ===
-                      410
+                    410
                     ? "expired"
                     : response.status ===
-                        409
+                      409
                       ? "full_or_race"
                       : "server",
+
+              entry_point:
+                "home_hero",
             }
           );
+
 
           /* =============================================
              Friendly Error Messages
@@ -225,6 +294,7 @@ export default function HomeHero() {
             );
           }
 
+
           if (
             response.status ===
             410
@@ -233,6 +303,7 @@ export default function HomeHero() {
               "This room has expired. Ask your partner to create a new room."
             );
           }
+
 
           if (
             response.status ===
@@ -243,11 +314,13 @@ export default function HomeHero() {
             );
           }
 
+
           throw new Error(
             data.error ||
               "Could not join room."
           );
         }
+
 
         /* ===============================================
            GA4
@@ -256,13 +329,14 @@ export default function HomeHero() {
         trackEvent(
           "join_room_success",
           {
-            source:
+            entry_point:
               "home_hero",
           }
         );
 
+
         /* ===============================================
-           HttpOnly Cookie version
+           HttpOnly Cookie Version
 
            Guest token is already stored by the server.
         =============================================== */
@@ -272,16 +346,24 @@ export default function HomeHero() {
             data.code
           )}`
         );
-      } catch (error) {
+
+      } catch (
+        error
+      ) {
         setJoinError(
-          error instanceof Error
+          error instanceof
+          Error
             ? error.message
             : "Could not join room."
         );
 
-        setBusy(null);
+
+        setBusy(
+          null
+        );
       }
     };
+
 
   /* =======================================================
      Handle Room Code Input
@@ -302,21 +384,26 @@ export default function HomeHero() {
           6
         );
 
+
     setJoinCode(
       normalized
     );
 
+
     /*
-     * As soon as the user starts correcting the code,
-     * remove the previous error.
-     *
-     * This prevents a permanent red error message while
-     * the user is typing.
+     * As soon as user starts correcting the code,
+     * remove previous error.
      */
-    if (joinError) {
-      setJoinError("");
+
+    if (
+      joinError
+    ) {
+      setJoinError(
+        ""
+      );
     }
   };
+
 
   /* =======================================================
      Render
@@ -337,6 +424,7 @@ export default function HomeHero() {
             ♥ Made for Two
           </span>
 
+
           <h1>
             Online Games for Couples
             Made to{" "}
@@ -346,6 +434,7 @@ export default function HomeHero() {
             </span>
           </h1>
 
+
           <p className="hero-copy">
             Fun games, questions,
             and quizzes for couples —
@@ -353,6 +442,7 @@ export default function HomeHero() {
             Start instantly on any
             device.
           </p>
+
 
           <div className="hero-actions">
 
@@ -366,7 +456,7 @@ export default function HomeHero() {
                     game:
                       "would_you_rather",
 
-                    source:
+                    entry_point:
                       "home_hero",
                   }
                 )
@@ -374,6 +464,7 @@ export default function HomeHero() {
             >
               Start a Game →
             </Link>
+
 
             <Link
               href="/games"
@@ -385,6 +476,7 @@ export default function HomeHero() {
           </div>
 
         </div>
+
 
         {/* =================================================
             Play Together
@@ -406,11 +498,13 @@ export default function HomeHero() {
 
           </div>
 
+
           <p className="small-muted">
             Create a private room and
             invite your partner with a
             6-character room code.
           </p>
+
 
           {/* ===============================================
               3-Step Guide
@@ -472,6 +566,7 @@ export default function HomeHero() {
                 1
               </div>
 
+
               <div
                 style={{
                   fontSize:
@@ -488,6 +583,7 @@ export default function HomeHero() {
               </div>
 
             </div>
+
 
             {/* Step 2 */}
 
@@ -528,6 +624,7 @@ export default function HomeHero() {
                 2
               </div>
 
+
               <div
                 style={{
                   fontSize:
@@ -544,6 +641,7 @@ export default function HomeHero() {
               </div>
 
             </div>
+
 
             {/* Step 3 */}
 
@@ -584,6 +682,7 @@ export default function HomeHero() {
                 3
               </div>
 
+
               <div
                 style={{
                   fontSize:
@@ -602,6 +701,7 @@ export default function HomeHero() {
             </div>
 
           </div>
+
 
           {/* ===============================================
               Create Room
@@ -623,10 +723,9 @@ export default function HomeHero() {
               : "Create Room"}
           </button>
 
+
           {/* ===============================================
               Create Error
-
-              Only appears after Create Room actually fails.
           =============================================== */}
 
           {createError ? (
@@ -642,6 +741,7 @@ export default function HomeHero() {
             </div>
           ) : null}
 
+
           {/* ===============================================
               Existing Room Divider
           =============================================== */}
@@ -655,6 +755,7 @@ export default function HomeHero() {
           >
             Already have a room code?
           </div>
+
 
           {/* ===============================================
               Join Room
@@ -683,15 +784,20 @@ export default function HomeHero() {
                 if (
                   event.key ===
                     "Enter" &&
-                  busy === null
+                  busy ===
+                    null
                 ) {
                   joinRoom();
                 }
               }}
-              maxLength={6}
+              maxLength={
+                6
+              }
               autoCapitalize="characters"
               autoComplete="off"
-              spellCheck={false}
+              spellCheck={
+                false
+              }
               aria-label="Room code"
               aria-invalid={
                 joinError
@@ -704,6 +810,7 @@ export default function HomeHero() {
                   : undefined
               }
             />
+
 
             <button
               type="button"
@@ -723,12 +830,9 @@ export default function HomeHero() {
 
           </div>
 
+
           {/* ===============================================
               Join Error
-
-              Important:
-              Nothing is shown here until the user
-              actually tries to join.
           =============================================== */}
 
           {joinError ? (
@@ -747,6 +851,7 @@ export default function HomeHero() {
               {joinError}
             </div>
           ) : null}
+
 
           {/* ===============================================
               Privacy / Expiration Note
