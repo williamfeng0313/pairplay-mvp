@@ -11579,3 +11579,593 @@ button:disabled {
       center;
   }
 }
+
+/* =========================================================
+   Multiplayer Room
+   Mobile Base Layout
+   WYR + Same Answer
+========================================================= */
+
+/*
+ * Prevent room content from forcing
+ * horizontal page overflow.
+ */
+
+ .room-page-wrap,
+ .room-live-card,
+ .room-game-area,
+ .play-card,
+ .choice-grid,
+ .reveal-panel,
+ .reveal-grid {
+   min-width: 0;
+ }
+ 
+ 
+ /* =========================================================
+    Playing Room
+ ========================================================= */
+ 
+ .room-live-card-playing {
+   position: relative;
+ 
+   text-align: left;
+ }
+ 
+ 
+ .room-game-status {
+   display: flex;
+ 
+   align-items: center;
+ 
+   gap: 16px;
+ 
+   margin-bottom: 8px;
+ }
+ 
+ 
+ .room-game-status .room-state-icon {
+   flex: 0 0 auto;
+ 
+   margin: 0;
+ }
+ 
+ 
+ .room-game-status-copy {
+   margin:
+     6px 0 0;
+ }
+ 
+ 
+ .room-game-area {
+   width: 100%;
+ 
+   min-width: 0;
+ }
+ 
+ 
+ .room-security-copy {
+   margin-top: 18px;
+ 
+   text-align: center;
+ }
+ 
+ 
+ /* =========================================================
+    Multiplayer Game Card
+ ========================================================= */
+ 
+ .room-game-area .play-card {
+   width: 100%;
+ 
+   margin-top: 20px;
+ 
+   overflow: hidden;
+ }
+ 
+ 
+ .room-game-area .question {
+   overflow-wrap:
+     anywhere;
+ }
+ 
+ 
+ .room-game-area .choice {
+   width: 100%;
+ 
+   white-space: normal;
+ 
+   overflow-wrap:
+     anywhere;
+ 
+   word-break:
+     normal;
+ 
+   line-height:
+     1.45;
+ 
+   touch-action:
+     manipulation;
+ }
+ 
+ 
+ .room-game-area .btn-primary,
+ .room-game-area .btn-secondary {
+   touch-action:
+     manipulation;
+ }
+ 
+ 
+ /* =========================================================
+    Reveal
+ ========================================================= */
+ 
+ .room-game-area .reveal-grid {
+   width: 100%;
+ }
+ 
+ 
+ .room-game-area .reveal-grid > div {
+   min-width: 0;
+ }
+ 
+ 
+ .room-game-area .reveal-grid strong {
+   overflow-wrap:
+     anywhere;
+ }
+ 
+ 
+ /* =========================================================
+    Tablet
+ ========================================================= */
+ 
+ @media (max-width: 760px) {
+ 
+   .room-page-wrap {
+     max-width: 680px;
+   }
+ 
+ 
+   .room-live-card-playing {
+     padding: 24px;
+   }
+ 
+ 
+   .room-game-status {
+     align-items:
+       flex-start;
+   }
+ 
+ 
+   .room-game-status .room-state-icon {
+     width: 48px;
+     height: 48px;
+ 
+     border-radius: 14px;
+ 
+     font-size: 1.4rem;
+   }
+ 
+ 
+   .room-live-title {
+     font-size:
+       clamp(
+         1.8rem,
+         7vw,
+         2.4rem
+       );
+   }
+ 
+ 
+   .room-game-area .play-card {
+     padding: 20px;
+   }
+ 
+ 
+   .room-game-area .question {
+     font-size:
+       clamp(
+         1.35rem,
+         5vw,
+         1.9rem
+       );
+   }
+ 
+ 
+   .room-game-area .choice {
+     min-height: 76px;
+ 
+     padding: 14px 15px;
+   }
+ 
+ }
+ 
+ 
+ /* =========================================================
+    Mobile
+ ========================================================= */
+ 
+ @media (max-width: 620px) {
+ 
+   /*
+    * Keep enough room for the floating
+    * Live Chat button at the bottom.
+    */
+ 
+   .room-page-wrap {
+     width:
+       min(
+         calc(100% - 20px),
+         720px
+       );
+ 
+     padding-bottom: 72px;
+   }
+ 
+ 
+   .game-page {
+     padding:
+       24px 0
+       46px;
+   }
+ 
+ 
+   .room-live-card,
+   .room-live-card-playing {
+     padding:
+       18px 14px;
+ 
+     border-radius:
+       18px;
+   }
+ 
+ 
+   /*
+    * Pair header becomes compact
+    * so the actual game appears sooner.
+    */
+ 
+   .room-game-status {
+     gap: 11px;
+ 
+     margin-bottom:
+       2px;
+   }
+ 
+ 
+   .room-game-status .room-state-icon {
+     width: 42px;
+     height: 42px;
+ 
+     flex-basis:
+       42px;
+ 
+     border-radius:
+       12px;
+ 
+     font-size:
+       1.2rem;
+   }
+ 
+ 
+   .room-game-status .game-kicker {
+     font-size:
+       0.74rem;
+   }
+ 
+ 
+   .room-game-status .room-live-title {
+     margin:
+       3px 0 2px;
+ 
+     font-size:
+       1.55rem;
+ 
+     letter-spacing:
+       -0.03em;
+   }
+ 
+ 
+   .room-game-status-copy {
+     display: none;
+   }
+ 
+ 
+   /*
+    * Game shell
+    */
+ 
+   .room-game-area .play-card {
+     margin-top:
+       14px;
+ 
+     padding:
+       17px 13px;
+ 
+     border-radius:
+       16px;
+   }
+ 
+ 
+   .room-game-area .game-kicker {
+     font-size:
+       0.76rem;
+   }
+ 
+ 
+   .room-game-area .question {
+     margin-top:
+       5px;
+ 
+     font-size:
+       clamp(
+         1.3rem,
+         6.3vw,
+         1.75rem
+       );
+ 
+     line-height:
+       1.2;
+ 
+     letter-spacing:
+       -0.025em;
+   }
+ 
+ 
+   /*
+    * 4 Same Answer choices:
+    *
+    * Desktop = 2 columns
+    * Mobile  = 1 column
+    */
+ 
+   .room-game-area .choice-grid {
+     grid-template-columns:
+       1fr;
+ 
+     gap:
+       9px;
+ 
+     margin-top:
+       16px;
+   }
+ 
+ 
+   .room-game-area .choice {
+     min-height:
+       64px;
+ 
+     padding:
+       12px 14px;
+ 
+     border-radius:
+       13px;
+ 
+     font-size:
+       0.94rem;
+ 
+     line-height:
+       1.4;
+   }
+ 
+ 
+   /*
+    * Waiting message
+    */
+ 
+   .room-game-area .answer-waiting {
+     margin-top:
+       12px;
+ 
+     padding:
+       11px 12px;
+ 
+     font-size:
+       0.82rem;
+ 
+     line-height:
+       1.5;
+   }
+ 
+ 
+   /*
+    * Reveal cards:
+    * stack vertically on phone.
+    */
+ 
+   .room-game-area .reveal-panel {
+     margin-top:
+       14px;
+ 
+     gap:
+       12px;
+   }
+ 
+ 
+   .room-game-area .reveal-result {
+     font-size:
+       1.15rem;
+   }
+ 
+ 
+   .room-game-area .reveal-grid {
+     grid-template-columns:
+       1fr;
+ 
+     gap:
+       9px;
+   }
+ 
+ 
+   .room-game-area .reveal-grid > div {
+     padding:
+       13px;
+ 
+     border-radius:
+       13px;
+   }
+ 
+ 
+   .room-game-area .reveal-grid span {
+     margin-bottom:
+       5px;
+ 
+     font-size:
+       0.7rem;
+   }
+ 
+ 
+   .room-game-area .reveal-grid strong {
+     font-size:
+       0.94rem;
+ 
+     line-height:
+       1.4;
+   }
+ 
+ 
+   /*
+    * Host Next / Finish button
+    */
+ 
+   .room-game-area .reveal-panel > .btn-primary {
+     width: 100%;
+ 
+     min-height:
+       48px;
+   }
+ 
+ 
+   /*
+    * Complete page actions
+    */
+ 
+   .room-game-area .hero-actions {
+     display: grid;
+ 
+     grid-template-columns:
+       1fr;
+ 
+     width: 100%;
+ 
+     gap: 9px;
+   }
+ 
+ 
+   .room-game-area .hero-actions
+   .btn-primary,
+   .room-game-area .hero-actions
+   .btn-secondary {
+     width: 100%;
+ 
+     display:
+       inline-flex;
+ 
+     align-items:
+       center;
+ 
+     justify-content:
+       center;
+   }
+ 
+ 
+   /*
+    * Waiting room
+    */
+ 
+   .room-code {
+     font-size:
+       1.7rem;
+   }
+ 
+ 
+   .room-action-grid {
+     grid-template-columns:
+       1fr;
+ 
+     gap:
+       9px;
+   }
+ 
+ 
+   .room-action-grid
+   .btn-primary,
+   .room-action-grid
+   .btn-secondary {
+     width:
+       100%;
+   }
+ 
+ 
+   /*
+    * Avoid iOS zooming inputs below 16px.
+    * Also applies to RoomChat input because
+    * it is rendered inside the room.
+    */
+ 
+   .room-live-card input {
+     font-size:
+       16px;
+   }
+ 
+ 
+   .room-security-copy {
+     margin-top:
+       14px;
+ 
+     padding:
+       0 8px;
+ 
+     font-size:
+       0.72rem;
+ 
+     line-height:
+       1.5;
+   }
+ 
+ }
+ 
+ 
+ /* =========================================================
+    Very Small Mobile
+ ========================================================= */
+ 
+ @media (max-width: 390px) {
+ 
+   .room-page-wrap {
+     width:
+       calc(
+         100% - 14px
+       );
+   }
+ 
+ 
+   .room-live-card,
+   .room-live-card-playing {
+     padding:
+       15px 10px;
+   }
+ 
+ 
+   .room-game-area .play-card {
+     padding:
+       15px 10px;
+   }
+ 
+ 
+   .room-game-area .question {
+     font-size:
+       1.25rem;
+   }
+ 
+ 
+   .room-game-area .choice {
+     min-height:
+       60px;
+ 
+     padding:
+       11px 12px;
+   }
+ 
+ }

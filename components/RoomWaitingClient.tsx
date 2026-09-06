@@ -11,6 +11,7 @@ import Link from "next/link";
 
 import MultiplayerWouldYouRather from "@/components/MultiplayerWouldYouRather";
 import MultiplayerSameAnswer from "@/components/MultiplayerSameAnswer";
+import RoomChat from "@/components/RoomChat";
 
 import {
   trackEvent,
@@ -76,6 +77,10 @@ export default function RoomWaitingClient({
         code,
       ]
     );
+
+  /* =========================================================
+     Poll Room Status
+  ========================================================= */
 
   useEffect(() => {
     let cancelled =
@@ -164,6 +169,10 @@ export default function RoomWaitingClient({
     code,
   ]);
 
+  /* =========================================================
+     Copy Code
+  ========================================================= */
+
   const copyCode =
     async () => {
       try {
@@ -207,6 +216,10 @@ export default function RoomWaitingClient({
       }
     };
 
+  /* =========================================================
+     Share Invite
+  ========================================================= */
+
   const share =
     async () => {
       if (
@@ -233,7 +246,9 @@ export default function RoomWaitingClient({
                 "https://twolumi.com",
             });
         } catch {
-          // 用户取消分享，不算错误
+          /*
+           * 用户主动取消分享不算错误。
+           */
         }
 
         return;
@@ -280,6 +295,10 @@ export default function RoomWaitingClient({
       }
     };
 
+  /* =========================================================
+     Room Error
+  ========================================================= */
+
   if (
     !room.ok
   ) {
@@ -310,58 +329,97 @@ export default function RoomWaitingClient({
     );
   }
 
+  /* =========================================================
+     Partner Connected
+  ========================================================= */
+
   if (
     room.partnerConnected &&
     room.role
   ) {
     /*
      * 老 Room 没有 game_slug 时，
-     * 继续按 WYR 处理。
+     * 默认继续按 WYR 处理。
      */
     const gameSlug =
       room.gameSlug ||
       "would-you-rather";
 
     return (
-      <div className="room-live-card">
+      <div className="room-live-card room-live-card-playing">
 
-        <div className="room-state-icon ready">
-          ✓
+        {/* ===============================================
+            Pair Status
+        =============================================== */}
+
+        <div className="room-game-status">
+
+          <div className="room-state-icon ready">
+            ✓
+          </div>
+
+          <div>
+
+            <div className="game-kicker">
+              You're paired
+            </div>
+
+            <h2 className="room-live-title">
+              Play Together
+            </h2>
+
+            <p className="game-sub room-game-status-copy">
+              Both players are connected.
+              Your answers stay hidden until
+              both of you choose.
+            </p>
+
+          </div>
+
         </div>
 
-        <div className="game-kicker">
-          You're paired
+        {/* ===============================================
+            Game
+        =============================================== */}
+
+        <div className="room-game-area">
+
+          {gameSlug ===
+          "same-answer" ? (
+            <MultiplayerSameAnswer
+              code={code}
+              role={
+                room.role
+              }
+            />
+          ) : (
+            <MultiplayerWouldYouRather
+              code={code}
+              role={
+                room.role
+              }
+            />
+          )}
+
         </div>
 
-        <h2 className="room-live-title">
-          Play Together
-        </h2>
+        {/* ===============================================
+            Shared Room Chat
 
-        <p className="game-sub">
-          Both players are connected.
-          Your answers stay hidden
-          until both of you choose.
-        </p>
+            Chat belongs to the Room,
+            not to a specific game.
 
-        {gameSlug ===
-        "same-answer" ? (
-          <MultiplayerSameAnswer
-            code={code}
-            role={
-              room.role
-            }
-          />
-        ) : (
-          <MultiplayerWouldYouRather
-            code={code}
-            role={
-              room.role
-            }
-          />
-        )}
+            WYR / Same Answer / future games
+            automatically reuse it.
+        =============================================== */}
 
-        <div className="micro-copy">
-          Room expires automatically
+        <RoomChat
+          code={code}
+        />
+
+        <div className="micro-copy room-security-copy">
+          Private temporary room
+          · Live chat
           · No signup
           · No personal profile
         </div>
@@ -369,6 +427,10 @@ export default function RoomWaitingClient({
       </div>
     );
   }
+
+  /* =========================================================
+     Waiting for Partner
+  ========================================================= */
 
   return (
     <div className="room-live-card">
@@ -411,6 +473,7 @@ export default function RoomWaitingClient({
       <div className="room-action-grid">
 
         <button
+          type="button"
           className="btn-secondary"
           onClick={
             copyCode
@@ -420,6 +483,7 @@ export default function RoomWaitingClient({
         </button>
 
         <button
+          type="button"
           className="btn-primary"
           onClick={
             share
