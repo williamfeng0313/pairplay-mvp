@@ -13,6 +13,7 @@ import {
 } from "@/lib/analytics";
 
 import PostGameFeedback from "@/components/PostGameFeedback";
+import ConnectionCheck from "@/components/ConnectionCheck";
 
 type Choice =
   | "0"
@@ -669,6 +670,26 @@ export default function MultiplayerSameAnswer({
           </div>
 
         </div>
+
+        {/* ===============================================
+            CONNECTION CHECK V1
+
+            Important:
+            - Private outcome measurement.
+            - Partner does not see the answer.
+            - Room code is never sent to GA4.
+        =============================================== */}
+
+        <ConnectionCheck
+          code={code}
+          gameSlug="same-answer"
+          role={role}
+        />
+
+
+        {/* ===============================================
+            POST GAME FEEDBACK
+        =============================================== */}
 
         <PostGameFeedback
           gameSlug="same_answer"

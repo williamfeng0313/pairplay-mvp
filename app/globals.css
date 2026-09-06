@@ -12850,3 +12850,420 @@ button:disabled {
   }
 
 }
+
+/* =========================================================
+   Connection Check V1
+========================================================= */
+
+.connection-check {
+  margin:
+    22px 0;
+
+  padding:
+    24px;
+
+  border:
+    1px solid
+    #f4d4dd;
+
+  border-radius:
+    20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff8fa,
+      #ffffff
+    );
+
+  text-align:
+    left;
+}
+
+
+.connection-check-title {
+  max-width:
+    680px;
+
+  margin:
+    8px 0 0;
+
+  color:
+    var(--ink);
+
+  font-size:
+    clamp(
+      1.15rem,
+      2vw,
+      1.35rem
+    );
+
+  line-height:
+    1.35;
+}
+
+
+.connection-check-subtitle {
+  max-width:
+    620px;
+
+  margin:
+    9px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.86rem;
+
+  line-height:
+    1.6;
+}
+
+
+/* =========================================================
+   Options
+========================================================= */
+
+.connection-check-options {
+  margin-top:
+    20px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap:
+    10px;
+}
+
+
+.connection-check-option {
+  min-height:
+    106px;
+
+  padding:
+    15px 10px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:
+    16px;
+
+  background:
+    #ffffff;
+
+  color:
+    var(--ink);
+
+  cursor:
+    pointer;
+
+  font:
+    inherit;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  flex-direction:
+    column;
+
+  gap:
+    9px;
+
+  transition:
+    transform
+      0.15s ease,
+    border-color
+      0.15s ease,
+    background
+      0.15s ease,
+    box-shadow
+      0.15s ease;
+}
+
+
+.connection-check-option:hover:not(:disabled) {
+  transform:
+    translateY(
+      -2px
+    );
+
+  border-color:
+    #ffb6c9;
+
+  background:
+    #fff8fb;
+
+  box-shadow:
+    0 10px 28px
+    rgba(
+      244,
+      63,
+      117,
+      0.08
+    );
+}
+
+
+.connection-check-option:focus-visible {
+  outline:
+    3px solid
+    rgba(
+      244,
+      63,
+      117,
+      0.2
+    );
+
+  outline-offset:
+    2px;
+}
+
+
+.connection-check-option:disabled {
+  opacity:
+    0.65;
+
+  cursor:
+    wait;
+}
+
+
+.connection-check-emoji {
+  font-size:
+    1.85rem;
+
+  line-height:
+    1;
+}
+
+
+.connection-check-label {
+  font-size:
+    0.78rem;
+
+  font-weight:
+    800;
+
+  line-height:
+    1.3;
+
+  text-align:
+    center;
+}
+
+
+/* =========================================================
+   Error / Skip
+========================================================= */
+
+.connection-check-error {
+  margin:
+    12px 0 0;
+
+  color:
+    #b42318;
+
+  font-size:
+    0.8rem;
+}
+
+
+.connection-check-skip {
+  margin-top:
+    15px;
+
+  padding:
+    0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    var(--muted);
+
+  cursor:
+    pointer;
+
+  font:
+    inherit;
+
+  font-size:
+    0.76rem;
+
+  font-weight:
+    700;
+}
+
+
+.connection-check-skip:hover {
+  color:
+    var(--ink);
+
+  text-decoration:
+    underline;
+}
+
+
+/* =========================================================
+   Complete / Skip State
+========================================================= */
+
+.connection-check-done {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    14px;
+
+  padding:
+    18px 20px;
+}
+
+
+.connection-check-done-icon {
+  width:
+    46px;
+
+  height:
+    46px;
+
+  flex:
+    0 0 46px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  border-radius:
+    14px;
+
+  background:
+    #fff0f5;
+
+  font-size:
+    1.35rem;
+}
+
+
+.connection-check-done strong {
+  display:
+    block;
+
+  color:
+    var(--ink);
+
+  font-size:
+    0.92rem;
+}
+
+
+.connection-check-done p {
+  margin:
+    4px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.5;
+}
+
+
+/* =========================================================
+   Tablet
+========================================================= */
+
+@media (
+  max-width: 760px
+) {
+
+  .connection-check-options {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
+  }
+
+}
+
+
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (
+  max-width: 430px
+) {
+
+  .connection-check {
+    padding:
+      19px 15px;
+
+    border-radius:
+      17px;
+  }
+
+
+  .connection-check-options {
+    gap:
+      8px;
+  }
+
+
+  .connection-check-option {
+    min-height:
+      94px;
+
+    padding:
+      13px 8px;
+
+    border-radius:
+      14px;
+  }
+
+
+  .connection-check-emoji {
+    font-size:
+      1.65rem;
+  }
+
+
+  .connection-check-label {
+    font-size:
+      0.73rem;
+  }
+
+}
