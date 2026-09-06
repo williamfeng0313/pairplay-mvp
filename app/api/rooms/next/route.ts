@@ -13,11 +13,38 @@ import {
 } from "@/lib/roomSession";
 
 import {
-  WOULD_YOU_RATHER_ROUND_LIMIT,
-} from "@/lib/wouldYouRatherGame";
+  resolveRoomGameSlug,
+  getRoomGameRoundLimit,
+} from "@/lib/roomGame";
 
 export const dynamic =
   "force-dynamic";
+
+function hasAnswer(
+  value: unknown
+) {
+  return (
+    typeof value ===
+      "string" &&
+    value.length > 0
+  );
+}
+
+function safeMatchCount(
+  value: unknown
+) {
+  const parsed =
+    Number(value);
+
+  return (
+    Number.isInteger(
+      parsed
+    ) &&
+    parsed >= 0
+  )
+    ? parsed
+    : 0;
+}
 
 export async function POST(
   request: NextRequest
@@ -26,7 +53,9 @@ export async function POST(
     const body =
       await request
         .json()
-        .catch(() => ({}));
+        .catch(
+          () => ({})
+        );
 
     const code =
       normalizeRoomCode(
@@ -45,7 +74,8 @@ export async function POST(
       );
 
     if (
-      code.length !== 6 ||
+      code.length !==
+        6 ||
       !Number.isInteger(
         questionIndex
       )
@@ -53,6 +83,7 @@ export async function POST(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Invalid next-round request.",
         },
@@ -66,6 +97,7 @@ export async function POST(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Your room session is missing or has expired.",
         },
@@ -75,19 +107,16 @@ export async function POST(
       );
     }
 
-    // ==============================
-    // Get Room
-    // ==============================
-
     const response =
       await supabaseRest(
         `rooms?code=eq.${encodeURIComponent(
           code
-        )}&select=id,status,expires_at,host_token,current_question,host_answer,guest_answer`
+        )}&select=id,status,game_slug,expires_at,host_token,current_question,host_answer,guest_answer,match_count`
       );
 
     const rows =
-      await response.json();
+      await response
+        .json();
 
     const room =
       Array.isArray(rows) &&
@@ -99,6 +128,7 @@ export async function POST(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Room not found.",
         },
@@ -107,10 +137,6 @@ export async function POST(
         }
       );
     }
-
-    // ==============================
-    // Expired
-    // ==============================
 
     if (
       new Date(
@@ -121,6 +147,7 @@ export async function POST(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Room expired.",
         },
@@ -130,10 +157,6 @@ export async function POST(
       );
     }
 
-    // ==============================
-    // Only Host
-    // ==============================
-
     if (
       token !==
       room.host_token
@@ -141,6 +164,7 @@ export async function POST(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Only the room creator can start the next question.",
         },
@@ -150,20 +174,44 @@ export async function POST(
       );
     }
 
-    // ==============================
-    // Prevent double Next
-    // ==============================
+    const gameSlug =
+      resolveRoomGameSlug(
+        room.game_slug
+      );
+
+    if (!gameSlug) {
+      return NextResponse.json(
+        {
+          ok: false,
+
+          error:
+            "Unsupported game.",
+        },
+        {
+          status: 409,
+        }
+      );
+    }
+
+    const roundLimit =
+      getRoomGameRoundLimit(
+        gameSlug
+      );
+
+    const currentQuestion =
+      Number(
+        room.current_question ??
+          0
+      );
 
     if (
-      Number(
-        room.current_question ||
-          0
-      ) !==
+      currentQuestion !==
       questionIndex
     ) {
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "This question has already moved on.",
         },
@@ -173,17 +221,37 @@ export async function POST(
       );
     }
 
-    // ==============================
-    // Both must answer
-    // ==============================
-
     if (
-      !room.host_answer ||
-      !room.guest_answer
+      questionIndex <
+        0 ||
+      questionIndex >=
+        roundLimit
     ) {
       return NextResponse.json(
         {
           ok: false,
+
+          error:
+            "This game has already finished.",
+        },
+        {
+          status: 409,
+        }
+      );
+    }
+
+    if (
+      !hasAnswer(
+        room.host_answer
+      ) ||
+      !hasAnswer(
+        room.guest_answer
+      )
+    ) {
+      return NextResponse.json(
+        {
+          ok: false,
+
           error:
             "Both players must answer first.",
         },
@@ -193,55 +261,130 @@ export async function POST(
       );
     }
 
-    // ==============================
-    // Round 12之后进入Completed
-    // ==============================
-
     const nextQuestionIndex =
       Math.min(
         questionIndex + 1,
-        WOULD_YOU_RATHER_ROUND_LIMIT
+        roundLimit
       );
 
-    await supabaseRest(
-      `rooms?id=eq.${encodeURIComponent(
-        room.id
-      )}`,
-      {
-        method:
-          "PATCH",
+    const currentMatchCount =
+      safeMatchCount(
+        room.match_count
+      );
 
-        headers: {
-          Prefer:
-            "return=minimal",
+    const currentRoundMatched =
+      gameSlug ===
+        "same-answer" &&
+      room.host_answer ===
+        room.guest_answer;
+
+    const nextMatchCount =
+      currentMatchCount +
+      (
+        currentRoundMatched
+          ? 1
+          : 0
+      );
+
+    const updateBody:
+      Record<
+        string,
+        unknown
+      > = {
+      current_question:
+        nextQuestionIndex,
+
+      host_answer:
+        null,
+
+      guest_answer:
+        null,
+
+      updated_at:
+        new Date()
+          .toISOString(),
+    };
+
+    if (
+      gameSlug ===
+      "same-answer"
+    ) {
+      updateBody.match_count =
+        nextMatchCount;
+    }
+
+    /*
+     * Atomic-ish guard:
+     *
+     * 只有 current_question 仍等于
+     * 当前 round 时才允许 PATCH。
+     *
+     * Host 即使连续双击，
+     * 第二个请求也不会重复 +1。
+     */
+    const update =
+      await supabaseRest(
+        `rooms?id=eq.${encodeURIComponent(
+          room.id
+        )}&current_question=eq.${questionIndex}`,
+        {
+          method:
+            "PATCH",
+
+          headers: {
+            Prefer:
+              "return=representation",
+          },
+
+          body:
+            JSON.stringify(
+              updateBody
+            ),
+        }
+      );
+
+    const updatedRows =
+      await update
+        .json();
+
+    const updated =
+      Array.isArray(
+        updatedRows
+      )
+        ? updatedRows[0]
+        : null;
+
+    if (!updated) {
+      return NextResponse.json(
+        {
+          ok: false,
+
+          error:
+            "This question has already moved on.",
         },
-
-        body:
-          JSON.stringify({
-            current_question:
-              nextQuestionIndex,
-
-            host_answer:
-              null,
-
-            guest_answer:
-              null,
-
-            updated_at:
-              new Date().toISOString(),
-          }),
-      }
-    );
+        {
+          status: 409,
+        }
+      );
+    }
 
     return NextResponse.json({
       ok: true,
 
+      gameSlug,
+
       completed:
         nextQuestionIndex >=
-        WOULD_YOU_RATHER_ROUND_LIMIT,
+        roundLimit,
 
       questionIndex:
         nextQuestionIndex,
+
+      matchCount:
+        gameSlug ===
+        "same-answer"
+          ? nextMatchCount
+          : undefined,
     });
   } catch (error) {
     console.error(
@@ -252,6 +395,7 @@ export async function POST(
     return NextResponse.json(
       {
         ok: false,
+
         error:
           "Could not start the next question.",
       },

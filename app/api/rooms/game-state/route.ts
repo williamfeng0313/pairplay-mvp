@@ -13,21 +13,75 @@ import {
 } from "@/lib/roomSession";
 
 import {
+  resolveRoomGameSlug,
+  getRoomGameRoundLimit,
+} from "@/lib/roomGame";
+
+import {
   getWouldYouRatherQuestionsForRoom,
-  WOULD_YOU_RATHER_ROUND_LIMIT,
 } from "@/lib/wouldYouRatherGame";
+
+import {
+  getSameAnswerQuestionsForRoom,
+} from "@/lib/sameAnswerGame";
 
 export const dynamic =
   "force-dynamic";
+
+type WyrChoice =
+  | "a"
+  | "b";
+
+type SameAnswerChoice =
+  | "0"
+  | "1"
+  | "2"
+  | "3";
+
+function parseWyrChoice(
+  value: unknown
+): WyrChoice | null {
+  return (
+    value === "a" ||
+    value === "b"
+  )
+    ? value
+    : null;
+}
+
+function parseSameAnswerChoice(
+  value: unknown
+):
+  | SameAnswerChoice
+  | null {
+  return (
+    value === "0" ||
+    value === "1" ||
+    value === "2" ||
+    value === "3"
+  )
+    ? value
+    : null;
+}
+
+function safeMatchCount(
+  value: unknown
+) {
+  const parsed =
+    Number(value);
+
+  return (
+    Number.isInteger(parsed) &&
+    parsed >= 0
+  )
+    ? parsed
+    : 0;
+}
 
 export async function GET(
   request: NextRequest
 ) {
   try {
-    // ==============================
-    // 1. 获取Room参数
-    // ==============================
-
     const code =
       normalizeRoomCode(
         request.nextUrl.searchParams.get(
@@ -41,10 +95,14 @@ export async function GET(
         code
       );
 
-    if (code.length !== 6) {
+    if (
+      code.length !==
+      6
+    ) {
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Invalid room code.",
         },
@@ -58,6 +116,7 @@ export async function GET(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Your room session is missing or has expired.",
         },
@@ -67,19 +126,16 @@ export async function GET(
       );
     }
 
-    // ==============================
-    // 2. 查询Room
-    // ==============================
-
     const response =
       await supabaseRest(
         `rooms?code=eq.${encodeURIComponent(
           code
-        )}&select=id,code,status,expires_at,host_token,guest_token,current_question,host_answer,guest_answer`
+        )}&select=id,code,status,game_slug,expires_at,host_token,guest_token,current_question,host_answer,guest_answer,match_count`
       );
 
     const rows =
-      await response.json();
+      await response
+        .json();
 
     const room =
       Array.isArray(rows) &&
@@ -91,6 +147,7 @@ export async function GET(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Room not found.",
         },
@@ -99,10 +156,6 @@ export async function GET(
         }
       );
     }
-
-    // ==============================
-    // 3. Room Expired
-    // ==============================
 
     if (
       new Date(
@@ -113,6 +166,7 @@ export async function GET(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Room expired.",
         },
@@ -121,10 +175,6 @@ export async function GET(
         }
       );
     }
-
-    // ==============================
-    // 4. 判断Role
-    // ==============================
 
     let role:
       | "host"
@@ -135,20 +185,23 @@ export async function GET(
       token ===
       room.host_token
     ) {
-      role = "host";
+      role =
+        "host";
     }
 
     if (
       token ===
       room.guest_token
     ) {
-      role = "guest";
+      role =
+        "guest";
     }
 
     if (!role) {
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Invalid room token.",
         },
@@ -158,9 +211,24 @@ export async function GET(
       );
     }
 
-    // ==============================
-    // 5. Guest还没加入
-    // ==============================
+    const gameSlug =
+      resolveRoomGameSlug(
+        room.game_slug
+      );
+
+    if (!gameSlug) {
+      return NextResponse.json(
+        {
+          ok: false,
+
+          error:
+            "This room uses an unsupported game.",
+        },
+        {
+          status: 409,
+        }
+      );
+    }
 
     if (
       room.status !==
@@ -168,6 +236,8 @@ export async function GET(
     ) {
       return NextResponse.json({
         ok: true,
+
+        gameSlug,
 
         status:
           room.status,
@@ -182,26 +252,30 @@ export async function GET(
       });
     }
 
-    // ==============================
-    // 6. 当前Round
-    // ==============================
-
     const questionIndex =
       Number(
-        room.current_question ||
+        room.current_question ??
           0
       );
 
-    // ==============================
-    // 7. Game Complete
-    // ==============================
+    const roundLimit =
+      getRoomGameRoundLimit(
+        gameSlug
+      );
+
+    const persistedMatchCount =
+      safeMatchCount(
+        room.match_count
+      );
 
     if (
       questionIndex >=
-      WOULD_YOU_RATHER_ROUND_LIMIT
+      roundLimit
     ) {
       return NextResponse.json({
         ok: true,
+
+        gameSlug,
 
         status:
           "ready",
@@ -214,17 +288,140 @@ export async function GET(
         completed:
           true,
 
-        roundLimit:
-          WOULD_YOU_RATHER_ROUND_LIMIT,
+        roundLimit,
+
+        matchCount:
+          gameSlug ===
+          "same-answer"
+            ? persistedMatchCount
+            : undefined,
       });
     }
 
-    // ==============================
-    // 8. 根据Room Code生成随机12题
-    // ==============================
+    /*
+     * ==========================================
+     * WOULD YOU RATHER
+     * ==========================================
+     */
+
+    if (
+      gameSlug ===
+      "would-you-rather"
+    ) {
+      const questions =
+        getWouldYouRatherQuestionsForRoom(
+          code
+        );
+
+      const question =
+        questions[
+          questionIndex
+        ];
+
+      if (!question) {
+        return NextResponse.json(
+          {
+            ok: false,
+
+            error:
+              "Question not found.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      const hostAnswer =
+        parseWyrChoice(
+          room.host_answer
+        );
+
+      const guestAnswer =
+        parseWyrChoice(
+          room.guest_answer
+        );
+
+      const bothAnswered =
+        hostAnswer !==
+          null &&
+        guestAnswer !==
+          null;
+
+      const selfAnswer =
+        role === "host"
+          ? hostAnswer
+          : guestAnswer;
+
+      const partnerAnswer =
+        role === "host"
+          ? guestAnswer
+          : hostAnswer;
+
+      return NextResponse.json({
+        ok: true,
+
+        gameSlug,
+
+        status:
+          "ready",
+
+        role,
+
+        partnerConnected:
+          true,
+
+        completed:
+          false,
+
+        questionIndex,
+
+        roundLimit,
+
+        question: {
+          id:
+            question.id,
+
+          a:
+            question.a,
+
+          b:
+            question.b,
+        },
+
+        selfAnswered:
+          selfAnswer !==
+          null,
+
+        partnerAnswered:
+          partnerAnswer !==
+          null,
+
+        reveal:
+          bothAnswered
+            ? {
+                you:
+                  selfAnswer,
+
+                partner:
+                  partnerAnswer,
+
+                sameChoice:
+                  selfAnswer ===
+                  partnerAnswer,
+              }
+            : null,
+      });
+    }
+
+    /*
+     * ==========================================
+     * SAME ANSWER
+     * ==========================================
+     */
 
     const questions =
-      getWouldYouRatherQuestionsForRoom(
+      getSameAnswerQuestionsForRoom(
         code
       );
 
@@ -237,6 +434,7 @@ export async function GET(
       return NextResponse.json(
         {
           ok: false,
+
           error:
             "Question not found.",
         },
@@ -246,27 +444,21 @@ export async function GET(
       );
     }
 
-    // ==============================
-    // 9. Answer State
-    // ==============================
-
     const hostAnswer =
-      room.host_answer as
-        | "a"
-        | "b"
-        | null;
+      parseSameAnswerChoice(
+        room.host_answer
+      );
 
     const guestAnswer =
-      room.guest_answer as
-        | "a"
-        | "b"
-        | null;
+      parseSameAnswerChoice(
+        room.guest_answer
+      );
 
     const bothAnswered =
-      Boolean(
-        hostAnswer &&
-          guestAnswer
-      );
+      hostAnswer !==
+        null &&
+      guestAnswer !==
+        null;
 
     const selfAnswer =
       role === "host"
@@ -278,12 +470,27 @@ export async function GET(
         ? guestAnswer
         : hostAnswer;
 
-    // ==============================
-    // 10. Return State
-    // ==============================
+    /*
+     * 当前轮还没有在数据库持久化加分，
+     * 但 Reveal 时需要让用户看到实时比分。
+     */
+    const currentRoundMatched =
+      bothAnswered &&
+      hostAnswer ===
+        guestAnswer;
+
+    const liveMatchCount =
+      persistedMatchCount +
+      (
+        currentRoundMatched
+          ? 1
+          : 0
+      );
 
     return NextResponse.json({
       ok: true,
+
+      gameSlug,
 
       status:
         "ready",
@@ -298,24 +505,32 @@ export async function GET(
 
       questionIndex,
 
-      roundLimit:
-        WOULD_YOU_RATHER_ROUND_LIMIT,
+      roundLimit,
+
+      matchCount:
+        liveMatchCount,
 
       question: {
-        id: question.id,
-        a: question.a,
-        b: question.b,
+        id:
+          question.id,
+
+        text:
+          question.question,
+
+        category:
+          question.category,
+
+        options:
+          question.options,
       },
 
       selfAnswered:
-        Boolean(
-          selfAnswer
-        ),
+        selfAnswer !==
+        null,
 
       partnerAnswered:
-        Boolean(
-          partnerAnswer
-        ),
+        partnerAnswer !==
+        null,
 
       reveal:
         bothAnswered
@@ -341,6 +556,7 @@ export async function GET(
     return NextResponse.json(
       {
         ok: false,
+
         error:
           "Could not load the game state.",
       },

@@ -28,15 +28,16 @@ type FeedbackTag =
   | "bug";
 
 
-type PostGameFeedbackProps = {
-  gameSlug:
-    | "wyr_multiplayer"
-    | "this_or_that"
-    | "couple_quiz"
-    | "compatibility";
-
-  pagePath: string;
-};
+  type PostGameFeedbackProps = {
+    gameSlug:
+      | "wyr_multiplayer"
+      | "same_answer"
+      | "this_or_that"
+      | "couple_quiz"
+      | "compatibility";
+  
+    pagePath: string;
+  };
 
 
 /* =========================================================

@@ -20,22 +20,25 @@ import {
   consumeRateLimit,
 } from "@/lib/rateLimit";
 
+import {
+  resolveRoomGameSlug,
+} from "@/lib/roomGame";
+
 export const dynamic =
   "force-dynamic";
 
-/* =========================================================
-   Rate Limit
-========================================================= */
+const CREATE_ROOM_LIMIT =
+  5;
 
-const CREATE_ROOM_LIMIT = 5;
-const CREATE_ROOM_WINDOW_SECONDS = 60;
-
-/* =========================================================
-   Room Code
-========================================================= */
+const CREATE_ROOM_WINDOW_SECONDS =
+  60;
 
 const ALPHABET =
   "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+type CreateRoomRequestBody = {
+  gameSlug?: unknown;
+};
 
 function makeCode(
   length = 6
@@ -53,22 +56,10 @@ function makeCode(
   ).join("");
 }
 
-/* =========================================================
-   Create Room
-========================================================= */
-
 export async function POST(
   request: NextRequest
 ) {
   try {
-
-    /* =====================================================
-       Rate Limit
-
-       Maximum:
-       5 room creates / 60 seconds / IP
-    ===================================================== */
-
     const rateLimit =
       await consumeRateLimit(
         request,
@@ -112,15 +103,41 @@ export async function POST(
       );
     }
 
-    /* =====================================================
-       Temporary Room Cleanup
+    const body =
+      (await request
+        .json()
+        .catch(
+          () => ({})
+        )) as
+        CreateRoomRequestBody;
 
-       Keep this until your separate Supabase cleanup job
-       is confirmed working.
-    ===================================================== */
+    /*
+     * 没传 gameSlug：
+     * 默认继续创建 WYR Room，
+     * 确保现有入口完全兼容。
+     */
+    const gameSlug =
+      resolveRoomGameSlug(
+        body.gameSlug
+      );
+
+    if (!gameSlug) {
+      return NextResponse.json(
+        {
+          ok: false,
+
+          error:
+            "Unsupported game.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
     const now =
-      new Date().toISOString();
+      new Date()
+        .toISOString();
 
     await supabaseRest(
       `rooms?expires_at=lt.${encodeURIComponent(
@@ -138,10 +155,6 @@ export async function POST(
     ).catch(
       () => null
     );
-
-    /* =====================================================
-       Create unique room
-    ===================================================== */
 
     for (
       let attempt = 0;
@@ -177,13 +190,26 @@ export async function POST(
                   "waiting",
 
                 game_slug:
-                  "would-you-rather",
+                  gameSlug,
+
+                current_question:
+                  0,
+
+                host_answer:
+                  null,
+
+                guest_answer:
+                  null,
+
+                match_count:
+                  0,
               }),
           }
         );
 
       const rows =
-        await response.json();
+        await response
+          .json();
 
       if (
         Array.isArray(rows) &&
@@ -195,6 +221,8 @@ export async function POST(
 
             code,
 
+            gameSlug,
+
             status:
               rows[0].status,
 
@@ -203,17 +231,12 @@ export async function POST(
                 .expires_at,
           });
 
-        /* ===============================================
-           Secure room session
-
-           Token stays in HttpOnly Cookie.
-        =============================================== */
-
         setRoomSessionCookie(
           result,
           code,
           hostToken,
-          rows[0].expires_at
+          rows[0]
+            .expires_at
         );
 
         result.headers.set(
@@ -254,9 +277,7 @@ export async function POST(
         status: 503,
       }
     );
-
   } catch (error) {
-
     console.error(
       "create room error",
       error

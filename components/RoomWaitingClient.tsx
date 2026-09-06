@@ -1,23 +1,42 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
 import Link from "next/link";
 
 import MultiplayerWouldYouRather from "@/components/MultiplayerWouldYouRather";
-import { trackEvent } from "@/lib/analytics";
+import MultiplayerSameAnswer from "@/components/MultiplayerSameAnswer";
+
+import {
+  trackEvent,
+} from "@/lib/analytics";
 
 type RoomState = {
   ok: boolean;
 
   code?: string;
 
-  status?: "waiting" | "ready";
+  status?:
+    | "waiting"
+    | "ready";
 
-  role?: "host" | "guest";
+  role?:
+    | "host"
+    | "guest";
 
-  partnerConnected?: boolean;
+  gameSlug?:
+    string;
 
-  error?: string;
+  partnerConnected?:
+    boolean;
+
+  error?:
+    string;
 };
 
 export default function RoomWaitingClient({
@@ -25,41 +44,42 @@ export default function RoomWaitingClient({
 }: {
   code: string;
 }) {
-  // ==============================
-  // Room State
-  // ==============================
-
-  const [room, setRoom] =
+  const [
+    room,
+    setRoom,
+  ] =
     useState<RoomState>({
       ok: true,
+
       code,
-      status: "waiting",
+
+      status:
+        "waiting",
     });
 
-  const [copyLabel, setCopyLabel] =
-    useState("Copy code");
+  const [
+    copyLabel,
+    setCopyLabel,
+  ] =
+    useState(
+      "Copy code"
+    );
 
-  // 防止 pair_complete 重复埋点
   const pairedTracked =
     useRef(false);
-
-  // ==============================
-  // Share Text
-  // ==============================
 
   const shareText =
     useMemo(
       () =>
         `Join my TwoLumi room. Code: ${code}`,
-      [code]
+      [
+        code,
+      ]
     );
 
-  // ==============================
-  // Poll Room Status
-  // ==============================
-
   useEffect(() => {
-    let cancelled = false;
+    let cancelled =
+      false;
 
     const checkRoom =
       async () => {
@@ -70,22 +90,24 @@ export default function RoomWaitingClient({
                 code
               )}`,
               {
-                cache: "no-store",
+                cache:
+                  "no-store",
               }
             );
 
           const data =
-            await response.json();
+            await response
+              .json();
 
-          if (cancelled) {
+          if (
+            cancelled
+          ) {
             return;
           }
 
-          setRoom(data);
-
-          // ==============================
-          // Analytics - Pair Complete
-          // ==============================
+          setRoom(
+            data
+          );
 
           if (
             data.ok &&
@@ -98,6 +120,10 @@ export default function RoomWaitingClient({
                 role:
                   data.role ||
                   "unknown",
+
+                game_name:
+                  data.gameSlug ||
+                  "would-you-rather",
               }
             );
 
@@ -105,7 +131,9 @@ export default function RoomWaitingClient({
               true;
           }
         } catch {
-          if (!cancelled) {
+          if (
+            !cancelled
+          ) {
             setRoom({
               ok: false,
 
@@ -116,10 +144,8 @@ export default function RoomWaitingClient({
         }
       };
 
-    // 进入页面马上检查一次
     checkRoom();
 
-    // 每2秒检查 Partner 是否加入
     const timer =
       window.setInterval(
         checkRoom,
@@ -127,24 +153,25 @@ export default function RoomWaitingClient({
       );
 
     return () => {
-      cancelled = true;
+      cancelled =
+        true;
 
       window.clearInterval(
         timer
       );
     };
-  }, [code]);
-
-  // ==============================
-  // Copy Room Code
-  // ==============================
+  }, [
+    code,
+  ]);
 
   const copyCode =
     async () => {
       try {
-        await navigator.clipboard.writeText(
-          code
-        );
+        await navigator
+          .clipboard
+          .writeText(
+            code
+          );
 
         trackEvent(
           "share_room",
@@ -180,14 +207,11 @@ export default function RoomWaitingClient({
       }
     };
 
-  // ==============================
-  // Share Invite
-  // ==============================
-
   const share =
     async () => {
-      // Mobile / supported browsers
-      if (navigator.share) {
+      if (
+        navigator.share
+      ) {
         trackEvent(
           "share_room",
           {
@@ -197,24 +221,24 @@ export default function RoomWaitingClient({
         );
 
         try {
-          await navigator.share({
-            title:
-              "Join my TwoLumi room",
+          await navigator
+            .share({
+              title:
+                "Join my TwoLumi room",
 
-            text:
-              shareText,
+              text:
+                shareText,
 
-            url:
-              "https://twolumi.com",
-          });
+              url:
+                "https://twolumi.com",
+            });
         } catch {
-          // 用户主动取消分享，不算错误
+          // 用户取消分享，不算错误
         }
 
         return;
       }
 
-      // Desktop fallback
       trackEvent(
         "share_room",
         {
@@ -224,9 +248,11 @@ export default function RoomWaitingClient({
       );
 
       try {
-        await navigator.clipboard.writeText(
-          `${shareText} https://twolumi.com`
-        );
+        await navigator
+          .clipboard
+          .writeText(
+            `${shareText} https://twolumi.com`
+          );
 
         setCopyLabel(
           "Invite copied!"
@@ -254,11 +280,9 @@ export default function RoomWaitingClient({
       }
     };
 
-  // ==============================
-  // Room Error
-  // ==============================
-
-  if (!room.ok) {
+  if (
+    !room.ok
+  ) {
     return (
       <div className="room-live-card">
 
@@ -286,18 +310,20 @@ export default function RoomWaitingClient({
     );
   }
 
-  // ==============================
-  // Partner Connected
-  // ==============================
-
   if (
     room.partnerConnected &&
     room.role
   ) {
+    /*
+     * 老 Room 没有 game_slug 时，
+     * 继续按 WYR 处理。
+     */
+    const gameSlug =
+      room.gameSlug ||
+      "would-you-rather";
+
     return (
       <div className="room-live-card">
-
-        {/* Paired Status */}
 
         <div className="room-state-icon ready">
           ✓
@@ -317,16 +343,22 @@ export default function RoomWaitingClient({
           until both of you choose.
         </p>
 
-        {/* ==============================
-            Multiplayer Game
-        ============================== */}
-
-        <MultiplayerWouldYouRather
-          code={code}
-          role={room.role}
-        />
-
-        {/* Footer Note */}
+        {gameSlug ===
+        "same-answer" ? (
+          <MultiplayerSameAnswer
+            code={code}
+            role={
+              room.role
+            }
+          />
+        ) : (
+          <MultiplayerWouldYouRather
+            code={code}
+            role={
+              room.role
+            }
+          />
+        )}
 
         <div className="micro-copy">
           Room expires automatically
@@ -338,46 +370,31 @@ export default function RoomWaitingClient({
     );
   }
 
-  // ==============================
-  // Waiting for Partner
-  // ==============================
-
   return (
     <div className="room-live-card">
-
-      {/* Icon */}
 
       <div className="room-state-icon">
         ♡
       </div>
 
-      {/* Role */}
-
       <div className="game-kicker">
 
-        {room.role === "guest"
+        {room.role ===
+        "guest"
           ? "You joined the room"
           : "Private room"}
 
       </div>
 
-      {/* Title */}
-
       <h2 className="room-live-title">
         Waiting for your partner
       </h2>
-
-      {/* Description */}
 
       <p className="game-sub">
         Send this code to your partner.
         This page checks automatically
         every 2 seconds.
       </p>
-
-      {/* ==============================
-          Room Code
-      ============================== */}
 
       <div className="room-code-box">
 
@@ -391,29 +408,27 @@ export default function RoomWaitingClient({
 
       </div>
 
-      {/* ==============================
-          Invite Controls
-      ============================== */}
-
       <div className="room-action-grid">
 
         <button
           className="btn-secondary"
-          onClick={copyCode}
+          onClick={
+            copyCode
+          }
         >
           {copyLabel}
         </button>
 
         <button
           className="btn-primary"
-          onClick={share}
+          onClick={
+            share
+          }
         >
           Invite partner
         </button>
 
       </div>
-
-      {/* Note */}
 
       <div className="micro-copy">
         Room expires automatically
