@@ -3,6 +3,10 @@ import Link from "next/link";
 
 import RandomDateIdea from "@/components/RandomDateIdea";
 
+import SaveDateIdeaButton from "@/components/SaveDateIdeaButton";
+
+import SavedDateIdeasPanel from "@/components/SavedDateIdeasPanel";
+
 import {
   longDistanceDateCategories,
   longDistanceDateIdeas,
@@ -331,6 +335,17 @@ export default function LongDistanceDateIdeasPage() {
             CATEGORY NAV
         ================================================= */}
 
+          <SavedDateIdeasPanel
+            ideas={
+              longDistanceDateIdeas
+            }
+          />
+
+
+          {/* =================================================
+              CATEGORY NAV
+          ================================================= */}
+
         <nav
           className="lddi-category-nav"
           aria-label="Long distance date idea categories"
@@ -508,37 +523,54 @@ export default function LongDistanceDateIdeasPage() {
                         </p>
 
                         <div className="lddi-idea-meta">
-                          <span>
-                            {
-                              idea.mood
-                            }
-                          </span>
 
-                          <span>
-                            {
-                              idea.durationLabel
-                            }
-                          </span>
+                      <span>
+                        {
+                          idea.mood
+                        }
+                      </span>
 
-                          <span>
-                            {
-                              idea.budget
-                            }
-                          </span>
-                        </div>
+                      <span>
+                        {
+                          idea.durationLabel
+                        }
+                      </span>
 
-                        {idea.href ? (
-                          <Link
-                            href={idea.href}
-                            className="lddi-idea-link"
-                          >
-                            {
-                              idea.cta ??
-                              "Try This Idea"
-                            }{" "}
-                            →
-                          </Link>
-                        ) : null}
+                      <span>
+                        {
+                          idea.budget
+                        }
+                      </span>
+
+                    </div>
+
+
+                    <div className="lddi-idea-card-actions">
+
+                      <SaveDateIdeaButton
+                        ideaId={
+                          idea.id
+                        }
+                        source="idea_card"
+                      />
+
+
+                      {idea.href ? (
+                        <Link
+                          href={
+                            idea.href
+                          }
+                          className="lddi-idea-link"
+                        >
+                          {
+                            idea.cta ??
+                            "Try This Idea"
+                          }{" "}
+                          →
+                        </Link>
+                      ) : null}
+
+      </div>
                       </article>
                     )
                   )}
