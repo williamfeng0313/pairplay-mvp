@@ -12740,3 +12740,113 @@ button:disabled {
   }
 
 }
+
+/* =========================================================
+   Random Date Idea Generator - Actions
+========================================================= */
+
+.lddi-generator-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 22px;
+}
+
+
+/* Surprise Us */
+
+.lddi-generator-actions > .btn-primary {
+  width: 160px;
+
+  flex: 0 0 160px;
+}
+
+
+/* Save */
+
+.lddi-generator-actions
+.lddi-save-button {
+  width: 150px;
+
+  min-height: 44px;
+
+  padding: 0 18px;
+
+  flex: 0 0 150px;
+
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+
+/* Saved state */
+
+.lddi-generator-actions
+.lddi-save-button-active {
+  border-color: #ffc0d1;
+
+  background: #fff0f5;
+
+  color: var(--pink);
+}
+
+
+/* Main idea CTA */
+
+.lddi-generator-actions > .btn-secondary {
+  width: 240px;
+
+  flex: 0 0 240px;
+}
+
+
+/* Reset */
+
+.lddi-generator-actions
+.lddi-reset-button {
+  flex: 0 0 auto;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   Mobile
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .lddi-generator-actions {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 10px;
+  }
+
+
+  .lddi-generator-actions > .btn-primary,
+  .lddi-generator-actions
+  .lddi-save-button,
+  .lddi-generator-actions > .btn-secondary {
+    width: 100%;
+
+    flex: 0 0 auto;
+  }
+
+
+  .lddi-generator-actions
+  .lddi-reset-button {
+    width: 100%;
+
+    min-height: 40px;
+
+    text-align: center;
+  }
+
+}
