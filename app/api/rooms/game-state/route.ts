@@ -25,6 +25,10 @@ import {
   getSameAnswerQuestionsForRoom,
 } from "@/lib/sameAnswerGame";
 
+import {
+  relationshipCheckInQuestions,
+} from "@/data/relationshipCheckInQuestions";
+
 export const dynamic =
   "force-dynamic";
 
@@ -32,7 +36,7 @@ type WyrChoice =
   | "a"
   | "b";
 
-type SameAnswerChoice =
+type FourChoice =
   | "0"
   | "1"
   | "2"
@@ -49,10 +53,10 @@ function parseWyrChoice(
     : null;
 }
 
-function parseSameAnswerChoice(
+function parseFourChoice(
   value: unknown
 ):
-  | SameAnswerChoice
+  | FourChoice
   | null {
   return (
     value === "0" ||
@@ -420,13 +424,154 @@ export async function GET(
      * ==========================================
      */
 
-    const questions =
-      getSameAnswerQuestionsForRoom(
-        code
-      );
+    if (
+      gameSlug ===
+      "same-answer"
+    ) {
+      const questions =
+        getSameAnswerQuestionsForRoom(
+          code
+        );
+
+      const question =
+        questions[
+          questionIndex
+        ];
+
+      if (!question) {
+        return NextResponse.json(
+          {
+            ok: false,
+
+            error:
+              "Question not found.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      const hostAnswer =
+        parseFourChoice(
+          room.host_answer
+        );
+
+      const guestAnswer =
+        parseFourChoice(
+          room.guest_answer
+        );
+
+      const bothAnswered =
+        hostAnswer !==
+          null &&
+        guestAnswer !==
+          null;
+
+      const selfAnswer =
+        role === "host"
+          ? hostAnswer
+          : guestAnswer;
+
+      const partnerAnswer =
+        role === "host"
+          ? guestAnswer
+          : hostAnswer;
+
+      /*
+       * 当前轮还没有在数据库持久化加分，
+       * 但 Reveal 时需要让用户看到实时比分。
+       */
+      const currentRoundMatched =
+        bothAnswered &&
+        hostAnswer ===
+          guestAnswer;
+
+      const liveMatchCount =
+        persistedMatchCount +
+        (
+          currentRoundMatched
+            ? 1
+            : 0
+        );
+
+      return NextResponse.json({
+        ok: true,
+
+        gameSlug,
+
+        status:
+          "ready",
+
+        role,
+
+        partnerConnected:
+          true,
+
+        completed:
+          false,
+
+        questionIndex,
+
+        roundLimit,
+
+        matchCount:
+          liveMatchCount,
+
+        question: {
+          id:
+            question.id,
+
+          text:
+            question.question,
+
+          category:
+            question.category,
+
+          options:
+            question.options,
+        },
+
+        selfAnswered:
+          selfAnswer !==
+          null,
+
+        partnerAnswered:
+          partnerAnswer !==
+          null,
+
+        reveal:
+          bothAnswered
+            ? {
+                you:
+                  selfAnswer,
+
+                partner:
+                  partnerAnswer,
+
+                sameChoice:
+                  selfAnswer ===
+                  partnerAnswer,
+              }
+            : null,
+      });
+    }
+
+    /*
+     * ==========================================
+     * RELATIONSHIP CHECK-IN
+     * ==========================================
+     *
+     * Important:
+     * - Fixed 12-question order.
+     * - No Match Count.
+     * - No "same/different" judgement in the UI.
+     * - Both answers reveal only after both submit.
+     * - Discussion prompt is returned only with reveal.
+     */
 
     const question =
-      questions[
+      relationshipCheckInQuestions[
         questionIndex
       ];
 
@@ -436,7 +581,7 @@ export async function GET(
           ok: false,
 
           error:
-            "Question not found.",
+            "Check-in question not found.",
         },
         {
           status: 500,
@@ -445,12 +590,12 @@ export async function GET(
     }
 
     const hostAnswer =
-      parseSameAnswerChoice(
+      parseFourChoice(
         room.host_answer
       );
 
     const guestAnswer =
-      parseSameAnswerChoice(
+      parseFourChoice(
         room.guest_answer
       );
 
@@ -469,23 +614,6 @@ export async function GET(
       role === "host"
         ? guestAnswer
         : hostAnswer;
-
-    /*
-     * 当前轮还没有在数据库持久化加分，
-     * 但 Reveal 时需要让用户看到实时比分。
-     */
-    const currentRoundMatched =
-      bothAnswered &&
-      hostAnswer ===
-        guestAnswer;
-
-    const liveMatchCount =
-      persistedMatchCount +
-      (
-        currentRoundMatched
-          ? 1
-          : 0
-      );
 
     return NextResponse.json({
       ok: true,
@@ -507,18 +635,15 @@ export async function GET(
 
       roundLimit,
 
-      matchCount:
-        liveMatchCount,
-
       question: {
         id:
           question.id,
 
         text:
-          question.question,
+          question.prompt,
 
-        category:
-          question.category,
+        stage:
+          question.stage,
 
         options:
           question.options,
@@ -541,9 +666,8 @@ export async function GET(
               partner:
                 partnerAnswer,
 
-              sameChoice:
-                selfAnswer ===
-                partnerAnswer,
+              discussionPrompt:
+                question.discussionPrompt,
             }
           : null,
     });

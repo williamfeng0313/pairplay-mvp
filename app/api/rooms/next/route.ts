@@ -272,6 +272,10 @@ export async function POST(
         room.match_count
       );
 
+    /*
+     * Relationship Check-In never adds a match score.
+     * Match Count belongs only to Same Answer.
+     */
     const currentRoundMatched =
       gameSlug ===
         "same-answer" &&
@@ -314,13 +318,8 @@ export async function POST(
     }
 
     /*
-     * Atomic-ish guard:
-     *
-     * 只有 current_question 仍等于
-     * 当前 round 时才允许 PATCH。
-     *
-     * Host 即使连续双击，
-     * 第二个请求也不会重复 +1。
+     * Only update while current_question is still
+     * the round the Host is advancing from.
      */
     const update =
       await supabaseRest(

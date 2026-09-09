@@ -15,6 +15,7 @@ import {
 import {
   resolveRoomGameSlug,
   getRoomGameRoundLimit,
+  type RoomGameSlug,
 } from "@/lib/roomGame";
 
 export const dynamic =
@@ -22,8 +23,7 @@ export const dynamic =
 
 function normalizeAnswer(
   gameSlug:
-    | "would-you-rather"
-    | "same-answer",
+    RoomGameSlug,
   value: unknown
 ): string | null {
   if (
@@ -38,6 +38,10 @@ function normalizeAnswer(
       : null;
   }
 
+  /*
+   * Same Answer + Relationship Check-In
+   * both use four structured options.
+   */
   const stringValue =
     String(
       value ?? ""
@@ -333,8 +337,8 @@ export async function POST(
     }
 
     /*
-     * 加 current_question + answer is null 条件，
-     * 避免重复提交或旧页面竞争写入。
+     * current_question + answer-is-null guard
+     * protects against stale/double submissions.
      */
     const update =
       await supabaseRest(

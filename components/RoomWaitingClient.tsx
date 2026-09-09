@@ -11,6 +11,7 @@ import Link from "next/link";
 
 import MultiplayerWouldYouRather from "@/components/MultiplayerWouldYouRather";
 import MultiplayerSameAnswer from "@/components/MultiplayerSameAnswer";
+import MultiplayerRelationshipCheckIn from "@/components/MultiplayerRelationshipCheckIn";
 import RoomChat from "@/components/RoomChat";
 
 import {
@@ -361,17 +362,21 @@ export default function RoomWaitingClient({
           <div>
 
             <div className="game-kicker">
-              You're paired
+              You&apos;re paired
             </div>
 
             <h2 className="room-live-title">
-              Play Together
+              {gameSlug ===
+              "relationship-check-in"
+                ? "Talk Together"
+                : "Play Together"}
             </h2>
 
             <p className="game-sub room-game-status-copy">
-              Both players are connected.
-              Your answers stay hidden until
-              both of you choose.
+              {gameSlug ===
+              "relationship-check-in"
+                ? "Both of you are connected. Answer privately, reveal together, then talk through one question at a time."
+                : "Both players are connected. Your answers stay hidden until both of you choose."}
             </p>
 
           </div>
@@ -385,6 +390,14 @@ export default function RoomWaitingClient({
         <div className="room-game-area">
 
           {gameSlug ===
+          "relationship-check-in" ? (
+            <MultiplayerRelationshipCheckIn
+              code={code}
+              role={
+                room.role
+              }
+            />
+          ) : gameSlug ===
           "same-answer" ? (
             <MultiplayerSameAnswer
               code={code}
@@ -408,9 +421,6 @@ export default function RoomWaitingClient({
 
             Chat belongs to the Room,
             not to a specific game.
-
-            WYR / Same Answer / future games
-            automatically reuse it.
         =============================================== */}
 
         <RoomChat

@@ -112,9 +112,14 @@ export async function POST(
         CreateRoomRequestBody;
 
     /*
-     * 没传 gameSlug：
-     * 默认继续创建 WYR Room，
-     * 确保现有入口完全兼容。
+     * Supported room games are resolved centrally in lib/roomGame.ts.
+     *
+     * Current V1 games:
+     * - would-you-rather
+     * - same-answer
+     * - relationship-check-in
+     *
+     * If gameSlug is omitted, old entry points still default to WYR.
      */
     const gameSlug =
       resolveRoomGameSlug(
@@ -201,6 +206,10 @@ export async function POST(
                 guest_answer:
                   null,
 
+                /*
+                 * Kept for schema compatibility.
+                 * Only Same Answer uses this counter.
+                 */
                 match_count:
                   0,
               }),

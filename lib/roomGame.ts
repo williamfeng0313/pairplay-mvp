@@ -1,6 +1,7 @@
 export type RoomGameSlug =
   | "would-you-rather"
-  | "same-answer";
+  | "same-answer"
+  | "relationship-check-in";
 
 export const DEFAULT_ROOM_GAME_SLUG: RoomGameSlug =
   "would-you-rather";
@@ -13,6 +14,10 @@ export const ROOM_GAME_CONFIG = {
   "same-answer": {
     roundLimit: 12,
   },
+
+  "relationship-check-in": {
+    roundLimit: 12,
+  },
 } as const;
 
 export function isRoomGameSlug(
@@ -20,7 +25,8 @@ export function isRoomGameSlug(
 ): value is RoomGameSlug {
   return (
     value === "would-you-rather" ||
-    value === "same-answer"
+    value === "same-answer" ||
+    value === "relationship-check-in"
   );
 }
 
