@@ -12,11 +12,15 @@ import {
   trackEvent,
 } from "@/lib/analytics";
 
+import ClarityCheck from "@/components/ClarityCheck";
+
+
 type Choice =
   | "0"
   | "1"
   | "2"
   | "3";
+
 
 type GameState = {
   ok: boolean;
@@ -79,6 +83,7 @@ type GameState = {
     string;
 };
 
+
 const STAGE_LABELS:
   Record<
     string,
@@ -102,6 +107,7 @@ const STAGE_LABELS:
     repair:
       "Repair",
   };
+
 
 export default function MultiplayerRelationshipCheckIn({
   code,
@@ -130,11 +136,13 @@ export default function MultiplayerRelationshipCheckIn({
         false,
     });
 
+
   const [
     busy,
     setBusy,
   ] =
     useState(false);
+
 
   const [
     message,
@@ -142,19 +150,24 @@ export default function MultiplayerRelationshipCheckIn({
   ] =
     useState("");
 
+
   const startedTracked =
     useRef(false);
+
 
   const roundTracked =
     useRef<
       number | null
     >(null);
 
+
   const fiveTracked =
     useRef(false);
 
+
   const completeTracked =
     useRef(false);
+
 
   /* =========================================================
      Start Analytics
@@ -178,6 +191,7 @@ export default function MultiplayerRelationshipCheckIn({
     role,
   ]);
 
+
   /* =========================================================
      Poll Game State
   ========================================================= */
@@ -185,6 +199,7 @@ export default function MultiplayerRelationshipCheckIn({
   useEffect(() => {
     let cancelled =
       false;
+
 
     const loadGameState =
       async () => {
@@ -200,9 +215,11 @@ export default function MultiplayerRelationshipCheckIn({
               }
             );
 
+
           const data =
             await response
               .json();
+
 
           if (
             cancelled
@@ -210,9 +227,11 @@ export default function MultiplayerRelationshipCheckIn({
             return;
           }
 
+
           setState(
             data
           );
+
 
           if (
             data.ok &&
@@ -230,11 +249,13 @@ export default function MultiplayerRelationshipCheckIn({
               }
             );
 
+
             completeTracked.current =
               true;
 
             return;
           }
+
 
           if (
             data.ok &&
@@ -260,8 +281,10 @@ export default function MultiplayerRelationshipCheckIn({
               }
             );
 
+
             roundTracked.current =
               data.questionIndex;
+
 
             if (
               data.questionIndex >=
@@ -274,6 +297,7 @@ export default function MultiplayerRelationshipCheckIn({
                   role,
                 }
               );
+
 
               fiveTracked.current =
                 true;
@@ -290,7 +314,9 @@ export default function MultiplayerRelationshipCheckIn({
         }
       };
 
+
     loadGameState();
+
 
     const timer =
       window.setInterval(
@@ -298,9 +324,11 @@ export default function MultiplayerRelationshipCheckIn({
         1200
       );
 
+
     return () => {
       cancelled =
         true;
+
 
       window.clearInterval(
         timer
@@ -310,6 +338,7 @@ export default function MultiplayerRelationshipCheckIn({
     code,
     role,
   ]);
+
 
   /* =========================================================
      Submit Answer
@@ -329,6 +358,7 @@ export default function MultiplayerRelationshipCheckIn({
         return;
       }
 
+
       if (
         typeof state.questionIndex !==
         "number"
@@ -336,13 +366,16 @@ export default function MultiplayerRelationshipCheckIn({
         return;
       }
 
+
       setBusy(
         true
       );
 
+
       setMessage(
         ""
       );
+
 
       try {
         const response =
@@ -369,9 +402,11 @@ export default function MultiplayerRelationshipCheckIn({
             }
           );
 
+
         const data =
           await response
             .json();
+
 
         if (
           !response.ok ||
@@ -383,6 +418,7 @@ export default function MultiplayerRelationshipCheckIn({
           );
         }
 
+
         setState(
           (
             previous
@@ -393,6 +429,7 @@ export default function MultiplayerRelationshipCheckIn({
               true,
           })
         );
+
 
         trackEvent(
           "relationship_check_in_answer",
@@ -409,6 +446,7 @@ export default function MultiplayerRelationshipCheckIn({
               "unknown",
           }
         );
+
       } catch (
         error
       ) {
@@ -418,12 +456,14 @@ export default function MultiplayerRelationshipCheckIn({
             ? error.message
             : "Could not save your answer."
         );
+
       } finally {
         setBusy(
           false
         );
       }
     };
+
 
   /* =========================================================
      Next Question
@@ -440,6 +480,7 @@ export default function MultiplayerRelationshipCheckIn({
         return;
       }
 
+
       if (
         typeof state.questionIndex !==
         "number"
@@ -447,13 +488,16 @@ export default function MultiplayerRelationshipCheckIn({
         return;
       }
 
+
       setBusy(
         true
       );
 
+
       setMessage(
         ""
       );
+
 
       try {
         const response =
@@ -478,9 +522,11 @@ export default function MultiplayerRelationshipCheckIn({
             }
           );
 
+
         const data =
           await response
             .json();
+
 
         if (
           !response.ok ||
@@ -492,6 +538,7 @@ export default function MultiplayerRelationshipCheckIn({
           );
         }
 
+
         trackEvent(
           "relationship_check_in_next_round",
           {
@@ -502,6 +549,7 @@ export default function MultiplayerRelationshipCheckIn({
               2,
           }
         );
+
       } catch (
         error
       ) {
@@ -511,12 +559,14 @@ export default function MultiplayerRelationshipCheckIn({
             ? error.message
             : "Could not continue the check-in."
         );
+
       } finally {
         setBusy(
           false
         );
       }
     };
+
 
   /* =========================================================
      API Error
@@ -541,6 +591,7 @@ export default function MultiplayerRelationshipCheckIn({
     );
   }
 
+
   /* =========================================================
      Complete
   ========================================================= */
@@ -557,12 +608,14 @@ export default function MultiplayerRelationshipCheckIn({
             Check-In Complete
           </div>
 
+
           <div className="question">
             You made it through all{" "}
             {state.roundLimit ||
               12}{" "}
             questions.
           </div>
+
 
           <p className="game-sub">
             There is no score to compare.
@@ -571,7 +624,9 @@ export default function MultiplayerRelationshipCheckIn({
             not understand before.
           </p>
 
+
           <div className="relationship-check-complete-note">
+
             <strong>
               Before you leave
             </strong>
@@ -582,7 +637,9 @@ export default function MultiplayerRelationshipCheckIn({
               and one realistic next step you both
               feel comfortable with.
             </p>
+
           </div>
+
 
           <div className="hero-actions">
 
@@ -601,6 +658,7 @@ export default function MultiplayerRelationshipCheckIn({
               Start Another Check-In →
             </Link>
 
+
             <Link
               href="/games"
               className="btn-secondary"
@@ -612,9 +670,25 @@ export default function MultiplayerRelationshipCheckIn({
 
         </div>
 
+
+        {/* ===============================================
+            CLARITY OUTCOME CHECK
+
+            - Private
+            - Partner does not see the answer
+            - Saved server-side only after completion
+            - No room code/private answer sent to GA4
+        =============================================== */}
+
+        <ClarityCheck
+          code={code}
+          role={role}
+        />
+
       </>
     );
   }
+
 
   /* =========================================================
      Loading
@@ -636,13 +710,16 @@ export default function MultiplayerRelationshipCheckIn({
     );
   }
 
+
   const roundLimit =
     state.roundLimit ||
     12;
 
+
   const isLastRound =
     state.questionIndex ===
     roundLimit - 1;
+
 
   const stageLabel =
     STAGE_LABELS[
@@ -650,6 +727,7 @@ export default function MultiplayerRelationshipCheckIn({
       ""
     ] ||
     "Relationship Check-In";
+
 
   const choiceText =
     (
@@ -667,10 +745,12 @@ export default function MultiplayerRelationshipCheckIn({
         return "—";
       }
 
+
       const index =
         Number(
           choice
         );
+
 
       return (
         state.question
@@ -680,6 +760,7 @@ export default function MultiplayerRelationshipCheckIn({
         "—"
       );
     };
+
 
   /* =========================================================
      UI
@@ -695,9 +776,11 @@ export default function MultiplayerRelationshipCheckIn({
         of {roundLimit}
       </div>
 
+
       <div className="question">
         {state.question.text}
       </div>
+
 
       {!state.reveal ? (
         <>
@@ -715,20 +798,24 @@ export default function MultiplayerRelationshipCheckIn({
                   ) as
                     Choice;
 
+
                 return (
                   <button
                     key={
                       choice
                     }
+
                     className={`choice ${
                       state.selfAnswered
                         ? "disabled-choice"
                         : ""
                     }`}
+
                     disabled={
                       busy ||
                       state.selfAnswered
                     }
+
                     onClick={() =>
                       submitAnswer(
                         choice
@@ -742,6 +829,7 @@ export default function MultiplayerRelationshipCheckIn({
             )}
 
           </div>
+
 
           <div className="answer-waiting">
 
@@ -761,6 +849,7 @@ export default function MultiplayerRelationshipCheckIn({
             Here&apos;s how you both see it
           </div>
 
+
           <div className="reveal-grid">
 
             <div>
@@ -777,6 +866,7 @@ export default function MultiplayerRelationshipCheckIn({
               </strong>
 
             </div>
+
 
             <div>
 
@@ -795,6 +885,7 @@ export default function MultiplayerRelationshipCheckIn({
 
           </div>
 
+
           <div className="relationship-check-discussion-prompt">
 
             <span>
@@ -810,13 +901,16 @@ export default function MultiplayerRelationshipCheckIn({
 
           </div>
 
+
           {role ===
           "host" ? (
             <button
               className="btn-primary"
+
               disabled={
                 busy
               }
+
               onClick={
                 nextQuestion
               }
@@ -839,6 +933,7 @@ export default function MultiplayerRelationshipCheckIn({
 
         </div>
       )}
+
 
       {message ? (
         <div className="room-error">
