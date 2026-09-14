@@ -11,13 +11,10 @@ import {
 } from "@/lib/analytics";
 
 
-/* =========================================================
-   Types
-========================================================= */
-
 type GameSlug =
   | "would-you-rather"
-  | "same-answer";
+  | "same-answer"
+  | "couple-puzzle";
 
 
 type Role =
@@ -32,90 +29,48 @@ type ConnectionScore =
   | 4;
 
 
-type ConnectionOption = {
-  score:
-    ConnectionScore;
+const OPTIONS = [
+  {
+    score: 1 as const,
+    emoji: "😕",
+    label:
+      "Less connected",
+    bucket:
+      "less_connected",
+  },
 
-  emoji:
-    string;
+  {
+    score: 2 as const,
+    emoji: "😐",
+    label:
+      "About the same",
+    bucket:
+      "same",
+  },
 
-  label:
-    string;
+  {
+    score: 3 as const,
+    emoji: "🙂",
+    label:
+      "A little closer",
+    bucket:
+      "little_closer",
+  },
 
-  bucket:
-    string;
-};
+  {
+    score: 4 as const,
+    emoji: "🥰",
+    label:
+      "Much closer",
+    bucket:
+      "much_closer",
+  },
+];
 
-
-/* =========================================================
-   Options
-========================================================= */
-
-const OPTIONS:
-  ConnectionOption[] = [
-    {
-      score: 1,
-
-      emoji:
-        "😕",
-
-      label:
-        "Less connected",
-
-      bucket:
-        "less_connected",
-    },
-
-    {
-      score: 2,
-
-      emoji:
-        "😐",
-
-      label:
-        "About the same",
-
-      bucket:
-        "same",
-    },
-
-    {
-      score: 3,
-
-      emoji:
-        "🙂",
-
-      label:
-        "A little closer",
-
-      bucket:
-        "little_closer",
-    },
-
-    {
-      score: 4,
-
-      emoji:
-        "🥰",
-
-      label:
-        "Much closer",
-
-      bucket:
-        "much_closer",
-    },
-  ];
-
-
-/* =========================================================
-   Component
-========================================================= */
 
 export default function ConnectionCheck({
   code,
-
   gameSlug,
-
   role,
 }: {
   code:
@@ -127,14 +82,9 @@ export default function ConnectionCheck({
   role:
     Role;
 }) {
-
-  /* =======================================================
-     State
-  ======================================================= */
-
   const [
-    submittingScore,
-    setSubmittingScore,
+    submitting,
+    setSubmitting,
   ] =
     useState<
       ConnectionScore |
@@ -145,23 +95,14 @@ export default function ConnectionCheck({
 
 
   const [
-    submittedScore,
-    setSubmittedScore,
+    submitted,
+    setSubmitted,
   ] =
     useState<
       ConnectionScore |
       null
     >(
       null
-    );
-
-
-  const [
-    error,
-    setError,
-  ] =
-    useState(
-      ""
     );
 
 
@@ -169,24 +110,22 @@ export default function ConnectionCheck({
     skipped,
     setSkipped,
   ] =
-    useState(
-      false
-    );
+    useState(false);
+
+
+  const [
+    error,
+    setError,
+  ] =
+    useState("");
 
 
   const viewTracked =
-    useRef(
-      false
-    );
+    useRef(false);
 
-
-  /* =======================================================
-     View Analytics
-  ======================================================= */
 
   useEffect(
     () => {
-
       if (
         viewTracked.current
       ) {
@@ -207,9 +146,7 @@ export default function ConnectionCheck({
 
       viewTracked.current =
         true;
-
     },
-
     [
       gameSlug,
       role,
@@ -217,28 +154,25 @@ export default function ConnectionCheck({
   );
 
 
-  /* =======================================================
-     Submit
-  ======================================================= */
-
-  const submitScore =
+  const submit =
     async (
-      option:
-        ConnectionOption
+      score:
+        ConnectionScore,
+      bucket:
+        string
     ) => {
-
       if (
-        submittingScore !==
+        submitting !==
           null ||
-        submittedScore !==
+        submitted !==
           null
       ) {
         return;
       }
 
 
-      setSubmittingScore(
-        option.score
+      setSubmitting(
+        score
       );
 
 
@@ -248,11 +182,9 @@ export default function ConnectionCheck({
 
 
       try {
-
         const response =
           await fetch(
             "/api/connection-check/submit",
-
             {
               method:
                 "POST",
@@ -268,8 +200,7 @@ export default function ConnectionCheck({
 
                   gameSlug,
 
-                  score:
-                    option.score,
+                  score,
                 }),
             }
           );
@@ -291,12 +222,6 @@ export default function ConnectionCheck({
         }
 
 
-        /* ===============================================
-           Only track after Supabase accepted it.
-
-           NEVER send room code to GA4.
-        =============================================== */
-
         trackEvent(
           "connection_check_submit",
           {
@@ -306,22 +231,21 @@ export default function ConnectionCheck({
             role,
 
             connection_score:
-              option.score,
+              score,
 
             connection_bucket:
-              option.bucket,
+              bucket,
           }
         );
 
 
-        setSubmittedScore(
-          option.score
+        setSubmitted(
+          score
         );
 
       } catch (
         submitError
       ) {
-
         setError(
           submitError instanceof
             Error
@@ -330,21 +254,15 @@ export default function ConnectionCheck({
         );
 
       } finally {
-
-        setSubmittingScore(
+        setSubmitting(
           null
         );
       }
     };
 
 
-  /* =======================================================
-     Skip
-  ======================================================= */
-
   const skip =
     () => {
-
       trackEvent(
         "connection_check_skip",
         {
@@ -362,32 +280,26 @@ export default function ConnectionCheck({
     };
 
 
-  /* =======================================================
-     Skip State
-  ======================================================= */
-
   if (
     skipped
   ) {
     return (
-      <section
-        className="connection-check connection-check-done"
-        aria-label="Connection check skipped"
-      >
+      <section className="connection-check connection-check-done">
 
         <div className="connection-check-done-icon">
           ♡
         </div>
 
         <div>
+
           <strong>
             No problem
           </strong>
 
           <p>
-            You can keep playing
-            without answering.
+            Thanks for playing together.
           </p>
+
         </div>
 
       </section>
@@ -395,38 +307,16 @@ export default function ConnectionCheck({
   }
 
 
-  /* =======================================================
-     Submitted
-  ======================================================= */
-
   if (
-    submittedScore !==
+    submitted !==
     null
   ) {
-
-    const selected =
-      OPTIONS.find(
-        (
-          option
-        ) =>
-          option.score ===
-          submittedScore
-      );
-
-
     return (
-      <section
-        className="connection-check connection-check-done"
-        aria-label="Connection check complete"
-      >
+      <section className="connection-check connection-check-done">
 
         <div className="connection-check-done-icon">
-          {
-            selected?.emoji ??
-            "💛"
-          }
+          ♥
         </div>
-
 
         <div>
 
@@ -435,10 +325,10 @@ export default function ConnectionCheck({
           </strong>
 
           <p>
-            This helps us learn
-            which shared activities
-            actually help couples
-            feel more connected.
+            Your answer is private and
+            helps us learn which shared
+            activities actually feel
+            meaningful.
           </p>
 
         </div>
@@ -448,94 +338,70 @@ export default function ConnectionCheck({
   }
 
 
-  /* =======================================================
-     Main UI
-  ======================================================= */
-
   return (
-    <section
-      className="connection-check"
-      aria-labelledby="connection-check-title"
-    >
+    <section className="connection-check">
 
       <div className="game-kicker">
-        A TINY CHECK-IN
+        ONE LAST THING
       </div>
 
 
-      <h3
-        id="connection-check-title"
-        className="connection-check-title"
-      >
+      <h3 className="connection-check-title">
         Compared with before this game,
         how connected do you feel right now?
       </h3>
 
 
       <p className="connection-check-subtitle">
-        One tap is enough.
-        Your answer is private and
-        your partner won&apos;t see it.
+        Your answer is private.
+        Your partner won&apos;t see it.
       </p>
 
 
-      <div
-        className="connection-check-options"
-        role="group"
-        aria-label="How connected do you feel after playing?"
-      >
+      <div className="connection-check-options">
 
         {OPTIONS.map(
           (
             option
-          ) => {
+          ) => (
+            <button
+              key={
+                option.score
+              }
 
-            const loading =
-              submittingScore ===
-              option.score;
+              type="button"
 
+              className="connection-check-option"
 
-            return (
-              <button
-                key={
-                  option.score
+              disabled={
+                submitting !==
+                null
+              }
+
+              onClick={() =>
+                submit(
+                  option.score,
+                  option.bucket
+                )
+              }
+            >
+
+              <span className="connection-check-emoji">
+                {
+                  option.emoji
                 }
-
-                type="button"
-
-                className="connection-check-option"
-
-                disabled={
-                  submittingScore !==
-                  null
-                }
-
-                onClick={() =>
-                  submitScore(
-                    option
-                  )
-                }
-              >
-
-                <span
-                  className="connection-check-emoji"
-                  aria-hidden="true"
-                >
-                  {
-                    option.emoji
-                  }
-                </span>
+              </span>
 
 
-                <span className="connection-check-label">
-                  {loading
-                    ? "Saving…"
-                    : option.label}
-                </span>
+              <span className="connection-check-label">
+                {submitting ===
+                option.score
+                  ? "Saving…"
+                  : option.label}
+              </span>
 
-              </button>
-            );
-          }
+            </button>
+          )
         )}
 
       </div>
@@ -558,7 +424,7 @@ export default function ConnectionCheck({
           skip
         }
         disabled={
-          submittingScore !==
+          submitting !==
           null
         }
       >

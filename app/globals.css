@@ -14210,3 +14210,767 @@ button:disabled {
   }
 
 }
+
+/* =========================================================
+   Couple Puzzle V1
+   APPEND this file to the bottom of app/globals.css
+========================================================= */
+
+.couple-puzzle-page {
+  min-height:
+    100vh;
+
+  background:
+    #fff;
+}
+
+
+.couple-puzzle-hero {
+  padding:
+    64px 0 48px;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      #fff0f5 0,
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #fffafb 0%,
+      #ffffff 100%
+    );
+}
+
+
+.couple-puzzle-hero-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(
+      0,
+      1.1fr
+    )
+    minmax(
+      320px,
+      0.9fr
+    );
+
+  gap:
+    42px;
+
+  align-items:
+    center;
+}
+
+
+.couple-puzzle-hero h1 {
+  margin:
+    9px 0 0;
+
+  font-size:
+    clamp(
+      2.7rem,
+      6vw,
+      5rem
+    );
+
+  line-height:
+    0.98;
+
+  letter-spacing:
+    -0.05em;
+}
+
+
+.couple-puzzle-lead {
+  max-width:
+    700px;
+
+  margin:
+    18px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    1.04rem;
+
+  line-height:
+    1.75;
+}
+
+
+.couple-puzzle-pills {
+  margin-top:
+    18px;
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    7px;
+}
+
+
+.couple-puzzle-pills span {
+  padding:
+    7px 10px;
+
+  border-radius:
+    999px;
+
+  background:
+    #f8f5f6;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.74rem;
+
+  font-weight:
+    800;
+}
+
+
+.couple-puzzle-launcher {
+  margin-top:
+    24px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    12px;
+}
+
+
+.couple-puzzle-launcher p {
+  margin:
+    0;
+
+  max-width:
+    360px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.78rem;
+
+  line-height:
+    1.5;
+}
+
+
+.couple-puzzle-preview {
+  padding:
+    25px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:
+    22px;
+
+  background:
+    white;
+
+  box-shadow:
+    0 20px 55px
+    rgba(
+      31,
+      25,
+      28,
+      0.06
+    );
+}
+
+
+.couple-puzzle-preview-card {
+  margin-top:
+    15px;
+
+  padding:
+    16px;
+
+  border:
+    1px solid
+    #f0d7df;
+
+  border-radius:
+    15px;
+
+  background:
+    #fff7fa;
+}
+
+
+.couple-puzzle-preview-card span,
+.couple-puzzle-own-clue span,
+.couple-puzzle-correct-answer span {
+  display:
+    block;
+
+  color:
+    var(--pink);
+
+  font-size:
+    0.68rem;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    0.07em;
+}
+
+
+.couple-puzzle-preview-card strong {
+  display:
+    block;
+
+  margin-top:
+    7px;
+
+  line-height:
+    1.5;
+}
+
+
+.couple-puzzle-preview-plus {
+  margin:
+    9px 0 -5px;
+
+  color:
+    var(--muted);
+
+  font-weight:
+    900;
+
+  text-align:
+    center;
+}
+
+
+.couple-puzzle-preview > p {
+  margin:
+    15px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.82rem;
+
+  line-height:
+    1.6;
+}
+
+
+.couple-puzzle-feature-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap:
+    14px;
+}
+
+
+.couple-puzzle-feature-grid article {
+  padding:
+    22px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:
+    18px;
+
+  background:
+    white;
+}
+
+
+.couple-puzzle-feature-grid article > span {
+  color:
+    var(--pink);
+
+  font-size:
+    0.75rem;
+
+  font-weight:
+    900;
+}
+
+
+.couple-puzzle-feature-grid h3 {
+  margin:
+    15px 0 7px;
+}
+
+
+.couple-puzzle-feature-grid p {
+  margin:
+    0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.86rem;
+
+  line-height:
+    1.6;
+}
+
+
+.couple-puzzle-bottom-links {
+  margin-top:
+    24px;
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    10px;
+}
+
+
+/* =========================================================
+   Multiplayer Puzzle
+========================================================= */
+
+.couple-puzzle-play-card {
+  position:
+    relative;
+}
+
+
+.couple-puzzle-own-clue {
+  margin:
+    18px 0 12px;
+
+  padding:
+    18px;
+
+  border:
+    1px solid
+    #f1d3dc;
+
+  border-radius:
+    16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff5f8,
+      #ffffff
+    );
+}
+
+
+.couple-puzzle-own-clue strong {
+  display:
+    block;
+
+  margin-top:
+    8px;
+
+  font-size:
+    1rem;
+
+  line-height:
+    1.6;
+}
+
+
+.couple-puzzle-partner-note {
+  margin:
+    0 0 17px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.8rem;
+
+  line-height:
+    1.55;
+}
+
+
+.couple-puzzle-solved {
+  color:
+    #166534;
+}
+
+
+.couple-puzzle-missed {
+  color:
+    #9a3412;
+}
+
+
+.couple-puzzle-correct-answer {
+  margin:
+    16px 0 18px;
+
+  padding:
+    16px 17px;
+
+  border:
+    1px solid
+    #e6dbe0;
+
+  border-radius:
+    15px;
+
+  background:
+    #fcfafb;
+}
+
+
+.couple-puzzle-correct-answer strong {
+  display:
+    block;
+
+  margin-top:
+    7px;
+
+  color:
+    var(--ink);
+
+  font-size:
+    1rem;
+}
+
+
+.couple-puzzle-correct-answer p {
+  margin:
+    8px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.82rem;
+
+  line-height:
+    1.6;
+}
+
+
+/* =========================================================
+   Connection Check
+   Only needed if these classes are not already in globals.css.
+========================================================= */
+
+.connection-check {
+  margin:
+    22px 0;
+
+  padding:
+    24px;
+
+  border:
+    1px solid
+    #f1d3dc;
+
+  border-radius:
+    20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff8fa,
+      #ffffff
+    );
+}
+
+
+.connection-check-title {
+  margin:
+    8px 0 0;
+
+  font-size:
+    1.2rem;
+
+  line-height:
+    1.45;
+}
+
+
+.connection-check-subtitle {
+  margin:
+    8px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.82rem;
+}
+
+
+.connection-check-options {
+  margin-top:
+    18px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap:
+    9px;
+}
+
+
+.connection-check-option {
+  min-height:
+    98px;
+
+  padding:
+    13px 9px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:
+    15px;
+
+  background:
+    #fff;
+
+  cursor:
+    pointer;
+
+  font:
+    inherit;
+}
+
+
+.connection-check-option:hover:not(:disabled) {
+  border-color:
+    #ffb6c9;
+
+  background:
+    #fff7fa;
+}
+
+
+.connection-check-emoji {
+  font-size:
+    1.6rem;
+}
+
+
+.connection-check-label {
+  font-size:
+    0.75rem;
+
+  font-weight:
+    800;
+
+  text-align:
+    center;
+}
+
+
+.connection-check-skip {
+  margin-top:
+    14px;
+
+  padding:
+    0;
+
+  border:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    var(--muted);
+
+  cursor:
+    pointer;
+
+  font:
+    inherit;
+
+  font-size:
+    0.75rem;
+}
+
+
+.connection-check-error {
+  color:
+    #b42318;
+
+  font-size:
+    0.78rem;
+}
+
+
+.connection-check-done {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    13px;
+}
+
+
+.connection-check-done-icon {
+  width:
+    44px;
+
+  height:
+    44px;
+
+  flex:
+    0 0 44px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  border-radius:
+    14px;
+
+  background:
+    #fff0f5;
+}
+
+
+.connection-check-done p {
+  margin:
+    4px 0 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.78rem;
+}
+
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (
+  max-width:
+    820px
+) {
+  .couple-puzzle-hero-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .couple-puzzle-feature-grid {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+
+@media (
+  max-width:
+    620px
+) {
+  .couple-puzzle-hero {
+    padding:
+      45px 0 34px;
+  }
+
+
+  .couple-puzzle-launcher {
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+  }
+
+
+  .couple-puzzle-launcher
+  .btn-primary {
+    width:
+      100%;
+
+    box-sizing:
+      border-box;
+
+    text-align:
+      center;
+  }
+
+
+  .connection-check-options {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(
+          0,
+          1fr
+        )
+      );
+  }
+}

@@ -24,8 +24,10 @@ import {
   resolveRoomGameSlug,
 } from "@/lib/roomGame";
 
+
 export const dynamic =
   "force-dynamic";
+
 
 const CREATE_ROOM_LIMIT =
   5;
@@ -36,28 +38,38 @@ const CREATE_ROOM_WINDOW_SECONDS =
 const ALPHABET =
   "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+
 type CreateRoomRequestBody = {
   gameSlug?: unknown;
 };
+
 
 function makeCode(
   length = 6
 ) {
   const bytes =
-    randomBytes(length);
+    randomBytes(
+      length
+    );
 
   return Array.from(
     bytes,
-    (byte) =>
+    (
+      byte
+    ) =>
       ALPHABET[
         byte %
           ALPHABET.length
       ]
-  ).join("");
+  ).join(
+    ""
+  );
 }
 
+
 export async function POST(
-  request: NextRequest
+  request:
+    NextRequest
 ) {
   try {
     const rateLimit =
@@ -67,6 +79,7 @@ export async function POST(
         CREATE_ROOM_LIMIT,
         CREATE_ROOM_WINDOW_SECONDS
       );
+
 
     if (
       !rateLimit.allowed
@@ -103,28 +116,23 @@ export async function POST(
       );
     }
 
+
     const body =
-      (await request
-        .json()
-        .catch(
-          () => ({})
-        )) as
+      (
+        await request
+          .json()
+          .catch(
+            () => ({})
+          )
+      ) as
         CreateRoomRequestBody;
 
-    /*
-     * Supported room games are resolved centrally in lib/roomGame.ts.
-     *
-     * Current V1 games:
-     * - would-you-rather
-     * - same-answer
-     * - relationship-check-in
-     *
-     * If gameSlug is omitted, old entry points still default to WYR.
-     */
+
     const gameSlug =
       resolveRoomGameSlug(
         body.gameSlug
       );
+
 
     if (!gameSlug) {
       return NextResponse.json(
@@ -140,9 +148,11 @@ export async function POST(
       );
     }
 
+
     const now =
       new Date()
         .toISOString();
+
 
     await supabaseRest(
       `rooms?expires_at=lt.${encodeURIComponent(
@@ -161,6 +171,7 @@ export async function POST(
       () => null
     );
 
+
     for (
       let attempt = 0;
       attempt < 6;
@@ -169,8 +180,10 @@ export async function POST(
       const code =
         makeCode();
 
+
       const hostToken =
         randomUUID();
+
 
       const response =
         await supabaseRest(
@@ -206,22 +219,25 @@ export async function POST(
                 guest_answer:
                   null,
 
-                /*
-                 * Kept for schema compatibility.
-                 * Only Same Answer uses this counter.
-                 */
                 match_count:
+                  0,
+
+                team_score:
                   0,
               }),
           }
         );
 
+
       const rows =
         await response
           .json();
 
+
       if (
-        Array.isArray(rows) &&
+        Array.isArray(
+          rows
+        ) &&
         rows[0]
       ) {
         const result =
@@ -233,12 +249,14 @@ export async function POST(
             gameSlug,
 
             status:
-              rows[0].status,
+              rows[0]
+                .status,
 
             expiresAt:
               rows[0]
                 .expires_at,
           });
+
 
         setRoomSessionCookie(
           result,
@@ -248,10 +266,12 @@ export async function POST(
             .expires_at
         );
 
+
         result.headers.set(
           "Cache-Control",
           "no-store"
         );
+
 
         result.headers.set(
           "X-RateLimit-Limit",
@@ -259,6 +279,7 @@ export async function POST(
             CREATE_ROOM_LIMIT
           )
         );
+
 
         result.headers.set(
           "X-RateLimit-Remaining",
@@ -271,9 +292,11 @@ export async function POST(
           )
         );
 
+
         return result;
       }
     }
+
 
     return NextResponse.json(
       {
@@ -286,11 +309,15 @@ export async function POST(
         status: 503,
       }
     );
-  } catch (error) {
+
+  } catch (
+    error
+  ) {
     console.error(
       "create room error",
       error
     );
+
 
     return NextResponse.json(
       {

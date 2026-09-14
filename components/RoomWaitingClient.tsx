@@ -12,16 +12,20 @@ import Link from "next/link";
 import MultiplayerWouldYouRather from "@/components/MultiplayerWouldYouRather";
 import MultiplayerSameAnswer from "@/components/MultiplayerSameAnswer";
 import MultiplayerRelationshipCheckIn from "@/components/MultiplayerRelationshipCheckIn";
+import MultiplayerCouplePuzzle from "@/components/MultiplayerCouplePuzzle";
 import RoomChat from "@/components/RoomChat";
 
 import {
   trackEvent,
 } from "@/lib/analytics";
 
-type RoomState = {
-  ok: boolean;
 
-  code?: string;
+type RoomState = {
+  ok:
+    boolean;
+
+  code?:
+    string;
 
   status?:
     | "waiting"
@@ -41,10 +45,12 @@ type RoomState = {
     string;
 };
 
+
 export default function RoomWaitingClient({
   code,
 }: {
-  code: string;
+  code:
+    string;
 }) {
   const [
     room,
@@ -59,6 +65,7 @@ export default function RoomWaitingClient({
         "waiting",
     });
 
+
   const [
     copyLabel,
     setCopyLabel,
@@ -67,8 +74,10 @@ export default function RoomWaitingClient({
       "Copy code"
     );
 
+
   const pairedTracked =
     useRef(false);
+
 
   const shareText =
     useMemo(
@@ -79,100 +88,108 @@ export default function RoomWaitingClient({
       ]
     );
 
-  /* =========================================================
-     Poll Room Status
-  ========================================================= */
 
-  useEffect(() => {
-    let cancelled =
-      false;
+  useEffect(
+    () => {
+      let cancelled =
+        false;
 
-    const checkRoom =
-      async () => {
-        try {
-          const response =
-            await fetch(
-              `/api/rooms/status?code=${encodeURIComponent(
-                code
-              )}`,
-              {
-                cache:
-                  "no-store",
-              }
+
+      const checkRoom =
+        async () => {
+          try {
+            const response =
+              await fetch(
+                `/api/rooms/status?code=${encodeURIComponent(
+                  code
+                )}`,
+                {
+                  cache:
+                    "no-store",
+                }
+              );
+
+
+            const data =
+              await response
+                .json();
+
+
+            if (
+              cancelled
+            ) {
+              return;
+            }
+
+
+            setRoom(
+              data
             );
 
-          const data =
-            await response
-              .json();
 
-          if (
-            cancelled
-          ) {
-            return;
+            if (
+              data.ok &&
+              data.partnerConnected &&
+              !pairedTracked.current
+            ) {
+              trackEvent(
+                "pair_complete",
+                {
+                  role:
+                    data.role ||
+                    "unknown",
+
+                  game_name:
+                    data.gameSlug ||
+                    "would-you-rather",
+                }
+              );
+
+
+              pairedTracked.current =
+                true;
+            }
+
+          } catch {
+            if (
+              !cancelled
+            ) {
+              setRoom({
+                ok: false,
+
+                error:
+                  "Connection lost. We will keep trying.",
+              });
+            }
           }
+        };
 
-          setRoom(
-            data
-          );
 
-          if (
-            data.ok &&
-            data.partnerConnected &&
-            !pairedTracked.current
-          ) {
-            trackEvent(
-              "pair_complete",
-              {
-                role:
-                  data.role ||
-                  "unknown",
+      checkRoom();
 
-                game_name:
-                  data.gameSlug ||
-                  "would-you-rather",
-              }
-            );
 
-            pairedTracked.current =
-              true;
-          }
-        } catch {
-          if (
-            !cancelled
-          ) {
-            setRoom({
-              ok: false,
+      const timer =
+        window.setInterval(
+          checkRoom,
+          2000
+        );
 
-              error:
-                "Connection lost. We will keep trying.",
-            });
-          }
-        }
+
+      return () => {
+        cancelled =
+          true;
+
+
+        window.clearInterval(
+          timer
+        );
       };
+    },
+    [
+      code,
+    ]
+  );
 
-    checkRoom();
-
-    const timer =
-      window.setInterval(
-        checkRoom,
-        2000
-      );
-
-    return () => {
-      cancelled =
-        true;
-
-      window.clearInterval(
-        timer
-      );
-    };
-  }, [
-    code,
-  ]);
-
-  /* =========================================================
-     Copy Code
-  ========================================================= */
 
   const copyCode =
     async () => {
@@ -183,6 +200,7 @@ export default function RoomWaitingClient({
             code
           );
 
+
         trackEvent(
           "share_room",
           {
@@ -191,9 +209,11 @@ export default function RoomWaitingClient({
           }
         );
 
+
         setCopyLabel(
           "Copied!"
         );
+
 
         window.setTimeout(
           () =>
@@ -202,10 +222,12 @@ export default function RoomWaitingClient({
             ),
           1400
         );
+
       } catch {
         setCopyLabel(
           "Copy failed"
         );
+
 
         window.setTimeout(
           () =>
@@ -217,9 +239,6 @@ export default function RoomWaitingClient({
       }
     };
 
-  /* =========================================================
-     Share Invite
-  ========================================================= */
 
   const share =
     async () => {
@@ -234,6 +253,7 @@ export default function RoomWaitingClient({
           }
         );
 
+
         try {
           await navigator
             .share({
@@ -246,14 +266,17 @@ export default function RoomWaitingClient({
               url:
                 "https://twolumi.com",
             });
+
         } catch {
           /*
-           * 用户主动取消分享不算错误。
+           * User cancelling share is not an error.
            */
         }
 
+
         return;
       }
+
 
       trackEvent(
         "share_room",
@@ -263,6 +286,7 @@ export default function RoomWaitingClient({
         }
       );
 
+
       try {
         await navigator
           .clipboard
@@ -270,9 +294,11 @@ export default function RoomWaitingClient({
             `${shareText} https://twolumi.com`
           );
 
+
         setCopyLabel(
           "Invite copied!"
         );
+
 
         window.setTimeout(
           () =>
@@ -281,10 +307,12 @@ export default function RoomWaitingClient({
             ),
           1600
         );
+
       } catch {
         setCopyLabel(
           "Copy failed"
         );
+
 
         window.setTimeout(
           () =>
@@ -296,9 +324,6 @@ export default function RoomWaitingClient({
       }
     };
 
-  /* =========================================================
-     Room Error
-  ========================================================= */
 
   if (
     !room.ok
@@ -310,14 +335,17 @@ export default function RoomWaitingClient({
           !
         </div>
 
+
         <h2>
           We hit a room problem
         </h2>
+
 
         <p className="game-sub">
           {room.error ||
             "This room is unavailable."}
         </p>
+
 
         <Link
           className="btn-primary inline-button"
@@ -330,28 +358,38 @@ export default function RoomWaitingClient({
     );
   }
 
-  /* =========================================================
-     Partner Connected
-  ========================================================= */
 
   if (
     room.partnerConnected &&
     room.role
   ) {
-    /*
-     * 老 Room 没有 game_slug 时，
-     * 默认继续按 WYR 处理。
-     */
     const gameSlug =
       room.gameSlug ||
       "would-you-rather";
 
+
+    const heading =
+      gameSlug ===
+      "relationship-check-in"
+        ? "Talk Together"
+        : gameSlug ===
+          "couple-puzzle"
+        ? "Solve Together"
+        : "Play Together";
+
+
+    const description =
+      gameSlug ===
+      "relationship-check-in"
+        ? "Both of you are connected. Answer privately, reveal together, then talk through one question at a time."
+        : gameSlug ===
+          "couple-puzzle"
+        ? "Both of you are connected. You will get different clues — combine them before choosing your answer."
+        : "Both players are connected. Your answers stay hidden until both of you choose.";
+
+
     return (
       <div className="room-live-card room-live-card-playing">
-
-        {/* ===============================================
-            Pair Status
-        =============================================== */}
 
         <div className="room-game-status">
 
@@ -359,40 +397,46 @@ export default function RoomWaitingClient({
             ✓
           </div>
 
+
           <div>
 
             <div className="game-kicker">
               You&apos;re paired
             </div>
 
+
             <h2 className="room-live-title">
-              {gameSlug ===
-              "relationship-check-in"
-                ? "Talk Together"
-                : "Play Together"}
+              {heading}
             </h2>
 
+
             <p className="game-sub room-game-status-copy">
-              {gameSlug ===
-              "relationship-check-in"
-                ? "Both of you are connected. Answer privately, reveal together, then talk through one question at a time."
-                : "Both players are connected. Your answers stay hidden until both of you choose."}
+              {description}
             </p>
 
           </div>
 
         </div>
 
-        {/* ===============================================
-            Game
-        =============================================== */}
 
         <div className="room-game-area">
 
           {gameSlug ===
+          "couple-puzzle" ? (
+            <MultiplayerCouplePuzzle
+              code={
+                code
+              }
+              role={
+                room.role
+              }
+            />
+          ) : gameSlug ===
           "relationship-check-in" ? (
             <MultiplayerRelationshipCheckIn
-              code={code}
+              code={
+                code
+              }
               role={
                 room.role
               }
@@ -400,14 +444,18 @@ export default function RoomWaitingClient({
           ) : gameSlug ===
           "same-answer" ? (
             <MultiplayerSameAnswer
-              code={code}
+              code={
+                code
+              }
               role={
                 room.role
               }
             />
           ) : (
             <MultiplayerWouldYouRather
-              code={code}
+              code={
+                code
+              }
               role={
                 room.role
               }
@@ -416,16 +464,13 @@ export default function RoomWaitingClient({
 
         </div>
 
-        {/* ===============================================
-            Shared Room Chat
-
-            Chat belongs to the Room,
-            not to a specific game.
-        =============================================== */}
 
         <RoomChat
-          code={code}
+          code={
+            code
+          }
         />
+
 
         <div className="micro-copy room-security-copy">
           Private temporary room
@@ -438,9 +483,6 @@ export default function RoomWaitingClient({
     );
   }
 
-  /* =========================================================
-     Waiting for Partner
-  ========================================================= */
 
   return (
     <div className="room-live-card">
@@ -449,18 +491,19 @@ export default function RoomWaitingClient({
         ♡
       </div>
 
-      <div className="game-kicker">
 
+      <div className="game-kicker">
         {room.role ===
         "guest"
           ? "You joined the room"
           : "Private room"}
-
       </div>
+
 
       <h2 className="room-live-title">
         Waiting for your partner
       </h2>
+
 
       <p className="game-sub">
         Send this code to your partner.
@@ -468,17 +511,20 @@ export default function RoomWaitingClient({
         every 2 seconds.
       </p>
 
+
       <div className="room-code-box">
 
         <div className="room-label">
           Room code
         </div>
 
+
         <div className="room-code">
           {code}
         </div>
 
       </div>
+
 
       <div className="room-action-grid">
 
@@ -492,6 +538,7 @@ export default function RoomWaitingClient({
           {copyLabel}
         </button>
 
+
         <button
           type="button"
           className="btn-primary"
@@ -503,6 +550,7 @@ export default function RoomWaitingClient({
         </button>
 
       </div>
+
 
       <div className="micro-copy">
         Room expires automatically

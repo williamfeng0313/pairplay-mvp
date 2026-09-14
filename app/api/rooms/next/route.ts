@@ -17,11 +17,18 @@ import {
   getRoomGameRoundLimit,
 } from "@/lib/roomGame";
 
+import {
+  getCouplePuzzleQuestionsForRoom,
+} from "@/lib/couplePuzzleGame";
+
+
 export const dynamic =
   "force-dynamic";
 
+
 function hasAnswer(
-  value: unknown
+  value:
+    unknown
 ) {
   return (
     typeof value ===
@@ -30,11 +37,15 @@ function hasAnswer(
   );
 }
 
-function safeMatchCount(
-  value: unknown
+
+function safeNonNegativeInteger(
+  value:
+    unknown
 ) {
   const parsed =
-    Number(value);
+    Number(
+      value
+    );
 
   return (
     Number.isInteger(
@@ -46,8 +57,10 @@ function safeMatchCount(
     : 0;
 }
 
+
 export async function POST(
-  request: NextRequest
+  request:
+    NextRequest
 ) {
   try {
     const body =
@@ -57,10 +70,12 @@ export async function POST(
           () => ({})
         );
 
+
     const code =
       normalizeRoomCode(
         body.code
       );
+
 
     const token =
       getRoomTokenFromRequest(
@@ -68,10 +83,12 @@ export async function POST(
         code
       );
 
+
     const questionIndex =
       Number(
         body.questionIndex
       );
+
 
     if (
       code.length !==
@@ -93,6 +110,7 @@ export async function POST(
       );
     }
 
+
     if (!token) {
       return NextResponse.json(
         {
@@ -107,22 +125,28 @@ export async function POST(
       );
     }
 
+
     const response =
       await supabaseRest(
         `rooms?code=eq.${encodeURIComponent(
           code
-        )}&select=id,status,game_slug,expires_at,host_token,current_question,host_answer,guest_answer,match_count`
+        )}&select=id,status,game_slug,expires_at,host_token,current_question,host_answer,guest_answer,match_count,team_score`
       );
+
 
     const rows =
       await response
         .json();
 
+
     const room =
-      Array.isArray(rows) &&
+      Array.isArray(
+        rows
+      ) &&
       rows.length > 0
         ? rows[0]
         : null;
+
 
     if (!room) {
       return NextResponse.json(
@@ -137,6 +161,7 @@ export async function POST(
         }
       );
     }
+
 
     if (
       new Date(
@@ -157,6 +182,7 @@ export async function POST(
       );
     }
 
+
     if (
       token !==
       room.host_token
@@ -174,10 +200,12 @@ export async function POST(
       );
     }
 
+
     const gameSlug =
       resolveRoomGameSlug(
         room.game_slug
       );
+
 
     if (!gameSlug) {
       return NextResponse.json(
@@ -193,16 +221,19 @@ export async function POST(
       );
     }
 
+
     const roundLimit =
       getRoomGameRoundLimit(
         gameSlug
       );
+
 
     const currentQuestion =
       Number(
         room.current_question ??
           0
       );
+
 
     if (
       currentQuestion !==
@@ -221,9 +252,9 @@ export async function POST(
       );
     }
 
+
     if (
-      questionIndex <
-        0 ||
+      questionIndex < 0 ||
       questionIndex >=
         roundLimit
     ) {
@@ -239,6 +270,7 @@ export async function POST(
         }
       );
     }
+
 
     if (
       !hasAnswer(
@@ -261,26 +293,32 @@ export async function POST(
       );
     }
 
+
     const nextQuestionIndex =
       Math.min(
         questionIndex + 1,
         roundLimit
       );
 
+
     const currentMatchCount =
-      safeMatchCount(
+      safeNonNegativeInteger(
         room.match_count
       );
 
-    /*
-     * Relationship Check-In never adds a match score.
-     * Match Count belongs only to Same Answer.
-     */
+
+    const currentTeamScore =
+      safeNonNegativeInteger(
+        room.team_score
+      );
+
+
     const currentRoundMatched =
       gameSlug ===
         "same-answer" &&
       room.host_answer ===
         room.guest_answer;
+
 
     const nextMatchCount =
       currentMatchCount +
@@ -289,6 +327,59 @@ export async function POST(
           ? 1
           : 0
       );
+
+
+    let currentPuzzleSolved =
+      false;
+
+
+    if (
+      gameSlug ===
+      "couple-puzzle"
+    ) {
+      const puzzles =
+        getCouplePuzzleQuestionsForRoom(
+          code
+        );
+
+
+      const puzzle =
+        puzzles[
+          questionIndex
+        ];
+
+
+      if (!puzzle) {
+        return NextResponse.json(
+          {
+            ok: false,
+
+            error:
+              "Puzzle not found.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+
+      currentPuzzleSolved =
+        room.host_answer ===
+          puzzle.correctAnswer &&
+        room.guest_answer ===
+          puzzle.correctAnswer;
+    }
+
+
+    const nextTeamScore =
+      currentTeamScore +
+      (
+        currentPuzzleSolved
+          ? 1
+          : 0
+      );
+
 
     const updateBody:
       Record<
@@ -309,6 +400,7 @@ export async function POST(
           .toISOString(),
     };
 
+
     if (
       gameSlug ===
       "same-answer"
@@ -317,10 +409,16 @@ export async function POST(
         nextMatchCount;
     }
 
-    /*
-     * Only update while current_question is still
-     * the round the Host is advancing from.
-     */
+
+    if (
+      gameSlug ===
+      "couple-puzzle"
+    ) {
+      updateBody.team_score =
+        nextTeamScore;
+    }
+
+
     const update =
       await supabaseRest(
         `rooms?id=eq.${encodeURIComponent(
@@ -342,9 +440,11 @@ export async function POST(
         }
       );
 
+
     const updatedRows =
       await update
         .json();
+
 
     const updated =
       Array.isArray(
@@ -352,6 +452,7 @@ export async function POST(
       )
         ? updatedRows[0]
         : null;
+
 
     if (!updated) {
       return NextResponse.json(
@@ -366,6 +467,7 @@ export async function POST(
         }
       );
     }
+
 
     return NextResponse.json({
       ok: true,
@@ -384,12 +486,22 @@ export async function POST(
         "same-answer"
           ? nextMatchCount
           : undefined,
+
+      teamScore:
+        gameSlug ===
+        "couple-puzzle"
+          ? nextTeamScore
+          : undefined,
     });
-  } catch (error) {
+
+  } catch (
+    error
+  ) {
     console.error(
       "next room error:",
       error
     );
+
 
     return NextResponse.json(
       {

@@ -18,13 +18,16 @@ import {
   type RoomGameSlug,
 } from "@/lib/roomGame";
 
+
 export const dynamic =
   "force-dynamic";
+
 
 function normalizeAnswer(
   gameSlug:
     RoomGameSlug,
-  value: unknown
+  value:
+    unknown
 ): string | null {
   if (
     gameSlug ===
@@ -38,27 +41,33 @@ function normalizeAnswer(
       : null;
   }
 
+
   /*
-   * Same Answer + Relationship Check-In
-   * both use four structured options.
+   * Same Answer,
+   * Relationship Check-In,
+   * Couple Puzzle:
+   * all use 4 structured options.
    */
-  const stringValue =
+  const normalized =
     String(
       value ?? ""
     );
 
+
   return (
-    stringValue === "0" ||
-    stringValue === "1" ||
-    stringValue === "2" ||
-    stringValue === "3"
+    normalized === "0" ||
+    normalized === "1" ||
+    normalized === "2" ||
+    normalized === "3"
   )
-    ? stringValue
+    ? normalized
     : null;
 }
 
+
 export async function POST(
-  request: NextRequest
+  request:
+    NextRequest
 ) {
   try {
     const body =
@@ -68,10 +77,12 @@ export async function POST(
           () => ({})
         );
 
+
     const code =
       normalizeRoomCode(
         body.code
       );
+
 
     const token =
       getRoomTokenFromRequest(
@@ -79,10 +90,12 @@ export async function POST(
         code
       );
 
+
     const questionIndex =
       Number(
         body.questionIndex
       );
+
 
     if (
       code.length !==
@@ -104,6 +117,7 @@ export async function POST(
       );
     }
 
+
     if (!token) {
       return NextResponse.json(
         {
@@ -118,6 +132,7 @@ export async function POST(
       );
     }
 
+
     const response =
       await supabaseRest(
         `rooms?code=eq.${encodeURIComponent(
@@ -125,15 +140,20 @@ export async function POST(
         )}&select=id,status,game_slug,expires_at,host_token,guest_token,current_question,host_answer,guest_answer`
       );
 
+
     const rows =
       await response
         .json();
 
+
     const room =
-      Array.isArray(rows) &&
+      Array.isArray(
+        rows
+      ) &&
       rows.length > 0
         ? rows[0]
         : null;
+
 
     if (!room) {
       return NextResponse.json(
@@ -148,6 +168,7 @@ export async function POST(
         }
       );
     }
+
 
     if (
       new Date(
@@ -168,6 +189,7 @@ export async function POST(
       );
     }
 
+
     if (
       room.status !==
       "ready"
@@ -185,10 +207,12 @@ export async function POST(
       );
     }
 
+
     const gameSlug =
       resolveRoomGameSlug(
         room.game_slug
       );
+
 
     if (!gameSlug) {
       return NextResponse.json(
@@ -204,11 +228,13 @@ export async function POST(
       );
     }
 
+
     const answer =
       normalizeAnswer(
         gameSlug,
         body.answer
       );
+
 
     if (!answer) {
       return NextResponse.json(
@@ -224,14 +250,15 @@ export async function POST(
       );
     }
 
+
     const roundLimit =
       getRoomGameRoundLimit(
         gameSlug
       );
 
+
     if (
-      questionIndex <
-        0 ||
+      questionIndex < 0 ||
       questionIndex >=
         roundLimit
     ) {
@@ -248,10 +275,13 @@ export async function POST(
       );
     }
 
+
     let role:
       | "host"
       | "guest"
-      | null = null;
+      | null =
+        null;
+
 
     if (
       token ===
@@ -261,6 +291,7 @@ export async function POST(
         "host";
     }
 
+
     if (
       token ===
       room.guest_token
@@ -268,6 +299,7 @@ export async function POST(
       role =
         "guest";
     }
+
 
     if (!role) {
       return NextResponse.json(
@@ -282,6 +314,7 @@ export async function POST(
         }
       );
     }
+
 
     if (
       Number(
@@ -303,17 +336,20 @@ export async function POST(
       );
     }
 
+
     const answerColumn =
       role ===
       "host"
         ? "host_answer"
         : "guest_answer";
 
+
     const existingAnswer =
       role ===
       "host"
         ? room.host_answer
         : room.guest_answer;
+
 
     if (
       existingAnswer !==
@@ -336,10 +372,7 @@ export async function POST(
       );
     }
 
-    /*
-     * current_question + answer-is-null guard
-     * protects against stale/double submissions.
-     */
+
     const update =
       await supabaseRest(
         `rooms?id=eq.${encodeURIComponent(
@@ -366,9 +399,11 @@ export async function POST(
         }
       );
 
+
     const updatedRows =
       await update
         .json();
+
 
     const updated =
       Array.isArray(
@@ -376,6 +411,7 @@ export async function POST(
       )
         ? updatedRows[0]
         : null;
+
 
     if (!updated) {
       return NextResponse.json(
@@ -391,6 +427,7 @@ export async function POST(
       );
     }
 
+
     return NextResponse.json({
       ok: true,
 
@@ -400,11 +437,15 @@ export async function POST(
 
       questionIndex,
     });
-  } catch (error) {
+
+  } catch (
+    error
+  ) {
     console.error(
       "answer room error:",
       error
     );
+
 
     return NextResponse.json(
       {

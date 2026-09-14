@@ -29,12 +29,19 @@ import {
   relationshipCheckInQuestions,
 } from "@/data/relationshipCheckInQuestions";
 
+import {
+  getCouplePuzzleQuestionsForRoom,
+} from "@/lib/couplePuzzleGame";
+
+
 export const dynamic =
   "force-dynamic";
+
 
 type WyrChoice =
   | "a"
   | "b";
+
 
 type FourChoice =
   | "0"
@@ -42,8 +49,10 @@ type FourChoice =
   | "2"
   | "3";
 
+
 function parseWyrChoice(
-  value: unknown
+  value:
+    unknown
 ): WyrChoice | null {
   return (
     value === "a" ||
@@ -53,11 +62,11 @@ function parseWyrChoice(
     : null;
 }
 
+
 function parseFourChoice(
-  value: unknown
-):
-  | FourChoice
-  | null {
+  value:
+    unknown
+): FourChoice | null {
   return (
     value === "0" ||
     value === "1" ||
@@ -68,36 +77,48 @@ function parseFourChoice(
     : null;
 }
 
-function safeMatchCount(
-  value: unknown
+
+function safeNonNegativeInteger(
+  value:
+    unknown
 ) {
   const parsed =
-    Number(value);
+    Number(
+      value
+    );
 
   return (
-    Number.isInteger(parsed) &&
+    Number.isInteger(
+      parsed
+    ) &&
     parsed >= 0
   )
     ? parsed
     : 0;
 }
 
+
 export async function GET(
-  request: NextRequest
+  request:
+    NextRequest
 ) {
   try {
     const code =
       normalizeRoomCode(
-        request.nextUrl.searchParams.get(
-          "code"
-        )
+        request.nextUrl
+          .searchParams
+          .get(
+            "code"
+          )
       );
+
 
     const token =
       getRoomTokenFromRequest(
         request,
         code
       );
+
 
     if (
       code.length !==
@@ -116,6 +137,7 @@ export async function GET(
       );
     }
 
+
     if (!token) {
       return NextResponse.json(
         {
@@ -130,22 +152,28 @@ export async function GET(
       );
     }
 
+
     const response =
       await supabaseRest(
         `rooms?code=eq.${encodeURIComponent(
           code
-        )}&select=id,code,status,game_slug,expires_at,host_token,guest_token,current_question,host_answer,guest_answer,match_count`
+        )}&select=id,code,status,game_slug,expires_at,host_token,guest_token,current_question,host_answer,guest_answer,match_count,team_score`
       );
+
 
     const rows =
       await response
         .json();
 
+
     const room =
-      Array.isArray(rows) &&
+      Array.isArray(
+        rows
+      ) &&
       rows.length > 0
         ? rows[0]
         : null;
+
 
     if (!room) {
       return NextResponse.json(
@@ -160,6 +188,7 @@ export async function GET(
         }
       );
     }
+
 
     if (
       new Date(
@@ -180,10 +209,13 @@ export async function GET(
       );
     }
 
+
     let role:
       | "host"
       | "guest"
-      | null = null;
+      | null =
+        null;
+
 
     if (
       token ===
@@ -193,6 +225,7 @@ export async function GET(
         "host";
     }
 
+
     if (
       token ===
       room.guest_token
@@ -200,6 +233,7 @@ export async function GET(
       role =
         "guest";
     }
+
 
     if (!role) {
       return NextResponse.json(
@@ -215,10 +249,12 @@ export async function GET(
       );
     }
 
+
     const gameSlug =
       resolveRoomGameSlug(
         room.game_slug
       );
+
 
     if (!gameSlug) {
       return NextResponse.json(
@@ -233,6 +269,7 @@ export async function GET(
         }
       );
     }
+
 
     if (
       room.status !==
@@ -256,21 +293,31 @@ export async function GET(
       });
     }
 
+
     const questionIndex =
       Number(
         room.current_question ??
           0
       );
 
+
     const roundLimit =
       getRoomGameRoundLimit(
         gameSlug
       );
 
+
     const persistedMatchCount =
-      safeMatchCount(
+      safeNonNegativeInteger(
         room.match_count
       );
+
+
+    const persistedTeamScore =
+      safeNonNegativeInteger(
+        room.team_score
+      );
+
 
     if (
       questionIndex >=
@@ -299,14 +346,19 @@ export async function GET(
           "same-answer"
             ? persistedMatchCount
             : undefined,
+
+        teamScore:
+          gameSlug ===
+          "couple-puzzle"
+            ? persistedTeamScore
+            : undefined,
       });
     }
 
-    /*
-     * ==========================================
-     * WOULD YOU RATHER
-     * ==========================================
-     */
+
+    /* =====================================================
+       WOULD YOU RATHER
+    ===================================================== */
 
     if (
       gameSlug ===
@@ -317,10 +369,12 @@ export async function GET(
           code
         );
 
+
       const question =
         questions[
           questionIndex
         ];
+
 
       if (!question) {
         return NextResponse.json(
@@ -336,15 +390,18 @@ export async function GET(
         );
       }
 
+
       const hostAnswer =
         parseWyrChoice(
           room.host_answer
         );
 
+
       const guestAnswer =
         parseWyrChoice(
           room.guest_answer
         );
+
 
       const bothAnswered =
         hostAnswer !==
@@ -352,15 +409,18 @@ export async function GET(
         guestAnswer !==
           null;
 
+
       const selfAnswer =
         role === "host"
           ? hostAnswer
           : guestAnswer;
 
+
       const partnerAnswer =
         role === "host"
           ? guestAnswer
           : hostAnswer;
+
 
       return NextResponse.json({
         ok: true,
@@ -418,11 +478,10 @@ export async function GET(
       });
     }
 
-    /*
-     * ==========================================
-     * SAME ANSWER
-     * ==========================================
-     */
+
+    /* =====================================================
+       SAME ANSWER
+    ===================================================== */
 
     if (
       gameSlug ===
@@ -433,10 +492,12 @@ export async function GET(
           code
         );
 
+
       const question =
         questions[
           questionIndex
         ];
+
 
       if (!question) {
         return NextResponse.json(
@@ -452,15 +513,18 @@ export async function GET(
         );
       }
 
+
       const hostAnswer =
         parseFourChoice(
           room.host_answer
         );
 
+
       const guestAnswer =
         parseFourChoice(
           room.guest_answer
         );
+
 
       const bothAnswered =
         hostAnswer !==
@@ -468,24 +532,24 @@ export async function GET(
         guestAnswer !==
           null;
 
+
       const selfAnswer =
         role === "host"
           ? hostAnswer
           : guestAnswer;
+
 
       const partnerAnswer =
         role === "host"
           ? guestAnswer
           : hostAnswer;
 
-      /*
-       * 当前轮还没有在数据库持久化加分，
-       * 但 Reveal 时需要让用户看到实时比分。
-       */
+
       const currentRoundMatched =
         bothAnswered &&
         hostAnswer ===
           guestAnswer;
+
 
       const liveMatchCount =
         persistedMatchCount +
@@ -494,6 +558,7 @@ export async function GET(
             ? 1
             : 0
         );
+
 
       return NextResponse.json({
         ok: true,
@@ -557,31 +622,149 @@ export async function GET(
       });
     }
 
-    /*
-     * ==========================================
-     * RELATIONSHIP CHECK-IN
-     * ==========================================
-     *
-     * Important:
-     * - Fixed 12-question order.
-     * - No Match Count.
-     * - No "same/different" judgement in the UI.
-     * - Both answers reveal only after both submit.
-     * - Discussion prompt is returned only with reveal.
-     */
 
-    const question =
-      relationshipCheckInQuestions[
+    /* =====================================================
+       RELATIONSHIP CHECK-IN
+    ===================================================== */
+
+    if (
+      gameSlug ===
+      "relationship-check-in"
+    ) {
+      const question =
+        relationshipCheckInQuestions[
+          questionIndex
+        ];
+
+
+      if (!question) {
+        return NextResponse.json(
+          {
+            ok: false,
+
+            error:
+              "Check-in question not found.",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+
+      const hostAnswer =
+        parseFourChoice(
+          room.host_answer
+        );
+
+
+      const guestAnswer =
+        parseFourChoice(
+          room.guest_answer
+        );
+
+
+      const bothAnswered =
+        hostAnswer !==
+          null &&
+        guestAnswer !==
+          null;
+
+
+      const selfAnswer =
+        role === "host"
+          ? hostAnswer
+          : guestAnswer;
+
+
+      const partnerAnswer =
+        role === "host"
+          ? guestAnswer
+          : hostAnswer;
+
+
+      return NextResponse.json({
+        ok: true,
+
+        gameSlug,
+
+        status:
+          "ready",
+
+        role,
+
+        partnerConnected:
+          true,
+
+        completed:
+          false,
+
+        questionIndex,
+
+        roundLimit,
+
+        question: {
+          id:
+            question.id,
+
+          text:
+            question.prompt,
+
+          stage:
+            question.stage,
+
+          options:
+            question.options,
+        },
+
+        selfAnswered:
+          selfAnswer !==
+          null,
+
+        partnerAnswered:
+          partnerAnswer !==
+          null,
+
+        reveal:
+          bothAnswered
+            ? {
+                you:
+                  selfAnswer,
+
+                partner:
+                  partnerAnswer,
+
+                discussionPrompt:
+                  question.discussionPrompt,
+              }
+            : null,
+      });
+    }
+
+
+    /* =====================================================
+       COUPLE PUZZLE
+    ===================================================== */
+
+    const puzzles =
+      getCouplePuzzleQuestionsForRoom(
+        code
+      );
+
+
+    const puzzle =
+      puzzles[
         questionIndex
       ];
 
-    if (!question) {
+
+    if (!puzzle) {
       return NextResponse.json(
         {
           ok: false,
 
           error:
-            "Check-in question not found.",
+            "Puzzle not found.",
         },
         {
           status: 500,
@@ -589,15 +772,18 @@ export async function GET(
       );
     }
 
+
     const hostAnswer =
       parseFourChoice(
         room.host_answer
       );
 
+
     const guestAnswer =
       parseFourChoice(
         room.guest_answer
       );
+
 
     const bothAnswered =
       hostAnswer !==
@@ -605,15 +791,35 @@ export async function GET(
       guestAnswer !==
         null;
 
+
     const selfAnswer =
       role === "host"
         ? hostAnswer
         : guestAnswer;
 
+
     const partnerAnswer =
       role === "host"
         ? guestAnswer
         : hostAnswer;
+
+
+    const solved =
+      bothAnswered &&
+      hostAnswer ===
+        puzzle.correctAnswer &&
+      guestAnswer ===
+        puzzle.correctAnswer;
+
+
+    const liveTeamScore =
+      persistedTeamScore +
+      (
+        solved
+          ? 1
+          : 0
+      );
+
 
     return NextResponse.json({
       ok: true,
@@ -635,18 +841,31 @@ export async function GET(
 
       roundLimit,
 
+      teamScore:
+        liveTeamScore,
+
       question: {
         id:
-          question.id,
+          puzzle.id,
+
+        category:
+          puzzle.category,
 
         text:
-          question.prompt,
+          "What are we thinking of?",
 
-        stage:
-          question.stage,
+        /*
+         * Security/product rule:
+         * each player only receives their own clue.
+         * The partner clue is never sent before reveal.
+         */
+        clue:
+          role === "host"
+            ? puzzle.hostClue
+            : puzzle.guestClue,
 
         options:
-          question.options,
+          puzzle.options,
       },
 
       selfAnswered:
@@ -666,16 +885,25 @@ export async function GET(
               partner:
                 partnerAnswer,
 
-              discussionPrompt:
-                question.discussionPrompt,
+              correctAnswer:
+                puzzle.correctAnswer,
+
+              solved,
+
+              explanation:
+                puzzle.explanation,
             }
           : null,
     });
-  } catch (error) {
+
+  } catch (
+    error
+  ) {
     console.error(
       "game-state error:",
       error
     );
+
 
     return NextResponse.json(
       {
