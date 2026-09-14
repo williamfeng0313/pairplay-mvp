@@ -14974,3 +14974,76 @@ button:disabled {
       );
   }
 }
+
+/* Couple Puzzle shared entry card */
+
+.couple-puzzle-entry {
+  padding: 28px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  border: 1px solid #f1d3dc;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #fff7fa, #ffffff);
+  box-shadow: 0 16px 42px rgba(31, 25, 28, 0.05);
+}
+
+.couple-puzzle-entry-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  background: #fff0f5;
+  font-size: 1.7rem;
+}
+
+.couple-puzzle-entry-copy h2 {
+  margin: 7px 0 0;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.15;
+}
+
+.couple-puzzle-entry-copy > p {
+  max-width: 720px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.couple-puzzle-entry-meta {
+  margin-top: 13px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.couple-puzzle-entry-cta {
+  margin-top: 18px;
+  display: inline-flex;
+}
+
+.couple-puzzle-entry-home {
+  border-color: #ffc9d7;
+}
+
+.couple-puzzle-entry-games {
+  margin: 10px 0 38px;
+}
+
+.couple-puzzle-entry-long-distance {
+  margin: 22px 0 26px;
+}
+
+@media (max-width: 620px) {
+  .couple-puzzle-entry {
+    padding: 21px 18px;
+    grid-template-columns: 1fr;
+  }
+
+  .couple-puzzle-entry-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}

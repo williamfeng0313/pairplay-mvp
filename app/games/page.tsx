@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import CouplePuzzlePromo from "@/components/CouplePuzzlePromo";
 import styles from "./games.module.css";
 
 
@@ -89,6 +90,26 @@ const multiplayerGames = [
 
     cta:
       "Play Together",
+  },
+
+  {
+    href:
+      "/couple-puzzle",
+
+    icon:
+      "🧩",
+
+    title:
+      "Couple Puzzle",
+
+    description:
+      "Get different clues on separate devices, combine what you know, and solve 8 puzzles together as one team.",
+
+    badge:
+      "Co-op",
+
+    cta:
+      "Solve Together",
   },
 ];
 
@@ -228,18 +249,18 @@ const quickChoices = [
     links: [
       {
         label:
-          "Partner Quiz",
+          "Couple Puzzle",
 
         href:
-          "/couple-quiz",
+          "/couple-puzzle",
       },
 
       {
         label:
-          "Compatibility Test",
+          "Partner Quiz",
 
         href:
-          "/couple-compatibility-test",
+          "/couple-quiz",
       },
     ],
   },
@@ -284,7 +305,7 @@ const faqItems = [
       "What are good online games for couples?",
 
     answer:
-      "Good online games for couples are easy to start, work well on separate devices, and give both partners something to react to together. TwoLumi includes Would You Rather, This or That, partner quizzes, compatibility tests, and conversation games.",
+      "Good online games for couples are easy to start, work well on separate devices, and give both partners something to react to together. TwoLumi includes Would You Rather, Couple Puzzle, This or That, partner quizzes, compatibility tests, and conversation games.",
   },
 
   {
@@ -379,6 +400,20 @@ const itemListSchema = {
         2,
 
       name:
+        "Couple Puzzle",
+
+      url:
+        "https://twolumi.com/couple-puzzle",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        3,
+
+      name:
         "This or That for Couples",
 
       url:
@@ -390,7 +425,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        3,
+        4,
 
       name:
         "Questions to Ask Your Partner",
@@ -404,7 +439,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        4,
+        5,
 
       name:
         "How Well Do You Know Your Partner?",
@@ -418,7 +453,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        5,
+        6,
 
       name:
         "Couple Compatibility Test",
@@ -432,7 +467,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        6,
+        7,
 
       name:
         "Long Distance Couple Games",
@@ -604,6 +639,13 @@ export default function GamesPage() {
         </div>
 
       </section>
+
+
+      {/* ===================================================
+          Couple Puzzle Spotlight
+      =================================================== */}
+
+      <CouplePuzzlePromo context="games" />
 
 
       {/* ===================================================
@@ -1190,11 +1232,12 @@ export default function GamesPage() {
             <p>
               Choose something fast
               when you only have a
-              few minutes, use a quiz
-              when you want something
-              competitive, or pick
-              couple questions when
-              you just want to talk.
+              few minutes, solve a
+              puzzle together when
+              you want teamwork, or
+              pick couple questions
+              when you just want to
+              talk.
             </p>
 
           </div>
@@ -1307,12 +1350,12 @@ export default function GamesPage() {
 
 
         <Link
-          href="/would-you-rather-questions-for-couples"
+          href="/couple-puzzle"
           className={
             styles.primaryButton
           }
         >
-          Start With Would You Rather
+          Try Couple Puzzle
         </Link>
 
       </section>

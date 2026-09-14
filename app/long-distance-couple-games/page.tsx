@@ -5,6 +5,7 @@ import type {
 import Link from "next/link";
 
 import PlayTogetherCTA from "@/components/PlayTogetherCTA";
+import CouplePuzzlePromo from "@/components/CouplePuzzlePromo";
 
 
 /* =========================================================
@@ -167,6 +168,23 @@ const conversationGames = [
 const moodChoices = [
   {
     href:
+      "/couple-puzzle",
+
+    icon:
+      "🧩",
+
+    title:
+      "Want to solve something together?",
+
+    description:
+      "Get different clues on separate devices, combine what you know, and solve eight puzzles as a team.",
+
+    cta:
+      "Try Couple Puzzle",
+  },
+
+  {
+    href:
       "/would-you-rather-questions-for-couples",
 
     icon:
@@ -201,23 +219,6 @@ const moodChoices = [
 
   {
     href:
-      "/couple-quiz",
-
-    icon:
-      "🧠",
-
-    title:
-      "Want to test each other?",
-
-    description:
-      "Predict your partner’s answers and see how well you know the little things about each other.",
-
-    cta:
-      "Take the Quiz",
-  },
-
-  {
-    href:
       "/long-distance-date-ideas",
 
     icon:
@@ -245,7 +246,7 @@ const faqItems = [
       "What games can long distance couples play online?",
 
     answer:
-      "Long distance couples can play Would You Rather, This or That, couple quizzes, compatibility games, and conversation games. TwoLumi also supports a private multiplayer room so both partners can play from separate devices.",
+      "Long distance couples can play Couple Puzzle, Would You Rather, This or That, couple quizzes, compatibility games, and conversation games. TwoLumi also supports private multiplayer rooms so both partners can play from separate devices.",
   },
 
   {
@@ -253,7 +254,7 @@ const faqItems = [
       "Can we play on separate phones or computers?",
 
     answer:
-      "Yes. TwoLumi multiplayer rooms are designed for two people using separate phones, tablets, laptops, or desktop computers. Both partners see the same game while using their own device.",
+      "Yes. TwoLumi multiplayer rooms are designed for two people using separate phones, tablets, laptops, or desktop computers. Both partners can join the same private room while using their own device.",
   },
 
   {
@@ -334,6 +335,20 @@ const itemListSchema = {
         1,
 
       name:
+        "Couple Puzzle",
+
+      url:
+        "https://twolumi.com/couple-puzzle",
+    },
+
+    {
+      "@type":
+        "ListItem",
+
+      position:
+        2,
+
+      name:
         "Would You Rather for Couples",
 
       url:
@@ -345,7 +360,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        2,
+        3,
 
       name:
         "This or That for Couples",
@@ -359,7 +374,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        3,
+        4,
 
       name:
         "How Well Do You Know Your Partner?",
@@ -373,7 +388,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        4,
+        5,
 
       name:
         "Couple Compatibility Test",
@@ -387,7 +402,7 @@ const itemListSchema = {
         "ListItem",
 
       position:
-        5,
+        6,
 
       name:
         "100 Questions for Long Distance Couples",
@@ -528,12 +543,12 @@ export default function LongDistanceCoupleGamesPage() {
 
             <div className="ldg-actions">
 
-              <a
-                href="#create-room"
+              <Link
+                href="/couple-puzzle"
                 className="ldg-btn-primary"
               >
-                Play Together
-              </a>
+                Try Couple Puzzle
+              </Link>
 
 
               <a
@@ -789,15 +804,27 @@ export default function LongDistanceCoupleGamesPage() {
 
 
             <p>
-              Would You Rather is currently
-              available as a synchronized
-              TwoLumi multiplayer game.
-              Your answers stay hidden until
-              both of you choose.
+              Play browser-based multiplayer
+              games together from separate
+              devices. Try Couple Puzzle or
+              Would You Rather in a private
+              TwoLumi room with live chat and
+              no signup.
             </p>
 
           </div>
 
+
+          {/* ===============================================
+              COUPLE PUZZLE
+          =============================================== */}
+
+          <CouplePuzzlePromo context="long-distance" />
+
+
+          {/* ===============================================
+              WOULD YOU RATHER
+          =============================================== */}
 
           <div className="ldg-featured-game">
 
@@ -1262,12 +1289,14 @@ export default function LongDistanceCoupleGamesPage() {
             <p>
               That is why TwoLumi mixes different
               kinds of online games for long distance
-              couples. You can start with a private
-              multiplayer room when you both want to
-              play at the same time, switch to a quick
-              This or That round when you only have a
-              few minutes, or use couple questions
-              when you would rather talk than compete.
+              couples. You can solve a Couple Puzzle
+              together when you want teamwork, start
+              a private multiplayer room when you both
+              want to play at the same time, switch to
+              a quick This or That round when you only
+              have a few minutes, or use couple
+              questions when you would rather talk
+              than compete.
             </p>
 
 
@@ -1329,6 +1358,38 @@ export default function LongDistanceCoupleGamesPage() {
 
 
           <div className="ldg-support-links">
+
+            <Link
+              href="/couple-puzzle"
+            >
+
+              <span>
+                🧩
+              </span>
+
+
+              <div>
+
+                <strong>
+                  Couple Puzzle
+                </strong>
+
+
+                <p>
+                  Combine different clues on separate
+                  devices and solve eight puzzles
+                  together as one team.
+                </p>
+
+              </div>
+
+
+              <b>
+                →
+              </b>
+
+            </Link>
+
 
             <Link
               href="/questions-for-long-distance-couples"
@@ -1534,9 +1595,10 @@ export default function LongDistanceCoupleGamesPage() {
 
 
             <p>
-              Start with a private Would You Rather
-              room, send the code to your partner,
-              and see where your answers match.
+              Start a private multiplayer game,
+              send the six-character code to your
+              partner, and play together from
+              separate devices.
             </p>
 
           </div>
@@ -1544,12 +1606,12 @@ export default function LongDistanceCoupleGamesPage() {
 
           <div className="ldg-final-actions">
 
-            <a
-              href="#create-room"
+            <Link
+              href="/couple-puzzle"
               className="ldg-btn-primary"
             >
-              Create a Couple Room
-            </a>
+              Try Couple Puzzle
+            </Link>
 
 
             <Link

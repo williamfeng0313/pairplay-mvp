@@ -4,6 +4,7 @@ import AdSlot from "@/components/AdSlot";
 import { games } from "@/data/games";
 import Link from "next/link";
 import HomeGamesSection from "@/components/HomeGamesSection";
+import CouplePuzzlePromo from "@/components/CouplePuzzlePromo";
 
 export default function HomePage() {
   return (
@@ -11,6 +12,15 @@ export default function HomePage() {
       <HomeHero />
 
       <HomeGamesSection />
+
+      {/* =========================================================
+          Couple Puzzle
+      ========================================================= */}
+      <section className="section" aria-labelledby="couple-puzzle-home">
+        <div className="container">
+          <CouplePuzzlePromo context="home" />
+        </div>
+      </section>
 
       {/* =========================================================
           Relationship Check-In
@@ -84,6 +94,14 @@ export default function HomePage() {
               </div>
             </Link>
 
+            <Link className="scenario-card" href="/couple-puzzle">
+              <span className="scenario-emoji">🧩</span>
+              <div>
+                <h3>Couple Puzzle</h3>
+                <p>Combine different clues and solve together as a team.</p>
+              </div>
+            </Link>
+
             <Link className="scenario-card" href="/date-night-games">
               <span className="scenario-emoji">🕯️</span>
               <div>
@@ -149,6 +167,7 @@ export default function HomePage() {
         <div className="container content-grid">
           <div className="content-card">
             <h2>Why couples love TwoLumi</h2>
+
             <ul className="check-list">
               <li>Free games and quizzes</li>
               <li>Zero account friction</li>
@@ -161,6 +180,10 @@ export default function HomePage() {
             <h2>Related games &amp; questions</h2>
 
             <div className="pill-grid">
+              <Link className="pill" href="/couple-puzzle">
+                Couple Puzzle
+              </Link>
+
               <Link
                 className="pill"
                 href="/would-you-rather-questions-for-couples"
