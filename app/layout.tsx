@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import Header from "@/components/Header";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import Footer from "@/components/Footer";
 import MicrosoftClarity from "@/components/MicrosoftClarity";
 
@@ -74,6 +75,8 @@ export default function RootLayout({
     <html lang="en">
 
       <body>
+       
+       <AnnouncementBar />
 
         <Header />
 
