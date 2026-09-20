@@ -5,35 +5,28 @@ import { games } from "@/data/games";
 import Link from "next/link";
 import HomeGamesSection from "@/components/HomeGamesSection";
 import CouplePuzzlePromo from "@/components/CouplePuzzlePromo";
+import HomeSearch from "@/components/HomeSearch";
 
 export default function HomePage() {
   return (
     <main>
       <HomeHero />
 
+      <HomeSearch />
+
       <HomeGamesSection />
 
-      {/* =========================================================
-          Couple Puzzle
-      ========================================================= */}
       <section className="section" aria-labelledby="couple-puzzle-home">
         <div className="container">
           <CouplePuzzlePromo context="home" />
         </div>
       </section>
 
-      {/* =========================================================
-          Relationship Check-In
-      ========================================================= */}
       <section className="section" aria-labelledby="relationship-check-in-home">
         <div className="container">
           <div className="content-card">
             <div className="game-kicker">DEEPER CONVERSATIONS</div>
-
-            <h2 id="relationship-check-in-home">
-              💬 Relationship Check-In
-            </h2>
-
+            <h2 id="relationship-check-in-home">💬 Relationship Check-In</h2>
             <p className="game-sub">
               Feeling distant, stuck, or unsure what comes next? Answer
               separately, reveal together, and talk through what matters in a
@@ -49,10 +42,7 @@ export default function HomePage() {
             </div>
 
             <div style={{ marginTop: "20px" }}>
-              <Link
-                href="/relationship-check-in"
-                className="btn-primary inline-button"
-              >
+              <Link href="/relationship-check-in" className="btn-primary inline-button">
                 Start a Private Check-In →
               </Link>
             </div>
@@ -64,9 +54,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-head">
             <h2 className="section-title">✨ Popular Games</h2>
-            <Link href="/games" className="section-link">
-              View all games →
-            </Link>
+            <Link href="/games" className="section-link">View all games →</Link>
           </div>
 
           <div className="game-grid">
@@ -167,7 +155,6 @@ export default function HomePage() {
         <div className="container content-grid">
           <div className="content-card">
             <h2>Why couples love TwoLumi</h2>
-
             <ul className="check-list">
               <li>Free games and quizzes</li>
               <li>Zero account friction</li>
@@ -178,38 +165,14 @@ export default function HomePage() {
 
           <div className="content-card">
             <h2>Related games &amp; questions</h2>
-
             <div className="pill-grid">
-              <Link className="pill" href="/couple-puzzle">
-                Couple Puzzle
-              </Link>
-
-              <Link
-                className="pill"
-                href="/would-you-rather-questions-for-couples"
-              >
-                Would You Rather for Couples
-              </Link>
-
-              <Link className="pill" href="/couple-questions">
-                Questions to Ask Your Partner
-              </Link>
-
-              <Link className="pill" href="/couple-compatibility-test">
-                Relationship Compatibility Test
-              </Link>
-
-              <Link className="pill" href="/relationship-check-in">
-                Relationship Check-In
-              </Link>
-
-              <Link className="pill" href="/long-distance-couple-games">
-                Long Distance Games
-              </Link>
-
-              <Link className="pill" href="/date-night-games">
-                Date Night Games
-              </Link>
+              <Link className="pill" href="/couple-puzzle">Couple Puzzle</Link>
+              <Link className="pill" href="/would-you-rather-questions-for-couples">Would You Rather for Couples</Link>
+              <Link className="pill" href="/couple-questions">Questions to Ask Your Partner</Link>
+              <Link className="pill" href="/couple-compatibility-test">Relationship Compatibility Test</Link>
+              <Link className="pill" href="/relationship-check-in">Relationship Check-In</Link>
+              <Link className="pill" href="/long-distance-couple-games">Long Distance Games</Link>
+              <Link className="pill" href="/date-night-games">Date Night Games</Link>
             </div>
           </div>
         </div>
