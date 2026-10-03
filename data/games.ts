@@ -41,5 +41,12 @@ export const games: Game[] = [
     description: "Fun, deep & meaningful questions",
     emoji: "☵",
     iconClass: "icon-purple"
-  }
+  },
+  {
+  title: "Photo Booth",
+  href: "/photo-booth",
+  description: "Turn a photo into a cute couple card",
+  emoji: "📸",
+  iconClass: "icon-pink"
+  },
 ];

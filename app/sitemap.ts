@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
     "/games",
+    "/photo-booth",
     "/would-you-rather-questions-for-couples",
     "/this-or-that-for-couples",
     "/couple-questions",

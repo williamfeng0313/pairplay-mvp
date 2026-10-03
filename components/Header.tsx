@@ -127,6 +127,16 @@ export default function Header() {
                 >
                   Couple Quiz
                 </Link>
+
+                <Link
+                  href="/photo-booth"
+                  className={
+                    isActive("/photo-booth") ? "active" : ""
+                  }
+                  onClick={closeMobileMenu}
+                >
+                  Photo Booth
+                </Link>
               </div>
             ) : null}
           </div>
@@ -282,6 +292,14 @@ export default function Header() {
                 >
                   Couple Quiz
                 </Link>
+              
+                <Link
+                  href="/photo-booth"
+                  onClick={closeMobileMenu}
+                >
+                  Photo Booth
+                </Link>
+
               </div>
             ) : null}
 
