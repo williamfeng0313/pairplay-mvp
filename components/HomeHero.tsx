@@ -473,6 +473,26 @@ export default function HomeHero() {
               Browse Games
             </Link>
 
+
+            <Link
+              href="/photo-booth"
+              className="btn-secondary hero-photo-button"
+              onClick={() =>
+                trackEvent(
+                  "game_open",
+                  {
+                    game:
+                      "photo_booth",
+
+                    entry_point:
+                      "home_hero",
+                  }
+                )
+              }
+            >
+              📸 Photo Booth
+            </Link>
+
           </div>
 
         </div>

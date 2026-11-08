@@ -1,6 +1,8 @@
+import ShareResultCard from "@/components/ShareResultCard";
+
 import type {
-    CompatibilityResult,
-  } from "@/lib/compatibilityScore";
+  CompatibilityResult,
+} from "@/lib/compatibilityScore";
   
   export default function CompatibilityResults({
     result,
@@ -12,6 +14,26 @@ import type {
     onRestart:
       () => void;
   }) {
+    /*
+     * 找出重合度最高和最低的两块，
+     * 用作分享卡上的数据块。
+     */
+    const strongest =
+      result.categories.reduce(
+        (best, current) =>
+          current.score > best.score
+            ? current
+            : best
+      );
+  
+    const weakest =
+      result.categories.reduce(
+        (gap, current) =>
+          current.score < gap.score
+            ? current
+            : gap
+      );
+  
     return (
       <section className="compat-results">
   
@@ -57,6 +79,37 @@ import type {
           </div>
   
         </div>
+  
+        {/* ==============================
+            Share Card
+        ============================== */}
+  
+        <ShareResultCard
+          gameSlug="couple-compatibility"
+          shareText={`We scored ${result.overallScore}% on the TwoLumi couple compatibility test — ${result.band.title}.`}
+          data={{
+            kicker: "Couple Compatibility Test",
+            score: `${result.overallScore}%`,
+            title: result.band.title,
+            subtitle: result.band.description,
+            emoji: result.band.emoji,
+            theme: "pink",
+            stats: [
+              {
+                label: "Exact matches",
+                value: `${result.exactMatches} / ${result.totalQuestions}`,
+              },
+              {
+                label: `Best: ${strongest.label}`,
+                value: `${strongest.score}%`,
+              },
+              {
+                label: `Gap: ${weakest.label}`,
+                value: `${weakest.score}%`,
+              },
+            ],
+          }}
+        />
   
         {/* ==============================
             Categories

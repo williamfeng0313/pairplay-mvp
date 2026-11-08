@@ -203,6 +203,16 @@ export default function Header() {
             ) : null}
           </div>
 
+          {/* Days Together */}
+          <Link
+            href="/days-together"
+            className={`nav-link ${
+              isActive("/days-together") ? "active" : ""
+            }`}
+          >
+            Days Together
+          </Link>
+
           {/* About */}
           <Link
             href="/about"
@@ -339,6 +349,14 @@ export default function Header() {
                 </Link>
               </div>
             ) : null}
+
+            <Link
+              href="/days-together"
+              className="mobile-nav-link"
+              onClick={closeMobileMenu}
+            >
+              Days Together
+            </Link>
 
             <Link
               href="/about"

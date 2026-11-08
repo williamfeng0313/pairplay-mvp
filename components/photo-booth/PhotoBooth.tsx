@@ -15,10 +15,40 @@ import {
   PhotoBoothTemplate,
 } from "@/data/photoBoothTemplates";
 
+import {
+  createPersonCutout,
+  type CutoutResult,
+} from "@/lib/personCutout";
+
+import { drawStickers } from "@/lib/stickers";
+
+import { trackEvent } from "@/lib/analytics";
+
+import StickerPanel from "./StickerPanel";
+import { useStickers } from "./useStickers";
+
 type PhotoState = {
   x: number;
   y: number;
   zoom: number;
+};
+
+type CutoutStatus =
+  | "off"
+  | "loading"
+  | "on"
+  | "error";
+
+type PhotoSource = {
+  source: CanvasImageSource;
+  width: number;
+  height: number;
+};
+
+type PhotoDrawOptions = {
+  /** 抠图模式下先铺一层底色，JPEG 导出才不会变黑 */
+  background: string | null;
+  outline: HTMLCanvasElement | null;
 };
 
 const DEFAULT_PHOTO_STATE: PhotoState = {
@@ -26,6 +56,39 @@ const DEFAULT_PHOTO_STATE: PhotoState = {
   y: 0,
   zoom: 1,
 };
+
+const CUTOUT_BACKGROUNDS = [
+  {
+    id: "blush",
+    label: "Blush",
+    value: "#ffe8ef",
+  },
+  {
+    id: "cream",
+    label: "Cream",
+    value: "#fff4e6",
+  },
+  {
+    id: "lavender",
+    label: "Lavender",
+    value: "#efe9ff",
+  },
+  {
+    id: "mint",
+    label: "Mint",
+    value: "#e3f6ee",
+  },
+  {
+    id: "sky",
+    label: "Sky",
+    value: "#e4f1ff",
+  },
+  {
+    id: "white",
+    label: "White",
+    value: "#ffffff",
+  },
+];
 
 export default function PhotoBooth() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -43,6 +106,31 @@ export default function PhotoBooth() {
   const [hasPhoto, setHasPhoto] = useState(false);
   const [fileName, setFileName] = useState("");
   const [error, setError] = useState("");
+
+  const [cutoutStatus, setCutoutStatus] =
+    useState<CutoutStatus>("off");
+
+  const [cutoutResult, setCutoutResult] =
+    useState<CutoutResult | null>(null);
+
+  const [cutoutBackground, setCutoutBackground] =
+    useState(CUTOUT_BACKGROUNDS[0]?.value ?? "#ffe8ef");
+
+  const [showOutline, setShowOutline] =
+    useState(true);
+
+  const [cutoutError, setCutoutError] =
+    useState("");
+
+  /** 防止换照片后旧的异步抠图结果覆盖新照片 */
+  const cutoutRequestRef = useRef(0);
+
+  const sticker = useStickers({
+    canvasRef,
+    canvasWidth: PHOTO_CANVAS_WIDTH,
+    canvasHeight: PHOTO_CANVAS_HEIGHT,
+    eventName: "photo_booth_sticker",
+  });
 
   const selectedTemplate =
     photoBoothTemplates.find(
@@ -174,7 +262,7 @@ export default function PhotoBooth() {
   /**
    * Draw the final canvas.
    */
-  const drawCanvas = useCallback(() => {
+  const drawCanvas = useCallback((withSelection: boolean = true) => {
     const canvas = canvasRef.current;
 
     if (!canvas || !selectedTemplate) {
@@ -217,11 +305,39 @@ export default function PhotoBooth() {
     const image = imageRef.current;
 
     if (image && hasPhoto) {
+      const isCutout =
+        cutoutStatus === "on" && cutoutResult;
+
+      const photo: PhotoSource = isCutout
+        ? {
+            source: cutoutResult.canvas,
+            width: cutoutResult.width,
+            height: cutoutResult.height,
+          }
+        : {
+            source: image,
+            width: image.naturalWidth,
+            height: image.naturalHeight,
+          };
+
+      const options: PhotoDrawOptions = isCutout
+        ? {
+            background: cutoutBackground,
+            outline: showOutline
+              ? cutoutResult.outline
+              : null,
+          }
+        : {
+            background: null,
+            outline: null,
+          };
+
       drawPhoto(
         ctx,
-        image,
+        photo,
         selectedTemplate,
-        photoState
+        photoState,
+        options
       );
     } else {
       drawPhotoPlaceholder(
@@ -237,10 +353,30 @@ export default function PhotoBooth() {
       ctx,
       selectedTemplate
     );
+
+    /**
+     * Stickers sit above the template text.
+     * The selection box is preview-only.
+     */
+    drawStickers(
+      ctx,
+      sticker.stickers,
+      sticker.images,
+      PHOTO_CANVAS_WIDTH,
+      PHOTO_CANVAS_HEIGHT,
+      withSelection ? sticker.selectedId : null
+    );
   }, [
     selectedTemplate,
     photoState,
     hasPhoto,
+    cutoutStatus,
+    cutoutResult,
+    cutoutBackground,
+    showOutline,
+    sticker.stickers,
+    sticker.images,
+    sticker.selectedId,
   ]);
 
   /**
@@ -314,6 +450,16 @@ export default function PhotoBooth() {
     image.onload = () => {
       imageRef.current = image;
 
+      /**
+       * 换照片时丢弃上一张的抠图结果，
+       * 并让仍在进行的异步推理失效。
+       */
+      cutoutRequestRef.current += 1;
+
+      setCutoutResult(null);
+      setCutoutStatus("off");
+      setCutoutError("");
+
       setHasPhoto(true);
 
       setPhotoState(DEFAULT_PHOTO_STATE);
@@ -383,6 +529,12 @@ export default function PhotoBooth() {
 
     imageRef.current = null;
 
+    cutoutRequestRef.current += 1;
+
+    setCutoutResult(null);
+    setCutoutStatus("off");
+    setCutoutError("");
+
     setHasPhoto(false);
     setFileName("");
     setError("");
@@ -390,6 +542,79 @@ export default function PhotoBooth() {
     setPhotoState(DEFAULT_PHOTO_STATE);
 
     drawCanvas();
+  };
+
+  /**
+   * Toggle the local AI background cutout.
+   */
+  const handleToggleCutout = async () => {
+    if (cutoutStatus === "loading") {
+      return;
+    }
+
+    if (cutoutStatus === "on") {
+      setCutoutStatus("off");
+      setCutoutError("");
+
+      trackEvent("photo_booth_cutout", {
+        action: "off",
+      });
+
+      return;
+    }
+
+    const image = imageRef.current;
+
+    if (!image || !hasPhoto) {
+      setCutoutError(
+        "Upload a photo first, then try the cutout."
+      );
+
+      return;
+    }
+
+    const requestId =
+      ++cutoutRequestRef.current;
+
+    setCutoutStatus("loading");
+    setCutoutError("");
+
+    try {
+      const result =
+        await createPersonCutout(image);
+
+      /** 期间换了照片或重置了，就丢弃这次结果 */
+      if (
+        requestId !== cutoutRequestRef.current
+      ) {
+        return;
+      }
+
+      setCutoutResult(result);
+      setCutoutStatus("on");
+      setPhotoState(DEFAULT_PHOTO_STATE);
+
+      trackEvent("photo_booth_cutout", {
+        action: "on",
+        outline: showOutline,
+      });
+    } catch {
+      if (
+        requestId !== cutoutRequestRef.current
+      ) {
+        return;
+      }
+
+      setCutoutStatus("off");
+
+      setCutoutError(
+        "Background removal could not start here. Your original photo still works — just keep the cutout off."
+      );
+
+      trackEvent("photo_booth_cutout", {
+        action: "error",
+      });
+    }
   };
 
   /**
@@ -411,10 +636,15 @@ export default function PhotoBooth() {
     }
 
     try {
+      /** Export without the dashed sticker selection box. */
+      drawCanvas(false);
+
       const dataUrl = canvas.toDataURL(
         "image/jpeg",
         0.92
       );
+
+      drawCanvas(true);
 
       const link = document.createElement("a");
 
@@ -435,6 +665,8 @@ export default function PhotoBooth() {
 
       document.body.removeChild(link);
     } catch {
+      drawCanvas(true);
+
       setError(
         "The photo could not be exported. Please try again."
       );
@@ -490,9 +722,10 @@ export default function PhotoBooth() {
         <div className="photo-booth-canvas-wrap">
           <canvas
             ref={canvasRef}
-            className="photo-booth-canvas"
+            className="photo-booth-canvas sticker-canvas"
             width={PHOTO_CANVAS_WIDTH}
             height={PHOTO_CANVAS_HEIGHT}
+            {...sticker.pointerHandlers}
           />
         </div>
 
@@ -649,11 +882,136 @@ export default function PhotoBooth() {
         </div>
 
         {/* ---------------------------------------------------
-            STEP 3
+            STEP 3 — LOCAL AI CUTOUT
         ---------------------------------------------------- */}
         <div className="photo-booth-control-card">
           <div className="game-kicker">
             STEP 3
+          </div>
+
+          <h2>
+            Cut out the background
+          </h2>
+
+          <p className="game-sub">
+            Turn your photo into a sticker-style
+            cutout. The model finds the people,
+            removes the background, and adds a
+            soft white outline.
+          </p>
+
+          <button
+            type="button"
+            className={
+              cutoutStatus === "on"
+                ? "btn-primary cutout-toggle active"
+                : "btn-secondary cutout-toggle"
+            }
+            onClick={handleToggleCutout}
+            disabled={
+              !hasPhoto ||
+              cutoutStatus === "loading"
+            }
+            style={{
+              opacity:
+                !hasPhoto ||
+                cutoutStatus === "loading"
+                  ? 0.65
+                  : 1,
+            }}
+          >
+            {cutoutStatus === "loading"
+              ? "⏳ Preparing cutout…"
+              : cutoutStatus === "on"
+                ? "✓ Background removed — tap to undo"
+                : "✂️ Remove background"}
+          </button>
+
+          {cutoutStatus === "loading" && (
+            <p className="small-muted cutout-hint">
+              First use downloads a tiny model
+              (~600 KB). Later it&apos;s instant.
+            </p>
+          )}
+
+          {cutoutError && (
+            <p className="photo-booth-error">
+              {cutoutError}
+            </p>
+          )}
+
+          {cutoutStatus === "on" && (
+            <div className="cutout-options">
+              <span className="cutout-options-label">
+                Background color
+              </span>
+
+              <div className="cutout-swatches">
+                {CUTOUT_BACKGROUNDS.map(
+                  (color) => (
+                    <button
+                      key={color.id}
+                      type="button"
+                      className={
+                        color.value ===
+                        cutoutBackground
+                          ? "cutout-swatch active"
+                          : "cutout-swatch"
+                      }
+                      style={{
+                        background: color.value,
+                      }}
+                      onClick={() => {
+                        setCutoutBackground(
+                          color.value
+                        );
+
+                        trackEvent(
+                          "photo_booth_cutout",
+                          {
+                            action: "background",
+                            color: color.id,
+                          }
+                        );
+                      }}
+                      aria-label={color.label}
+                      title={color.label}
+                    />
+                  )
+                )}
+              </div>
+
+              <label className="cutout-outline-toggle">
+                <input
+                  type="checkbox"
+                  checked={showOutline}
+                  onChange={(event) =>
+                    setShowOutline(
+                      event.target.checked
+                    )
+                  }
+                />
+
+                <span>
+                  White sticker outline
+                </span>
+              </label>
+            </div>
+          )}
+
+          <p className="cutout-privacy">
+            Runs on your device. Your photo is
+            never uploaded — only the model is
+            downloaded from a public CDN.
+          </p>
+        </div>
+
+        {/* ---------------------------------------------------
+            STEP 4
+        ---------------------------------------------------- */}
+        <div className="photo-booth-control-card">
+          <div className="game-kicker">
+            STEP 4
           </div>
 
           <h2>
@@ -751,6 +1109,14 @@ export default function PhotoBooth() {
         </div>
 
         {/* ---------------------------------------------------
+            STEP 5 — DRAGGABLE STICKERS
+        ---------------------------------------------------- */}
+        <StickerPanel
+          controller={sticker}
+          step="STEP 5"
+        />
+
+        {/* ---------------------------------------------------
             PRIVACY NOTE
         ---------------------------------------------------- */}
         <div className="photo-booth-note">
@@ -759,9 +1125,11 @@ export default function PhotoBooth() {
           </strong>
 
           <span>
-            TwoLumi processes the photo directly
-            in your browser. The image is not
-            uploaded to our server.
+            Every edit and the background cutout
+            happen in your browser. Your photo is
+            never sent to a server. Only the
+            cutout model is downloaded from a
+            public CDN on first use.
           </span>
         </div>
       </div>
@@ -783,9 +1151,10 @@ export default function PhotoBooth() {
  */
 function drawPhoto(
   ctx: CanvasRenderingContext2D,
-  image: HTMLImageElement,
+  photo: PhotoSource,
   template: PhotoBoothTemplate,
-  state: PhotoState
+  state: PhotoState,
+  options: PhotoDrawOptions
 ) {
   const {
     photoX,
@@ -798,17 +1167,17 @@ function drawPhoto(
    * Calculate cover scale.
    */
   const scale = Math.max(
-    photoWidth / image.naturalWidth,
-    photoHeight / image.naturalHeight
+    photoWidth / photo.width,
+    photoHeight / photo.height
   );
 
   const width =
-    image.naturalWidth *
+    photo.width *
     scale *
     state.zoom;
 
   const height =
-    image.naturalHeight *
+    photo.height *
     scale *
     state.zoom;
 
@@ -848,8 +1217,37 @@ function drawPhoto(
 
   ctx.clip();
 
+  /**
+   * Cutout mode: lay down a solid backdrop first.
+   * Otherwise transparent pixels turn black in
+   * the JPEG export.
+   */
+  if (options.background) {
+    ctx.fillStyle = options.background;
+
+    ctx.fillRect(
+      photoX,
+      photoY,
+      photoWidth,
+      photoHeight
+    );
+  }
+
+  /**
+   * Sticker outline, pre-composed in personCutout.
+   */
+  if (options.outline) {
+    ctx.drawImage(
+      options.outline,
+      drawX,
+      drawY,
+      width,
+      height
+    );
+  }
+
   ctx.drawImage(
-    image,
+    photo.source,
     drawX,
     drawY,
     width,

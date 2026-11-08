@@ -43,10 +43,17 @@ export const games: Game[] = [
     iconClass: "icon-purple"
   },
   {
-  title: "Photo Booth",
-  href: "/photo-booth",
-  description: "Turn a photo into a cute couple card",
-  emoji: "📸",
-  iconClass: "icon-pink"
+    title: "Photo Booth",
+    href: "/photo-booth",
+    description: "Cute photo cards, AI cutout & stickers",
+    emoji: "📸",
+    iconClass: "icon-pink"
+  },
+  {
+    title: "4-Cut Photo Strip",
+    href: "/photo-booth?mode=strip",
+    description: "Four shots, retro filter & date stamp",
+    emoji: "🎞️",
+    iconClass: "icon-purple"
   },
 ];

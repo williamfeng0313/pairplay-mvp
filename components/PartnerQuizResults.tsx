@@ -1,5 +1,7 @@
 "use client";
 
+import ShareResultCard from "@/components/ShareResultCard";
+
 import type {
   PartnerQuizResult,
 } from "@/lib/partnerQuizScore";
@@ -90,6 +92,37 @@ export default function PartnerQuizResults({
         </p>
 
       </div>
+
+      {/* ==============================
+          Share Card
+      ============================== */}
+
+      <ShareResultCard
+        gameSlug="partner-quiz"
+        shareText={`I guessed ${result.score} of ${result.totalQuestions} of my partner's answers on TwoLumi — ${result.band.label}.`}
+        data={{
+          kicker: "How Well Do You Know Me?",
+          score: `${result.score} / ${result.totalQuestions}`,
+          title: result.band.label,
+          subtitle: result.band.description,
+          emoji: result.band.emoji,
+          theme: "purple",
+          stats: [
+            {
+              label: "Accuracy",
+              value: `${result.percentage}%`,
+            },
+            {
+              label: "Best category",
+              value: bestCategory.label,
+            },
+            {
+              label: "Best score",
+              value: `${bestCategory.score} / ${bestCategory.totalQuestions}`,
+            },
+          ],
+        }}
+      />
 
       {/* ==============================
           Category Scores

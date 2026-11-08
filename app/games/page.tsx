@@ -1136,6 +1136,75 @@ export default function GamesPage() {
 
 
       {/* ===================================================
+          More Ways to Spend Time Together
+      =================================================== */}
+
+      <section className={styles.section}>
+        <div className={styles.sectionHeading}>
+          <div className={styles.kicker}>
+            BEYOND THE GAMES
+          </div>
+
+          <h2>
+            More Little Things to Do Together
+          </h2>
+
+          <p>
+            Not every good evening needs a
+            scoreboard. Count your days, find
+            games for your stage, or just
+            start with a question.
+          </p>
+        </div>
+
+        <div className={styles.seoGrid}>
+          <div className={styles.seoCard}>
+            <h3>📆 Days Together</h3>
+
+            <p>
+              Count every day since it started,
+              see your next anniversary
+              countdown, and make a card worth
+              sending.
+            </p>
+
+            <Link href="/days-together">
+              Count your days →
+            </Link>
+          </div>
+
+          <div className={styles.seoCard}>
+            <h3>☕ Just started dating?</h3>
+
+            <p>
+              Low-pressure icebreakers and
+              getting-to-know-you questions,
+              picked for new couples.
+            </p>
+
+            <Link href="/games-for-new-couples">
+              Games for new couples →
+            </Link>
+          </div>
+
+          <div className={styles.seoCard}>
+            <h3>🏠 Together for years?</h3>
+
+            <p>
+              Check-ins, co-op puzzles, and
+              small rituals that keep the
+              conversation going.
+            </p>
+
+            <Link href="/games-for-married-couples">
+              Games for married couples →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+
+      {/* ===================================================
           SEO Support
       =================================================== */}
 
